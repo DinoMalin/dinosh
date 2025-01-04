@@ -1,5 +1,6 @@
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -Iinclude -g
+SHELL = bash 
 
 FILES =	is/ft_isdigit is/ft_isalnum is/ft_isalpha is/ft_isascii is/ft_isprint \
 		mem/ft_memset mem/ft_bzero mem/ft_memcpy mem/ft_memmove mem/ft_memchr mem/ft_memcmp mem/ft_calloc \

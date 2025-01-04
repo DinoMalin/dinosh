@@ -25,7 +25,7 @@ OBJS = $(addprefix $(OBJ_DIR), $(addsuffix .o, $(FILES)))
 FUZZER_SRCS = $(addprefix $(SRC_DIR), $(addsuffix .c, $(FUZZER_FILES)))
 FUZZER_OBJS = $(addprefix $(OBJ_DIR), $(addsuffix .o, $(FUZZER_FILES)))
 
-SH=bash
+SHELL=bash
 
 all: $(NAME)
 
