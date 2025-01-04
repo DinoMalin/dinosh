@@ -45,9 +45,10 @@ $(NAME): $(OBJS) $(LIBFT)
 	@$(CC) -o $@ $(OBJS) $(LFLAGS)
 	@echo -e "\e[32m✔ Executable created.\e[37m"
 
+fuzzer: CFLAGS += -fsanitize=address,fuzzer
 fuzzer: $(FUZZER_OBJS) $(LIBFT)
 	@echo -e "\e[32m✔ Compilating sources files...\e[37m"
-	@clang -o $@ $(FUZZER_OBJS) $(LFLAGS) -fsanitize=address,fuzzer
+	@clang -o $@ $(FUZZER_OBJS) $(LFLAGS) $(CFLAGS)
 	@echo -e "\e[32m✔ Fuzzer created.\e[37m"
 
 $(LIBFT):
