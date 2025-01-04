@@ -4,10 +4,8 @@ Command *init_cmd() {
 	Command *res = ft_calloc(1, sizeof(Command));
 
 	res->av = ft_calloc(1, sizeof(char *));
-	res->in = ft_calloc(1, sizeof(char *));
-	res->out = ft_calloc(1, sizeof(char *));
-	res->in_type = r_from;
-	res->out_type = r_to;
+	res->in = ft_calloc(1, sizeof(t_redir));
+	res->out = ft_calloc(1, sizeof(t_redir));
 	return res;
 }
 
@@ -19,26 +17,26 @@ void check_redir(Command *cmd, Node **data) {
 		cmd->error.type = empty_redir;
 		return;
 	}
-
 	if (is_redir((*data)->token)) {
 		cmd->error.type = redir_toward_redir;
 		return;
 	}
 
-	if (type == from || type == heredoc) {
-		cmd->in = clean_strsjoin(cmd->in, ft_strdup((*data)->content));
-	} else if (type == to || type == append) {
-		cmd->out = clean_strsjoin(cmd->out, ft_strdup((*data)->content));
-	}
-
+	Redir r_type = 0;
 	if (type == from)
-		cmd->in_type = r_from;
+		r_type = r_from;
 	else if (type == heredoc)
-		cmd->in_type = r_heredoc;
+		r_type = r_heredoc;
 	else if (type == to)
-		cmd->out_type = r_to;
+		r_type = r_to;
 	else if (type == append)
-		cmd->out_type = r_append;
+		r_type = r_append;
+
+	t_redir redirection = (t_redir){ft_strdup((*data)->content), r_type};
+	if (type == from || type == heredoc)
+		cmd->in = clean_redirjoin(cmd->in, redirection);
+	else if (type == to || type == append)
+		cmd->out = clean_redirjoin(cmd->out, redirection);
 }
 
 void analyze_command(Command *cmd, Node **data, int *arg_index) {

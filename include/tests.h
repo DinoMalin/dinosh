@@ -12,6 +12,11 @@
 }
 
 #define AV(...) (char*[]){__VA_ARGS__, NULL}
-#define EMPTY_AV (char*[]){NULL}
-#define COMMAND(cmd, av, in, out, in_type, out_type) \
-	(Command){cmd, av, in, out, in_type, out_type, {0,0}, NULL}
+#define NO_AV (char*[]){NULL}
+
+#define REDIR(file, type) (t_redir){file, type}
+#define NO_REDIR (t_redir[]){{NULL, 0}}
+#define REDIRS(...) (t_redir[]){__VA_ARGS__, {NULL, 0}}
+
+#define COMMAND(cmd, av, in, out) \
+	(Command){cmd, av, in, out, {0,0}, NULL}

@@ -50,11 +50,6 @@ void display_processed(Command *cmd) {
 		for (int i = 0; cmd->av[i]; i++) {
 			ft_printf("%s ", cmd->av[i]);
 		}
-		ft_printf("\nin: %s", cmd->in);
-		ft_printf("\nout: %s\n", cmd->out);
-		display_redir(cmd->in_type);
-		ft_printf(", ");
-		display_redir(cmd->out_type);
 		ft_printf("\n");
 		ft_printf("\n");
 

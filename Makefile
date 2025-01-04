@@ -12,7 +12,7 @@ LFLAGS =	-Llib -lft
 SRC_DIR = src/
 OBJ_DIR = obj/
 MAIN	= main/main
-FILES	= main/utils main/tests \
+FILES	= main/memory main/utils main/tests \
 		parsing/tokenize parsing/expand parsing/parse \
 		processing/process
 FUZZER_FILES := $(FILES)

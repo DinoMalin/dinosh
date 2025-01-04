@@ -55,14 +55,17 @@ typedef enum {
 	r_heredoc,
 } Redir;
 
+typedef struct {
+	char	*file;
+	Redir	type;
+} t_redir;
+
 /* === Executing linked list ===*/
 typedef struct Command {
 	char			*cmd;
 	char			**av;
-	char			**in;
-	char			**out;
-	Redir			in_type;
-	Redir			out_type;
+	t_redir			*in;
+	t_redir			*out;
 	Error			error;
 	struct Command	*next;
 } Command;
@@ -76,13 +79,15 @@ Node	*parse(char *str, char **envp);
 /* ====== PROCESSING ====== */
 Command	*process(Node *data);
 
-/* ====== UTILS ====== */
-char	*clean_join(char *origin, const char *to_join);
+/* ====== MEMORY ====== */
 void	free_cmds(Command *list);
 void	free_node(Node *node);
 void	free_list(Node *list);
-char	**strsjoin(char **origin, char *str);
+
+/* ====== UTILS ====== */
+char	*clean_join(char *origin, const char *to_join);
 char	**clean_strsjoin(char **origin, char *to_join);
+t_redir *clean_redirjoin(t_redir *origin, t_redir to_join);
 
 /* ====== TESTS ====== */
 void	tests(char **envp);
