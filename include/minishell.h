@@ -64,8 +64,7 @@ typedef struct {
 typedef struct Command {
 	char			*cmd;
 	char			**av;
-	t_redir			*in;
-	t_redir			*out;
+	t_redir			*redirs;
 	Error			error;
 	struct Command	*next;
 } Command;

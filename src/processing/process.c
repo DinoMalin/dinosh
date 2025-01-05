@@ -4,8 +4,7 @@ Command *init_cmd() {
 	Command *res = ft_calloc(1, sizeof(Command));
 
 	res->av = ft_calloc(1, sizeof(char *));
-	res->in = ft_calloc(1, sizeof(t_redir));
-	res->out = ft_calloc(1, sizeof(t_redir));
+	res->redirs = ft_calloc(1, sizeof(t_redir));
 	return res;
 }
 
@@ -33,10 +32,7 @@ void check_redir(Command *cmd, Node **data) {
 		r_type = r_append;
 
 	t_redir redirection = (t_redir){ft_strdup((*data)->content), r_type};
-	if (type == from || type == heredoc)
-		cmd->in = clean_redirjoin(cmd->in, redirection);
-	else if (type == to || type == append)
-		cmd->out = clean_redirjoin(cmd->out, redirection);
+	cmd->redirs = clean_redirjoin(cmd->redirs, redirection);
 }
 
 void analyze_command(Command *cmd, Node **data, int *arg_index) {

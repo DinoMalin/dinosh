@@ -30,10 +30,8 @@ int comp_cmd(Command *cmd1, Command *cmd2) {
 		FAIL("wrong cmd->cmd");
 	if (!comp_av(cmd1->av, cmd2->av))
 		FAIL("wrong cmd->av");
-	if (!comp_redir(cmd1->in, cmd2->in))
-		FAIL("wrong cmd->in");
-	if (!comp_redir(cmd1->out, cmd2->out))
-		FAIL("wrong cmd->out");
+	if (!comp_redir(cmd1->redirs, cmd2->redirs))
+		FAIL("wrong cmd->redirs");
 
 	return 1;
 }
@@ -62,76 +60,76 @@ int comp(char *prompt, Command *expected, char **envp) {
 void tests(char **envp) {
 	// Basic
 	assert(comp("echo test < in | cat > out", (Command[]) {
-		COMMAND("echo", AV("test"), REDIRS(REDIR("in", r_from)), NO_REDIR),
-		COMMAND("cat", NO_AV, NO_REDIR, REDIRS(REDIR("out", r_to)))
+		COMMAND("echo", AV("test"), REDIRS(REDIR("in", r_from))),
+		COMMAND("cat", NO_AV, REDIRS(REDIR("out", r_to)))
 	}, envp));
 	assert(comp("echo\t\r   test\t\t    <\t\tin\t|   cat    >  out", (Command[]) {
-		COMMAND("echo", AV("test"), REDIRS(REDIR("in", r_from)), NO_REDIR),
-		COMMAND("cat", NO_AV, NO_REDIR, REDIRS(REDIR("out", r_to)))
+		COMMAND("echo", AV("test"), REDIRS(REDIR("in", r_from))),
+		COMMAND("cat", NO_AV, REDIRS(REDIR("out", r_to)))
 	}, envp));
 
 	// Command
 	assert(comp("echo test", (Command[]) {
-		COMMAND("echo", AV("test"), NO_REDIR, NO_REDIR)
+		COMMAND("echo", AV("test"), NO_REDIR)
 	}, envp));
 	assert(comp("echo ", (Command[]) {
-		COMMAND("echo", NO_AV, NO_REDIR, NO_REDIR)
+		COMMAND("echo", NO_AV, NO_REDIR)
 	}, envp));
 	assert(comp("echo", (Command[]) {
-		COMMAND("echo", NO_AV, NO_REDIR, NO_REDIR)
+		COMMAND("echo", NO_AV, NO_REDIR)
 	}, envp));
 	assert(comp("", (Command[]) {
-		COMMAND(NULL, NO_AV, NO_REDIR, NO_REDIR)
+		COMMAND(NULL, NO_AV, NO_REDIR)
 	}, envp));
 	assert(comp("> out", (Command[]) {
-		COMMAND(NULL, NO_AV, NO_REDIR, REDIRS(REDIR("out", r_to)))
+		COMMAND(NULL, NO_AV, REDIRS(REDIR("out", r_to)))
 	}, envp));
 	assert(comp(">out", (Command[]) {
-		COMMAND(NULL, NO_AV, NO_REDIR, REDIRS(REDIR("out", r_to)))
+		COMMAND(NULL, NO_AV, REDIRS(REDIR("out", r_to)))
 	}, envp));
 	assert(comp("> out echo", (Command[]) {
-		COMMAND("echo", NO_AV, NO_REDIR, REDIRS(REDIR("out", r_to)))
+		COMMAND("echo", NO_AV, REDIRS(REDIR("out", r_to)))
 	}, envp));
 	assert(comp(">out echo", (Command[]) {
-		COMMAND("echo", NO_AV, NO_REDIR, REDIRS(REDIR("out", r_to)))
+		COMMAND("echo", NO_AV, REDIRS(REDIR("out", r_to)))
 	}, envp));
 
 	// Redir
 	assert(comp("echo test", (Command[]) {
-		COMMAND("echo", AV("test"), NO_REDIR, NO_REDIR)
+		COMMAND("echo", AV("test"), NO_REDIR)
 	}, envp));
 
 	assert(comp("echo test < in", (Command[]) {
-		COMMAND("echo", AV("test"), REDIRS(REDIR("in", r_from)), NO_REDIR)
+		COMMAND("echo", AV("test"), REDIRS(REDIR("in", r_from)))
 	}, envp));
 	assert(comp("echo test <in", (Command[]) {
-		COMMAND("echo", AV("test"), REDIRS(REDIR("in", r_from)), NO_REDIR)
+		COMMAND("echo", AV("test"), REDIRS(REDIR("in", r_from)))
 	}, envp));
 
 	assert(comp("echo test > out", (Command[]) {
-		COMMAND("echo", AV("test"), NO_REDIR, REDIRS(REDIR("out", r_to)))
+		COMMAND("echo", AV("test"), REDIRS(REDIR("out", r_to)))
 	}, envp));
 	assert(comp("echo test >out", (Command[]) {
-		COMMAND("echo", AV("test"), NO_REDIR, REDIRS(REDIR("out", r_to)))
+		COMMAND("echo", AV("test"), REDIRS(REDIR("out", r_to)))
 	}, envp));
 
 	assert(comp("echo test >> out", (Command[]) {
-		COMMAND("echo", AV("test"), NO_REDIR, REDIRS(REDIR("out", r_append)))
+		COMMAND("echo", AV("test"), REDIRS(REDIR("out", r_append)))
 	}, envp));
 	assert(comp("echo test >>out", (Command[]) {
-		COMMAND("echo", AV("test"), NO_REDIR, REDIRS(REDIR("out", r_append)))
+		COMMAND("echo", AV("test"), REDIRS(REDIR("out", r_append)))
 	}, envp));
 
 	assert(comp("echo test << here", (Command[]) {
-		COMMAND("echo", AV("test"), REDIRS(REDIR("here", r_heredoc)), NO_REDIR)
+		COMMAND("echo", AV("test"), REDIRS(REDIR("here", r_heredoc)))
 	}, envp));
 	assert(comp("echo test <<here", (Command[]) {
-		COMMAND("echo", AV("test"), REDIRS(REDIR("here", r_heredoc)), NO_REDIR)
+		COMMAND("echo", AV("test"), REDIRS(REDIR("here", r_heredoc)))
 	}, envp));
 
 	// Multiple redirs
 	assert(comp("echo test > out >> append", (Command[]) {
-		COMMAND("echo", AV("test"), NO_REDIR, REDIRS(
+		COMMAND("echo", AV("test"), REDIRS(
 			REDIR("out", r_to),
 			REDIR("append", r_append)
 		))
@@ -140,87 +138,95 @@ void tests(char **envp) {
 		COMMAND("echo", AV("test"), REDIRS(
 			REDIR("in", r_from),
 			REDIR("here", r_heredoc)
-		), NO_REDIR)
+		))
+	}, envp));
+	assert(comp("echo test < in << here > out >> append", (Command[]) {
+		COMMAND("echo", AV("test"), REDIRS(
+			REDIR("in", r_from),
+			REDIR("here", r_heredoc),
+			REDIR("out", r_to),
+			REDIR("append", r_append)
+		))
 	}, envp));
 
 	assert(comp("echo test > ", (Command[]) {
-		COMMAND("echo", AV("test"), NO_REDIR, NO_REDIR)
+		COMMAND("echo", AV("test"), NO_REDIR)
 	}, envp));
 	assert(comp("echo test >", (Command[]) {
-		COMMAND("echo", AV("test"), NO_REDIR, NO_REDIR)
+		COMMAND("echo", AV("test"), NO_REDIR)
 	}, envp));
 	assert(comp("echo test < ", (Command[]) {
-		COMMAND("echo", AV("test"), NO_REDIR, NO_REDIR)
+		COMMAND("echo", AV("test"), NO_REDIR)
 	}, envp));
 	assert(comp("echo test <", (Command[]) {
-		COMMAND("echo", AV("test"), NO_REDIR, NO_REDIR)
+		COMMAND("echo", AV("test"), NO_REDIR)
 	}, envp));
 	assert(comp("echo test >> ", (Command[]) {
-		COMMAND("echo", AV("test"), NO_REDIR, NO_REDIR)
+		COMMAND("echo", AV("test"), NO_REDIR)
 	}, envp));
 	assert(comp("echo test >>", (Command[]) {
-		COMMAND("echo", AV("test"), NO_REDIR, NO_REDIR)
+		COMMAND("echo", AV("test"), NO_REDIR)
 	}, envp));
 	assert(comp("echo test << ", (Command[]) {
-		COMMAND("echo", AV("test"), NO_REDIR, NO_REDIR)
+		COMMAND("echo", AV("test"), NO_REDIR)
 	}, envp));
 	assert(comp("echo test <<", (Command[]) {
-		COMMAND("echo", AV("test"), NO_REDIR, NO_REDIR)
+		COMMAND("echo", AV("test"), NO_REDIR)
 	}, envp));
 	assert(comp(">>>", (Command[]) {
-		COMMAND(NULL, NO_AV, NO_REDIR, NO_REDIR),
+		COMMAND(NULL, NO_AV, NO_REDIR),
 	}, envp));
 
 	// Env var
 	assert(comp("echo $USER", (Command[]) {
-		COMMAND("echo", AV(getenv("USER")), NO_REDIR, NO_REDIR)
+		COMMAND("echo", AV(getenv("USER")), NO_REDIR)
 	}, envp));
 	assert(comp("echo $LS_COLORS", (Command[]) {
-		COMMAND("echo", AV(getenv("LS_COLORS")), NO_REDIR, NO_REDIR)
+		COMMAND("echo", AV(getenv("LS_COLORS")), NO_REDIR)
 	}, envp));
 	assert(comp("echo $UNKNOWN", (Command[]) { // must be non existant
-		COMMAND("echo", AV(""), NO_REDIR, NO_REDIR)
+		COMMAND("echo", AV(""), NO_REDIR)
 	}, envp));
 	assert(comp("echo '$USER'", (Command[]) {
-		COMMAND("echo", AV("$USER"), NO_REDIR, NO_REDIR)
+		COMMAND("echo", AV("$USER"), NO_REDIR)
 	}, envp));
 	assert(comp("echo \"$USER\"", (Command[]) {
-		COMMAND("echo", AV(getenv("USER")), NO_REDIR, NO_REDIR)
+		COMMAND("echo", AV(getenv("USER")), NO_REDIR)
 	}, envp));
 
 	// Quotes
 	assert(comp("echo \"test\"", (Command[]) {
-		COMMAND("echo", AV("test"), NO_REDIR, NO_REDIR)
+		COMMAND("echo", AV("test"), NO_REDIR)
 	}, envp));
 	assert(comp("echo \"test\"test", (Command[]) {
-		COMMAND("echo", AV("testtest"), NO_REDIR, NO_REDIR)
+		COMMAND("echo", AV("testtest"), NO_REDIR)
 	}, envp));
 	assert(comp("echo 'test'test", (Command[]) {
-		COMMAND("echo", AV("testtest"), NO_REDIR, NO_REDIR)
+		COMMAND("echo", AV("testtest"), NO_REDIR)
 	}, envp));
 	assert(comp("echo '\"test\"'", (Command[]) {
-		COMMAND("echo", AV("\"test\""), NO_REDIR, NO_REDIR)
+		COMMAND("echo", AV("\"test\""), NO_REDIR)
 	}, envp));
 	assert(comp("echo \"'test'\"", (Command[]) {
-		COMMAND("echo", AV("'test'"), NO_REDIR, NO_REDIR)
+		COMMAND("echo", AV("'test'"), NO_REDIR)
 	}, envp));
 	assert(comp("echo \"test1 test2 test3\"", (Command[]) {
-		COMMAND("echo", AV("test1 test2 test3"), NO_REDIR, NO_REDIR)
+		COMMAND("echo", AV("test1 test2 test3"), NO_REDIR)
 	}, envp));
 	assert(comp("echo \"test1 test2 test3 \"test4", (Command[]) {
-		COMMAND("echo", AV("test1 test2 test3 test4"), NO_REDIR, NO_REDIR)
+		COMMAND("echo", AV("test1 test2 test3 test4"), NO_REDIR)
 	}, envp));
 
 	// Pipes
 	assert(comp("echo test | cat out", (Command[]) {
-		COMMAND("echo", AV("test"), NO_REDIR, NO_REDIR),
-		COMMAND("cat", AV("out"), NO_REDIR, NO_REDIR)
+		COMMAND("echo", AV("test"), NO_REDIR),
+		COMMAND("cat", AV("out"), NO_REDIR)
 	}, envp));
 	assert(comp("echo test | ", (Command[]) {
-		COMMAND("echo", AV("test"), NO_REDIR, NO_REDIR),
+		COMMAND("echo", AV("test"), NO_REDIR),
 	}, envp));
 	assert(comp("echo test |", (Command[]) {
-		COMMAND("echo", AV("test"), NO_REDIR, NO_REDIR),
+		COMMAND("echo", AV("test"), NO_REDIR),
 	}, envp));
 }
 

@@ -21,8 +21,7 @@ void free_redir(t_redir *redir) {
 void free_cmd(Command *cmd) {
 	xfree(cmd->cmd);
 	free_av(cmd->av);
-	free_redir(cmd->in);
-	free_redir(cmd->out);
+	free_redir(cmd->redirs);
 	free(cmd);
 }
 
