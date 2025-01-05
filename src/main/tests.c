@@ -129,6 +129,20 @@ void tests(char **envp) {
 		COMMAND("echo", AV("test"), REDIRS(REDIR("here", r_heredoc)), NO_REDIR)
 	}, envp));
 
+	// Multiple redirs
+	assert(comp("echo test > out >> append", (Command[]) {
+		COMMAND("echo", AV("test"), NO_REDIR, REDIRS(
+			REDIR("out", r_to),
+			REDIR("append", r_append)
+		))
+	}, envp));
+	assert(comp("echo test < in << here", (Command[]) {
+		COMMAND("echo", AV("test"), REDIRS(
+			REDIR("in", r_from),
+			REDIR("here", r_heredoc)
+		), NO_REDIR)
+	}, envp));
+
 	assert(comp("echo test > ", (Command[]) {
 		COMMAND("echo", AV("test"), NO_REDIR, NO_REDIR)
 	}, envp));
