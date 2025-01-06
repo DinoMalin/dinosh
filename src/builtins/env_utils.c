@@ -15,9 +15,7 @@ char **copy_env(char **env) {
 	return res;
 }
 
-// unlike its equivalent in the parsing module, this version does not allocate
-// it rather gives a pointer to the variable in the env
-static char **ft_getenv(char **envp, char *target) {
+static char **ft_getenv_ptr(char **envp, char *target) {
 	int target_len = ft_strlen(target);
 
 	for (int i = 0; envp[i]; i++) {
@@ -33,7 +31,7 @@ char **modify_env(char **env, char *var, char *content) {
 	new_var = clean_join(new_var, "=");
 	new_var = clean_join(new_var, content);
 
-	char **var_in_env = ft_getenv(env, var);
+	char **var_in_env = ft_getenv_ptr(env, var);
 	if (!var_in_env)
 		return clean_strsjoin(env, new_var);
 

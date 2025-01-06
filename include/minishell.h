@@ -70,7 +70,6 @@ typedef struct Command {
 	struct Command	*next;
 } Command;
 
-
 /* ====== PARSING ====== */
 Node	*tokenize(char *str);
 char	*expand(char *str, char **envp);
@@ -80,13 +79,15 @@ Node	*parse(char *str, char **envp);
 Command	*process(Node *data);
 
 /* ====== EXECUTING ====== */
-void execute(Command *cmd);
+char *find_path(char **env, char *cmd);
+void execute(Command *cmd, char **env);
 
 /* ====== BUILTINS ====== */
 char **copy_env(char **env);
 char **modify_env(char **env, char *var, char *content);
 
 /* ====== MEMORY ====== */
+void	free_av(char **av);
 void	free_cmds(Command *list);
 void	free_node(Node *node);
 void	free_list(Node *list);
