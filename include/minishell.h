@@ -14,6 +14,7 @@
 					x == to ?		ft_strdup(">") : \
 									ft_strdup("<")
 #define xfree(x) if (x) {free(x);}
+#define IS_CHILD(x) (!x)
 
 typedef enum {
 	arg,
@@ -78,6 +79,9 @@ Node	*parse(char *str, char **envp);
 /* ====== PROCESSING ====== */
 Command	*process(Node *data);
 
+/* ====== EXECUTING ====== */
+void execute(Command *cmd);
+
 /* ====== BUILTINS ====== */
 char **copy_env(char **env);
 char **modify_env(char **env, char *var, char *content);
@@ -95,3 +99,4 @@ int len_until_chr(char *str, char c);
 
 /* ====== TESTS ====== */
 void	tests_parsing(char **envp);
+
