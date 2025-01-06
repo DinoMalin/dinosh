@@ -57,7 +57,7 @@ int comp(char *prompt, Command *expected, char **envp) {
 	return 1;
 }
 
-void tests(char **envp) {
+void tests_parsing(char **envp) {
 	// Basic
 	assert(comp("echo test < in | cat > out", (Command[]) {
 		COMMAND("echo", AV("test"), REDIRS(REDIR("in", r_from))),
@@ -192,6 +192,9 @@ void tests(char **envp) {
 	}, envp));
 	assert(comp("echo \"$USER\"", (Command[]) {
 		COMMAND("echo", AV(getenv("USER")), NO_REDIR)
+	}, envp));
+	assert(comp("echo \"$XDG_\"", (Command[]) { // must be non existant
+		COMMAND("echo", AV(""), NO_REDIR)
 	}, envp));
 
 	// Quotes

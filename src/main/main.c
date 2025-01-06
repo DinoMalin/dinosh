@@ -60,5 +60,5 @@ void display_processed(Command *cmd) {
 int main(int ac, char **av, char **envp) {
 	(void)ac;
 	(void)av;
-	tests(envp);
+	tests_parsing(envp);
 }

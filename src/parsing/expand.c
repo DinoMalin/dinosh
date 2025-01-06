@@ -1,15 +1,6 @@
 #include "minishell.h"
 
-int len_until_chr(char *str, char c) {
-	int i;
-	for (i = 0; str[i]; i++) {
-		if (str[i] == c)
-			break;
-	}
-	return i;
-}
-
-char *ft_getenv(char **envp, char *target) {
+static char *ft_getenv(char **envp, char *target) {
 	int target_len = ft_strlen(target);
 
 	for (int i = 0; envp[i]; i++) {
