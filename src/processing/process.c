@@ -43,8 +43,7 @@ void analyze_command(Command *cmd, Node **data, int *arg_index) {
 
 	if (*arg_index == 0)
 		cmd->cmd = ft_strdup((*data)->content);
-	else
-		cmd->av = clean_strsjoin(cmd->av, ft_strdup((*data)->content));
+	cmd->av = clean_strsjoin(cmd->av, ft_strdup((*data)->content));
 	(*arg_index)++;
 }
 
