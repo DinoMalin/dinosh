@@ -99,6 +99,7 @@ void execute(Command *cmd, char **env);
 /* ====== BUILTINS ====== */
 char **copy_env(char **env);
 char **modify_env(char **env, char *var, char *content);
+void delete_var(char **env, char *var);
 
 /* ====== MEMORY ====== */
 void	free_av(char **av);

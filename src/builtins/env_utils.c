@@ -39,3 +39,16 @@ char **modify_env(char **env, char *var, char *content) {
 	*var_in_env = new_var;
 	return env;
 }
+
+void delete_var(char **env, char *var) {
+	char **var_in_env = ft_getenv_ptr(env, var);
+
+	if (!var_in_env)
+		return ;
+
+	free(*var_in_env);
+	while (*(var_in_env)) {
+		*(var_in_env) = *(var_in_env+1);
+		var_in_env++;
+	}
+}
