@@ -18,5 +18,5 @@
 #define NO_REDIR (t_redir[]){{NULL, 0}}
 #define REDIRS(...) (t_redir[]){__VA_ARGS__, {NULL, 0}}
 
-#define COMMAND(cmd, av, redirs) \
-	(Command){cmd, av, redirs, {0,0}, 0, NULL}
+#define COMMAND(cmd, av, redirs, type) \
+	(Command){cmd, av, redirs, {0,0}, type, NULL}
