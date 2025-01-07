@@ -18,6 +18,14 @@
 #define IS_BUILTIN(x) (x == ECHO || x == CD || x == PWD || x == EXPORT \
 						|| x == UNSET|| x == ENV || x == ENV)
 
+#define add_command(head, new, last)		\
+	{										\
+		if (!head)							\
+			head = new;						\
+		else								\
+			last->next = new;				\
+	}										\
+
 typedef enum {
 	arg,
 	to,
@@ -91,6 +99,9 @@ char	*expand(char *str, char **envp);
 Node	*parse(char *str, char **envp);
 
 /* ====== PROCESSING ====== */
+void init_ac(Command *head);
+void check_redir(Command *cmd, Node **data);
+void check_type(Command *cmd);
 Command	*process(Node *data);
 
 /* ====== EXECUTING ====== */
