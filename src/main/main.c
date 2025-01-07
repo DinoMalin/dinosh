@@ -5,7 +5,7 @@ int main(int ac, char **av, char **envp) {
 	(void)av;
 	tests_parsing(envp);
 
-	char *prompt = "echo test | cat Makefile | ls | nonexistant";
+	char *prompt = "cat < Makefile > out > out2";
 	char **new_env = copy_env(envp);
 
 	Node *data = parse(prompt, new_env);

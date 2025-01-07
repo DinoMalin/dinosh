@@ -7,6 +7,7 @@ void exit_fork(int exit_code, Command *cmd, char **env) {
 }
 
 void fork_routine(Command *head, Command *cmd, char **env) {
+	redirect(cmd);
 	if (!IS_BUILTIN(cmd->type)) {
 		char *path = find_path(env, cmd->cmd);
 
