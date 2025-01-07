@@ -78,6 +78,7 @@ typedef struct {
 typedef struct Command {
 	char			*cmd;
 	char			**av;
+	int				ac;
 	t_redir			*redirs;
 	Error			error;
 	CommandType		type;

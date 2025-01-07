@@ -8,6 +8,15 @@ Command *init_cmd() {
 	return res;
 }
 
+void init_ac(Command *head) {
+	while (head) {
+		while (head->av[head->ac]) {
+			head->ac++;
+		}
+		head = head->next;
+	}
+}
+
 void check_type(Command *cmd) {
 	if (!ft_strcmp("echo", cmd->cmd))
 		cmd->type = ECHO;
@@ -95,5 +104,6 @@ Command *process(Node *data) {
 			data = data->next;
 	}
 	
+	init_ac(head);
 	return head;
 }
