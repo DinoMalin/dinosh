@@ -1,5 +1,4 @@
 #include "minishell.h"
-#include "errors.h"
 
 // this version does not allocate anything, unlike the version in the parsing module
 static char *ft_getenv(char **envp, char *target) {
@@ -34,6 +33,6 @@ char *find_path(char **env, char *cmd) {
 	}
 	free_av(paths);
 
-	dprintf(2, ERNOENT": %s\n", cmd);
+	dprintf(2, "dinosh: %s: command not found\n", cmd);
 	return NULL;
 }
