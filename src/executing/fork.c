@@ -1,5 +1,7 @@
 #include "minishell.h"
 
+int g_exit_status = 0;
+
 void exit_fork(int exit_code, Command *cmd, char **env) {
 	free_cmds(cmd);
 	free_av(env);
@@ -51,6 +53,12 @@ void execute(Command *head, char **env) {
 		if (curr->next && pipe(pipe_fd) < 0)
 			perror("dinosh: pipe");
 		create_fork(head, curr, env, pipe_fd);
+		curr = curr->next;
+	}
+
+	curr = head;
+	while (curr) {
+		wait(&g_exit_status);
 		curr = curr->next;
 	}
 }

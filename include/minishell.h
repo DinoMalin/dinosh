@@ -4,6 +4,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include <stdio.h>
+#include <sys/wait.h>
 
 #define isspace(x) ((x >= '\t' && x <= '\r') || x == ' ')
 #define end_arg(x) (isspace(x) || x == '|' || x == '<' || x == '>' || x == '\'' || x == '"')
