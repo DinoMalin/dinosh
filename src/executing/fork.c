@@ -7,10 +7,14 @@ void exit_fork(int exit_code, Command *cmd, char **env) {
 }
 
 void fork_routine(Command *head, Command *cmd, char **env) {
-	char *path = find_path(env, cmd->cmd);
+	if (!IS_BUILTIN(cmd->type)) {
+		char *path = find_path(env, cmd->cmd);
 
-	if (path)
-		execve(path, cmd->av, env);
+		if (path)
+			execve(path, cmd->av, env);
+	} else {
+		printf("%s is a builtin\n", cmd->cmd);
+	}
 
 	exit_fork(0, head, env);
 }

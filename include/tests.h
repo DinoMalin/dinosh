@@ -19,4 +19,4 @@
 #define REDIRS(...) (t_redir[]){__VA_ARGS__, {NULL, 0}}
 
 #define COMMAND(cmd, av, redirs) \
-	(Command){cmd, av, redirs, {0,0}, NULL}
+	(Command){cmd, av, redirs, {0,0}, 0, NULL}

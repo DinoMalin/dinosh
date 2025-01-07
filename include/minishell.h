@@ -15,6 +15,8 @@
 									ft_strdup("<")
 #define xfree(x) if (x) {free(x);}
 #define IS_CHILD(x) (!x)
+#define IS_BUILTIN(x) (x == ECHO || x == CD || x == PWD || x == EXPORT \
+						|| x == UNSET|| x == ENV || x == ENV)
 
 typedef enum {
 	arg,
@@ -56,6 +58,17 @@ typedef enum {
 	r_heredoc,
 } Redir;
 
+typedef enum {
+	BASIC,
+	ECHO,
+	CD,
+	PWD,
+	EXPORT,
+	UNSET,
+	ENV,
+	EXIT
+} CommandType;
+
 typedef struct {
 	char	*file;
 	Redir	type;
@@ -67,6 +80,7 @@ typedef struct Command {
 	char			**av;
 	t_redir			*redirs;
 	Error			error;
+	CommandType		type;
 	struct Command	*next;
 } Command;
 

@@ -8,6 +8,23 @@ Command *init_cmd() {
 	return res;
 }
 
+void check_type(Command *cmd) {
+	if (!ft_strcmp("echo", cmd->cmd))
+		cmd->type = ECHO;
+	else if (!ft_strcmp("cd", cmd->cmd))
+		cmd->type = CD;
+	else if (!ft_strcmp("pwd", cmd->cmd))
+		cmd->type = PWD;
+	else if (!ft_strcmp("export", cmd->cmd))
+		cmd->type = EXPORT;
+	else if (!ft_strcmp("unset", cmd->cmd))
+		cmd->type = UNSET;
+	else if (!ft_strcmp("env", cmd->cmd))
+		cmd->type = ENV;
+	else if (!ft_strcmp("exit", cmd->cmd))
+		cmd->type = EXIT;
+}
+
 void check_redir(Command *cmd, Node **data) {
 	Token type = (*data)->token;
 	(*data) = (*data)->next;
@@ -41,8 +58,10 @@ void analyze_command(Command *cmd, Node **data, int *arg_index) {
 		return;
 	}
 
-	if (*arg_index == 0)
+	if (*arg_index == 0) {
 		cmd->cmd = ft_strdup((*data)->content);
+		check_type(cmd);
+	}
 	cmd->av = clean_strsjoin(cmd->av, ft_strdup((*data)->content));
 	(*arg_index)++;
 }
