@@ -40,13 +40,13 @@ void check_redir(Command *cmd, Node **data) {
 	}
 
 	Redir r_type = 0;
-	if (type == from)
+	if (type == t_from)
 		r_type = r_from;
-	else if (type == heredoc)
+	else if (type == t_heredoc)
 		r_type = r_heredoc;
-	else if (type == to)
+	else if (type == t_to)
 		r_type = r_to;
-	else if (type == append)
+	else if (type == t_append)
 		r_type = r_append;
 
 	t_redir redirection = (t_redir){ft_strdup((*data)->content), r_type};

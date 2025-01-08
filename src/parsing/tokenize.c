@@ -1,16 +1,16 @@
 #include "minishell.h"
 
 bool are_we_there_yet(Node *node, char *str, int index) {
-	if (node->token == double_quotes && index > 1 && str[index - 1] == '"')
+	if (node->token == t_double_quotes && index > 1 && str[index - 1] == '"')
 		return true;
-	if (node->token == single_quotes && index > 1 && str[index - 1] == '\'')
+	if (node->token == t_single_quotes && index > 1 && str[index - 1] == '\'')
 		return true;
-	if (node->token != single_quotes && node->token != double_quotes && end_arg(str[index]))
+	if (node->token != t_single_quotes && node->token != t_double_quotes && end_arg(str[index]))
 		return true;
 	if (!str[index]) {
-		if (node->token == double_quotes)
+		if (node->token == t_double_quotes)
 			node->error.type = double_quote;
-		if (node->token == single_quotes)
+		if (node->token == t_single_quotes)
 			node->error.type = single_quote;
 		return true;
 	}
@@ -19,20 +19,20 @@ bool are_we_there_yet(Node *node, char *str, int index) {
 
 Token check_token(char *str) {
 	if (!ft_strncmp(str, "\"", 1))
-		return double_quotes;
+		return t_double_quotes;
 	if (!ft_strncmp(str, "'", 1))
-		return single_quotes;
+		return t_single_quotes;
 	if (!ft_strncmp(str, ">>", 2))
-		return append;
+		return t_append;
 	if (!ft_strncmp(str, "<<", 2))
-		return heredoc;
+		return t_heredoc;
 	if (!ft_strncmp(str, ">", 1))
-		return to;
+		return t_to;
 	if (!ft_strncmp(str, "<", 1))
-		return from;
+		return t_from;
 	if (!ft_strncmp(str, "|", 1))
 		return t_pipe;
-	return arg;
+	return t_arg;
 }
 
 Node *get_arg(char *str) {
@@ -53,12 +53,12 @@ Node *get_arg(char *str) {
 }
 
 void clean_node(Node *node) {
-	if (node->token == single_quotes) {
+	if (node->token == t_single_quotes) {
 		char *new_content = ft_strtrim(node->content, "'");
 		free(node->content);
 		node->content = new_content;
 
-	} else if (node->token == double_quotes) {
+	} else if (node->token == t_double_quotes) {
 		char *new_content = ft_strtrim(node->content, "\"");
 		free(node->content);
 		node->content = new_content;
@@ -68,7 +68,7 @@ void clean_node(Node *node) {
 int skip_whitespace(char *str) {
 	int res = 0;
 
-	while (isspace(str[res])) {
+	while (ft_isspace(str[res])) {
 		res++;
 	}
 

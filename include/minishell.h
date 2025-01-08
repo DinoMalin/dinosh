@@ -5,18 +5,19 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <sys/wait.h>
+#include <readline/readline.h>
 
-#define isspace(x) ((x >= '\t' && x <= '\r') || x == ' ')
-#define end_arg(x) (isspace(x) || x == '|' || x == '<' || x == '>' || x == '\'' || x == '"')
-#define can_expand(x) (x->token == double_quotes || x->token == arg)
-#define is_operator(x) (x == t_pipe || x == append || x == heredoc \
-					|| x == to || x == from)
-#define is_redir(x) (x == append || x == heredoc || x == to || x == from)
-#define OPERATOR(x) x == t_pipe ?	ft_strdup("|") : \
-					x == append ?	ft_strdup(">>") : \
-					x == heredoc ?	ft_strdup("<<") : \
-					x == to ?		ft_strdup(">") : \
-									ft_strdup("<")
+#define ft_isspace(x) ((x >= '\t' && x <= '\r') || x == ' ')
+#define end_arg(x) (ft_isspace(x) || x == '|' || x == '<' || x == '>' || x == '\'' || x == '"')
+#define can_expand(x) (x->token == t_double_quotes || x->token == t_arg)
+#define is_operator(x) (x == t_pipe || x == t_append || x == t_heredoc \
+					|| x == t_to || x == t_from)
+#define is_redir(x) (x == t_append || x == t_heredoc || x == t_to || x == t_from)
+#define OPERATOR(x) x == t_pipe ?		ft_strdup("|") : \
+					x == t_append ?		ft_strdup(">>") : \
+					x == t_heredoc ?	ft_strdup("<<") : \
+					x == t_to ?			ft_strdup(">") : \
+										ft_strdup("<")
 #define xfree(x) if (x) {free(x);}
 #define IS_CHILD(x) (!x)
 #define IS_BUILTIN(x) (x == ECHO || x == CD || x == PWD || x == EXPORT \
@@ -25,6 +26,7 @@
 #define TO_FLAGS O_WRONLY | O_CREAT | O_TRUNC
 #define APPEND_FLAGS O_WRONLY | O_CREAT | O_APPEND
 #define FROM_FLAGS O_RDONLY
+#define HEREDOC_FILE "/tmp/dino_heredoc"
 
 #define add_command(head, new, last)		\
 	{										\
@@ -35,13 +37,13 @@
 	}										\
 
 typedef enum {
-	arg,
-	to,
-	append,
-	from,
-	heredoc,
-	single_quotes,
-	double_quotes,
+	t_arg,
+	t_to,
+	t_append,
+	t_from,
+	t_heredoc,
+	t_single_quotes,
+	t_double_quotes,
 	t_pipe,
 } Token;
 
