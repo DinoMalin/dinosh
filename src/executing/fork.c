@@ -18,9 +18,9 @@ void redirect_pipe(int *pipe_fd, int end) {
 }
 
 void fork_routine(Command *head, Command *cmd, char **env, int *pipe_fd) {
+	redirect(cmd);
 	if (cmd->next)
 		redirect_pipe(pipe_fd, 1);
-	redirect(cmd);
 
 	if (!IS_BUILTIN(cmd->type)) {
 		char *path = find_path(env, cmd->cmd);

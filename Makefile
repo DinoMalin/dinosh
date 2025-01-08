@@ -7,7 +7,7 @@ CC = cc
 CFLAGS =	-Wall -Wextra -Werror -g \
 			-Iinclude
 
-LFLAGS =	-Llib -lft
+LFLAGS =	-Llib -lft -lreadline
 
 SRC_DIR = src/
 OBJ_DIR = obj/
