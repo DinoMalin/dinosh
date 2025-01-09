@@ -5,7 +5,7 @@ int main(int ac, char **av, char **envp) {
 	(void)av;
 	tests_parsing(envp);
 
-	char *prompt = "cat << here | wc -l";
+	char *prompt = "echo this is a test";
 	char **new_env = copy_env(envp);
 
 	Node *data = parse(prompt, new_env);

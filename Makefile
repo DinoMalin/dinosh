@@ -15,7 +15,7 @@ MAIN	= main/main
 FILES	= main/memory main/utils main/tests \
 		parsing/tokenize parsing/expand parsing/parse \
 		processing/process processing/check \
-		builtins/env_utils \
+		builtins/env_utils builtins/choose builtins/echo \
 		executing/fork executing/path executing/redirect
 FUZZER_FILES := $(FILES)
 FILES += $(MAIN)

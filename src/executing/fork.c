@@ -22,13 +22,11 @@ void fork_routine(Command *head, Command *cmd, char **env, int *pipe_fd) {
 	if (cmd->next)
 		redirect_pipe(pipe_fd, 1);
 
-	if (!IS_BUILTIN(cmd->type)) {
+	if (!builtin(cmd)) {
 		char *path = find_path(env, cmd->cmd);
 
 		if (path)
 			execve(path, cmd->av, env);
-	} else {
-		printf("%s is a builtin\n", cmd->cmd);
 	}
 
 	exit_fork(0, head, env);
