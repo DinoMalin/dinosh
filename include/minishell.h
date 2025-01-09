@@ -8,16 +8,8 @@
 #include <readline/readline.h>
 
 #define ft_isspace(x) ((x >= '\t' && x <= '\r') || x == ' ')
-#define end_arg(x) (ft_isspace(x) || x == '|' || x == '<' || x == '>' || x == '\'' || x == '"')
-#define can_expand(x) (x->token == t_double_quotes || x->token == t_arg)
-#define is_operator(x) (x == t_pipe || x == t_append || x == t_heredoc \
-					|| x == t_to || x == t_from)
+#define can_expand(x) (x->token == t_double_quotes || x->token == t_word)
 #define is_redir(x) (x == t_append || x == t_heredoc || x == t_to || x == t_from)
-#define OPERATOR(x) x == t_pipe ?		ft_strdup("|") : \
-					x == t_append ?		ft_strdup(">>") : \
-					x == t_heredoc ?	ft_strdup("<<") : \
-					x == t_to ?			ft_strdup(">") : \
-										ft_strdup("<")
 #define xfree(x) if (x) {free(x);}
 #define IS_CHILD(x) (!x)
 #define IS_BUILTIN(x) (x == ECHO || x == CD || x == PWD || x == EXPORT \
@@ -28,7 +20,61 @@
 #define FROM_FLAGS O_RDONLY
 #define HEREDOC_FILE "/tmp/dino_heredoc"
 
-#define add_command(head, new, last)		\
+#define ADD_TOKEN(head, curr, new)	\
+	{								\
+		if (!head) {				\
+			curr = new;				\
+			head = curr;			\
+		} else {					\
+			curr->next = new;		\
+			curr = curr->next;		\
+		}							\
+	}
+
+#define PARSE_TOKEN(start, end, type)						\
+	{														\
+		int len = ft_strlen(start);							\
+		if (!ft_strncmp(str, start, len)) {	\
+			str += len;										\
+			Node *new = ft_calloc(1, sizeof(Node));			\
+			new->content = until(&str, end);				\
+			new->token = type;								\
+			new->index = index;								\
+			if (!new->content)								\
+				new->error = unclosed_token;				\
+			ADD_TOKEN(head, curr, new);						\
+			continue;										\
+		}													\
+	}
+
+#define PARSE_OPERATOR(op, type)						\
+	{													\
+		if (!ft_strncmp(str, op, ft_strlen(op))) {		\
+			Node *new = ft_calloc(1, sizeof(Node));		\
+			new->content = operator(&str, op);			\
+			new->token = type;							\
+			new->index = index;							\
+			ADD_TOKEN(head, curr, new);					\
+			index++;									\
+			continue;									\
+		}												\
+	}
+
+#define WORD_END "\t\n\v\f\r\"' "
+#define PARSE_WORD()								\
+	{												\
+		char *content = parse_word(&str);			\
+		if (!content)								\
+			continue;								\
+		Node *new = ft_calloc(1, sizeof(Node));		\
+		new->content = content;						\
+		new->token = t_word;							\
+		new->index = index;							\
+		ADD_TOKEN(head, curr, new);					\
+		continue;									\
+	}
+
+#define ADD_COMMAND(head, new, last)		\
 	{										\
 		if (!head)							\
 			head = new;						\
@@ -37,7 +83,7 @@
 	}										\
 
 typedef enum {
-	t_arg,
+	t_word,
 	t_to,
 	t_append,
 	t_from,
@@ -48,15 +94,10 @@ typedef enum {
 } Token;
 
 typedef enum {
-	single_quote,
-	double_quote,
+	no_error,
+	unclosed_token,
 	empty_redir,
 	redir_toward_redir
-} Error_Type;
-
-typedef struct {
-	int			index;
-	Error_Type	type;
 } Error;
 
 /* === Parsing linked list ===*/
@@ -137,6 +178,9 @@ char	*clean_join(char *origin, const char *to_join);
 char	**clean_strsjoin(char **origin, char *to_join);
 t_redir *clean_redirjoin(t_redir *origin, t_redir to_join);
 int len_until_chr(char *str, char c);
+
+/* ====== UTILS ====== */
+bool parsing_errors(Node *head);
 
 /* ====== TESTS ====== */
 void	tests_parsing(char **envp);

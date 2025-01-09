@@ -8,7 +8,6 @@ void merge(Node *head) {
 		next = head->next;
 		while (next && head->index == next->index) {
 			head->content = clean_join(head->content, next->content);
-
 			after_next = next->next;
 			head->next = after_next;
 			free_node(next);
@@ -21,6 +20,10 @@ void merge(Node *head) {
 Node *parse(char *str, char **envp) {
 	Node *res_head = tokenize(str);
 	Node *curr = res_head;
+
+	if (parsing_errors(res_head)) {
+		return res_head;
+	}
 
 	while (curr) {
 		if (can_expand(curr)) {

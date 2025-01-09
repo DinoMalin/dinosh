@@ -34,7 +34,7 @@ Command *process(Node *data) {
 			data_index = 0;
 		} else if (data_index == 0) {
 			Command *new = init_cmd();
-			add_command(head, new, curr);
+			ADD_COMMAND(head, new, curr);
 			curr = new;
 		}
 		if (data->token != t_pipe) {

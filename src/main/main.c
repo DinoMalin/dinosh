@@ -3,6 +3,7 @@
 int main(int ac, char **av, char **envp) {
 	(void)ac;
 	(void)av;
+
 	tests_parsing(envp);
 
 	char *prompt = "echo this is a test";

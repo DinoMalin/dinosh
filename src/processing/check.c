@@ -31,11 +31,11 @@ void check_redir(Command *cmd, Node **data) {
 	(*data) = (*data)->next;
 
 	if (!(*data)) {
-		cmd->error.type = empty_redir;
+		cmd->error = empty_redir;
 		return;
 	}
 	if (is_redir((*data)->token)) {
-		cmd->error.type = redir_toward_redir;
+		cmd->error = redir_toward_redir;
 		return;
 	}
 
