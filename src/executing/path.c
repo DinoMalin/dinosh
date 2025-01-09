@@ -1,7 +1,6 @@
 #include "minishell.h"
 
-// this version does not allocate anything, unlike the version in the parsing module
-static char *ft_getenv(char **envp, char *target) {
+char *ft_getenv(char **envp, char *target) {
 	int target_len = ft_strlen(target);
 
 	for (int i = 0; envp[i]; i++) {

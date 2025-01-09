@@ -15,7 +15,7 @@ bool has_n_flag(Command *cmd) {
 	return res;
 }
 
-int echo(Command *cmd) {
+void echo(Command *cmd) {
 	int n_flag = has_n_flag(cmd);
 
 	for (int i = n_flag ? 2 : 1; cmd->av[i]; i++) {
@@ -27,6 +27,4 @@ int echo(Command *cmd) {
 	if (!n_flag) {
 		printf("\n");
 	}
-		
-	return 1;
 }

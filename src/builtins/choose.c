@@ -1,7 +1,8 @@
 #include "minishell.h"
 
-int builtin(Command *cmd) {
+void builtin(Command *cmd, char **env) {
 	if (cmd->type == ECHO)
-		return echo(cmd);
-	return 0;
+		echo(cmd);
+	else if (cmd->type == CD)
+		cd(cmd, env);
 }

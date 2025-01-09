@@ -32,6 +32,7 @@ Command *process(Node *data) {
 		if (data->token == t_pipe) {
 			arg_index = 0;
 			data_index = 0;
+			curr->transmission = PIPE;
 		} else if (data_index == 0) {
 			Command *new = init_cmd();
 			ADD_COMMAND(head, new, curr);

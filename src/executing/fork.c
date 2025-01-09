@@ -22,13 +22,16 @@ void fork_routine(Command *head, Command *cmd, char **env, int *pipe_fd) {
 	if (cmd->next)
 		redirect_pipe(pipe_fd, 1);
 
-	if (!builtin(cmd)) {
+	if (IS_BUILTIN(cmd->type))
+		builtin(cmd, env);
+	else if (cmd->type == SUBSHELL)
+		handle_prompt(cmd->cmd, env);
+	else if (cmd->type == BASIC) {
 		char *path = find_path(env, cmd->cmd);
 
 		if (path)
 			execve(path, cmd->av, env);
-	} else if (cmd->type == SUBSHELL)
-		handle_prompt(cmd->cmd, env);
+	}
 
 	exit_fork(0, head, env);
 }
@@ -49,9 +52,12 @@ void execute(Command *head, char **env) {
 	int pipe_fd[2];
 
 	while (curr) {
-		if (curr->next && pipe(pipe_fd) < 0)
-			perror("dinosh: pipe");
-		create_fork(head, curr, env, pipe_fd);
+		if (!IS_BUILTIN(curr->type) || curr->transmission == PIPE) {
+			if (curr->next && pipe(pipe_fd) < 0)
+				perror("dinosh: pipe");
+			create_fork(head, curr, env, pipe_fd);
+		} else if (IS_BUILTIN(curr->type))
+			builtin(curr, env);
 		curr = curr->next;
 	}
 

@@ -15,7 +15,7 @@ char **copy_env(char **env) {
 	return res;
 }
 
-static char **ft_getenv_ptr(char **envp, char *target) {
+char **ft_getenv_ptr(char **envp, char *target) {
 	int target_len = ft_strlen(target);
 
 	for (int i = 0; envp[i]; i++) {

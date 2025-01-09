@@ -1,14 +1,10 @@
 #include "minishell.h"
 
-static char *ft_getenv(char **envp, char *target) {
-	int target_len = ft_strlen(target);
-
-	for (int i = 0; envp[i]; i++) {
-		int key_len = len_until_chr(envp[i], '=');
-		if (!ft_strncmp(envp[i], target, key_len) && key_len == target_len)
-			return ft_strdup(ft_strchr(envp[i], '=') + 1);
-	}
-	return ft_strdup("");
+static char *ft_getenv_alloc(char **envp, char *target) {
+	char *res = ft_getenv(envp, target);
+	if (!res)
+		return ft_strdup("");
+	return ft_strdup(res);
 }
 
 int get_variable(char *str) {
@@ -43,7 +39,7 @@ char *expand(char *str, char **envp) {
 				result = extract(result, str + start_copy, i - start_copy);
 			size_var = get_variable(str + i + 1);
 			variable = ft_substr(str, i + 1, size_var);
-			translated_var = ft_getenv(envp, variable);
+			translated_var = ft_getenv_alloc(envp, variable);
 			free(variable);
 			result = clean_join(result, translated_var);
 			free(translated_var);

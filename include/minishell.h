@@ -135,6 +135,11 @@ typedef struct {
 	Redir	type;
 } t_redir;
 
+typedef enum {
+	ANY,
+	PIPE,
+} Transmission;
+
 /* === Executing linked list ===*/
 typedef struct Command {
 	char			*cmd;
@@ -143,6 +148,7 @@ typedef struct Command {
 	t_redir			*redirs;
 	Error			error;
 	CommandType		type;
+	Transmission	transmission;
 	struct Command	*next;
 } Command;
 
@@ -163,11 +169,13 @@ void	redirect(Command *cmd);
 void	execute(Command *cmd, char **env);
 
 /* ====== BUILTINS ====== */
+char	*ft_getenv(char **envp, char *target);
 char	**copy_env(char **env);
 char	**modify_env(char **env, char *var, char *content);
 void	delete_var(char **env, char *var);
-int		builtin(Command *cmd);
-int		echo(Command *cmd);
+void	builtin(Command *cmd, char **env);
+void	echo(Command *cmd);
+void	cd(Command *cmd, char **env);
 
 /* ====== MEMORY ====== */
 void	free_av(char **av);
