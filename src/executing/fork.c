@@ -27,7 +27,8 @@ void fork_routine(Command *head, Command *cmd, char **env, int *pipe_fd) {
 
 		if (path)
 			execve(path, cmd->av, env);
-	}
+	} else if (cmd->type == SUBSHELL)
+		handle_prompt(cmd->cmd, env);
 
 	exit_fork(0, head, env);
 }

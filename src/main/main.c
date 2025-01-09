@@ -26,7 +26,7 @@ int main(int ac, char **av, char **envp) {
 	char **new_env = copy_env(envp);
 	tests_parsing(envp);
 
-	char *prompt = "echo this is a test | cat";
+	char *prompt = "(cat Makefile | wc -l) > out";
 	handle_prompt(prompt, new_env);
 
 	free_av(new_env);

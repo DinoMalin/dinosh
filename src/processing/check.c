@@ -9,7 +9,7 @@ void init_ac(Command *head) {
 	}
 }
 
-void check_type(Command *cmd) {
+void check_type(Command *cmd, Token token) {
 	if (!ft_strcmp("echo", cmd->cmd))
 		cmd->type = ECHO;
 	else if (!ft_strcmp("cd", cmd->cmd))
@@ -24,6 +24,8 @@ void check_type(Command *cmd) {
 		cmd->type = ENV;
 	else if (!ft_strcmp("exit", cmd->cmd))
 		cmd->type = EXIT;
+	else if (token == t_subshell)
+		cmd->type = SUBSHELL;
 }
 
 void check_redir(Command *cmd, Node **data) {

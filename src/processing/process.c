@@ -16,7 +16,7 @@ void analyze_command(Command *cmd, Node **data, int *arg_index) {
 
 	if (*arg_index == 0) {
 		cmd->cmd = ft_strdup((*data)->content);
-		check_type(cmd);
+		check_type(cmd, (*data)->token);
 	}
 	cmd->av = clean_strsjoin(cmd->av, ft_strdup((*data)->content));
 	(*arg_index)++;

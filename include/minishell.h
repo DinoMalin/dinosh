@@ -90,6 +90,7 @@ typedef enum {
 	t_heredoc,
 	t_single_quotes,
 	t_double_quotes,
+	t_subshell,
 	t_pipe,
 } Token;
 
@@ -119,6 +120,7 @@ typedef enum {
 
 typedef enum {
 	BASIC,
+	SUBSHELL,
 	ECHO,
 	CD,
 	PWD,
@@ -152,7 +154,7 @@ Node	*parse(char *str, char **envp);
 /* ====== PROCESSING ====== */
 void	 init_ac(Command *head);
 void	 check_redir(Command *cmd, Node **data);
-void	 check_type(Command *cmd);
+void	 check_type(Command *cmd, Token token);
 Command	*process(Node *data);
 
 /* ====== EXECUTING ====== */

@@ -3,7 +3,9 @@
 char get_token(Node *data) {
 	if (data->token == t_double_quotes)
 		return '"';
-	return '\'';
+	if (data->token == t_single_quotes)
+		return '\'';
+	return '(';
 }
 
 bool has_parsing_errors(Node *head) {

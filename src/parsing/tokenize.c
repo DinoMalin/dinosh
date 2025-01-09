@@ -49,6 +49,7 @@ Node *tokenize(char *str) {
 			index++;
 		PARSE_TOKEN("\"", "\"", t_double_quotes);
 		PARSE_TOKEN("'", "'", t_single_quotes);
+		PARSE_TOKEN("(", ")", t_subshell);
 		PARSE_OPERATOR(">>", t_append);
 		PARSE_OPERATOR("<<", t_heredoc);
 		PARSE_OPERATOR(">", t_to);
