@@ -38,7 +38,7 @@ int comp_cmd(Command *cmd1, Command *cmd2) {
 
 int comp(char *prompt, Command *expected, char **envp) {
 	Node *data = parse(prompt, envp);
-	if (parsing_errors(data)) {
+	if (has_parsing_errors(data)) {
 		free_list(data);
 		return 0;
 	}
@@ -272,7 +272,7 @@ int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
 
 	Node *parsing_data = parse(input, (char*[]){NULL});
 
-	if (parsing_errors(parsing_data)) {
+	if (has_parsing_errors(parsing_data)) {
 		free_list(parsing_data);
 		free(input);
 		return 0;

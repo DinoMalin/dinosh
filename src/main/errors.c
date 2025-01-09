@@ -6,10 +6,36 @@ char get_token(Node *data) {
 	return '\'';
 }
 
-bool parsing_errors(Node *head) {
+bool has_parsing_errors(Node *head) {
 	while (head) {
 		if (head->error)
 			return true;
+		head = head->next;
+	}
+	return false;
+}
+
+bool parsing_error(Node *head) {
+	while (head) {
+		if (head->error) {
+			dprintf(2, "dinosh: unclosed token: %c\n", get_token(head));
+			return true;
+		}
+		head = head->next;
+	}
+	return false;
+}
+
+bool process_error(Command *head) {
+	while (head) {
+		if (head->error == empty_redir) {
+			dprintf(2, "dinosh: empty redirection\n");
+			return true;
+		}
+		if (head->error == redir_toward_redir) {
+			dprintf(2, "dinosh: redirection toward redirection\n");
+			return true;
+		}
 		head = head->next;
 	}
 	return false;

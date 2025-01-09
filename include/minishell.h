@@ -150,15 +150,15 @@ char	*expand(char *str, char **envp);
 Node	*parse(char *str, char **envp);
 
 /* ====== PROCESSING ====== */
-void init_ac(Command *head);
-void check_redir(Command *cmd, Node **data);
-void check_type(Command *cmd);
+void	 init_ac(Command *head);
+void	 check_redir(Command *cmd, Node **data);
+void	 check_type(Command *cmd);
 Command	*process(Node *data);
 
 /* ====== EXECUTING ====== */
-char *find_path(char **env, char *cmd);
-void redirect(Command *cmd);
-void execute(Command *cmd, char **env);
+char	*find_path(char **env, char *cmd);
+void	redirect(Command *cmd);
+void	execute(Command *cmd, char **env);
 
 /* ====== BUILTINS ====== */
 char	**copy_env(char **env);
@@ -176,11 +176,14 @@ void	free_list(Node *list);
 /* ====== UTILS ====== */
 char	*clean_join(char *origin, const char *to_join);
 char	**clean_strsjoin(char **origin, char *to_join);
-t_redir *clean_redirjoin(t_redir *origin, t_redir to_join);
-int len_until_chr(char *str, char c);
+t_redir	*clean_redirjoin(t_redir *origin, t_redir to_join);
+int		len_until_chr(char *str, char c);
+void	handle_prompt(char *prompt, char **envp);
 
-/* ====== UTILS ====== */
-bool parsing_errors(Node *head);
+/* ====== ERROR ====== */
+bool	parsing_error(Node *head);
+bool	process_error(Command *head);
+bool	has_parsing_errors(Node *head);
 
 /* ====== TESTS ====== */
 void	tests_parsing(char **envp);

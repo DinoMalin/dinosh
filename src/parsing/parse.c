@@ -21,7 +21,7 @@ Node *parse(char *str, char **envp) {
 	Node *res_head = tokenize(str);
 	Node *curr = res_head;
 
-	if (parsing_errors(res_head)) {
+	if (has_parsing_errors(res_head)) {
 		return res_head;
 	}
 
