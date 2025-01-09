@@ -5,4 +5,6 @@ void builtin(Command *cmd, char **env) {
 		echo(cmd);
 	else if (cmd->type == CD)
 		cd(cmd, env);
+	else if (cmd->type == PWD)
+		pwd(cmd);
 }

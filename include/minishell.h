@@ -176,6 +176,7 @@ void	delete_var(char **env, char *var);
 void	builtin(Command *cmd, char **env);
 void	echo(Command *cmd);
 void	cd(Command *cmd, char **env);
+void	pwd(Command *cmd);
 
 /* ====== MEMORY ====== */
 void	free_av(char **av);
