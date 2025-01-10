@@ -152,6 +152,11 @@ typedef struct Command {
 	struct Command	*next;
 } Command;
 
+typedef struct {
+	char *prompt;
+	char **env;
+} Prompt;
+
 /* ====== PARSING ====== */
 Node	*tokenize(char *str);
 char	*expand(char *str, char **envp);
@@ -166,17 +171,18 @@ Command	*process(Node *data);
 /* ====== EXECUTING ====== */
 char	*find_path(char **env, char *cmd);
 void	redirect(Command *cmd);
-void	execute(Command *cmd, char **env);
+void	execute(Command *cmd, Prompt *prompt);
 
 /* ====== BUILTINS ====== */
 char	*ft_getenv(char **envp, char *target);
 char	**copy_env(char **env);
 char	**modify_env(char **env, char *var, char *content);
 void	delete_var(char **env, char *var);
-void	builtin(Command *cmd, char **env);
+void	builtin(Command *cmd, Prompt *prompt);
 void	echo(Command *cmd);
 void	cd(Command *cmd, char **env);
 void	pwd(Command *cmd);
+void	export(Command *cmd, Prompt *prompt);
 
 /* ====== MEMORY ====== */
 void	free_av(char **av);
@@ -189,7 +195,7 @@ char	*clean_join(char *origin, const char *to_join);
 char	**clean_strsjoin(char **origin, char *to_join);
 t_redir	*clean_redirjoin(t_redir *origin, t_redir to_join);
 int		len_until_chr(char *str, char c);
-void	handle_prompt(char *prompt, char **envp);
+void	handle_prompt(Prompt *prompt);
 
 /* ====== ERROR ====== */
 bool	parsing_error(Node *head);

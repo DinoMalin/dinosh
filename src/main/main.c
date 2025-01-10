@@ -1,7 +1,7 @@
 #include "minishell.h"
 
-void handle_prompt(char *prompt, char **envp) {
-	Node *data = parse(prompt, envp);
+void handle_prompt(Prompt *prompt) {
+	Node *data = parse(prompt->prompt, prompt->env);
 	if (parsing_error(data)) {
 		free_list(data);
 		return;
@@ -15,7 +15,7 @@ void handle_prompt(char *prompt, char **envp) {
 		return;
 	}
 
-	execute(cmd, envp);
+	execute(cmd, prompt);
 	free_cmds(cmd);
 }
 
@@ -26,8 +26,16 @@ int main(int ac, char **av, char **envp) {
 	char **new_env = copy_env(envp);
 	tests_parsing(envp);
 
-	char *prompt = "pwd | cat";
-	handle_prompt(prompt, new_env);
+	char *str = "export TEST=dinomalin";
 
-	free_av(new_env);
+	Prompt prompt;
+	prompt.prompt = str;
+	prompt.env = new_env;
+
+	handle_prompt(&prompt);
+
+	for (int i = 0; prompt.env[i]; i++) {
+		printf("%s\n", prompt.env[i]);
+	}
+	free_av(prompt.env);
 }
