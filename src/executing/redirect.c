@@ -23,6 +23,7 @@ int heredoc(char *lim) {
 		keep_going = line && ft_strcmp(lim, line);
 		if (keep_going && dprintf(fd, "%s\n", line) < 0)
 			return 0;
+		free(line);
 	} while (keep_going);
 
 	close(fd);
