@@ -26,16 +26,12 @@ int main(int ac, char **av, char **envp) {
 	char **new_env = copy_env(envp);
 	tests_parsing(envp);
 
-	char *str = "export TEST=dinomalin";
+	char *str = "unset USER";
 
 	Prompt prompt;
 	prompt.prompt = str;
 	prompt.env = new_env;
 
 	handle_prompt(&prompt);
-
-	for (int i = 0; prompt.env[i]; i++) {
-		printf("%s\n", prompt.env[i]);
-	}
 	free_av(prompt.env);
 }

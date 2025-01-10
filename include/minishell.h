@@ -183,6 +183,7 @@ void	echo(Command *cmd);
 void	cd(Command *cmd, char **env);
 void	pwd(Command *cmd);
 void	export(Command *cmd, Prompt *prompt);
+void	unset(Command *cmd, Prompt *prompt);
 
 /* ====== MEMORY ====== */
 void	free_av(char **av);

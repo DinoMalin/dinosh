@@ -9,4 +9,6 @@ void builtin(Command *cmd, Prompt *prompt) {
 		pwd(cmd);
 	else if (cmd->type == EXPORT)
 		export(cmd, prompt);
+	else if (cmd->type == UNSET)
+		unset(cmd, prompt);
 }
