@@ -45,10 +45,11 @@ int main(int ac, char **av, char **envp) {
 
 	do {
 		ctx.input = readline("dinosh> ");
-		if (ctx.input)
-			handle_input(&ctx);
-		else
-			ctx.exit = true;
+		if (!ctx.input)
+			break;
+	
+		add_history(ctx.input);
+		handle_input(&ctx);
 		free(ctx.input);
 	} while (!ctx.exit);
 

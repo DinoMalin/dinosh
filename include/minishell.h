@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <sys/wait.h>
 #include <readline/readline.h>
+#include <readline/history.h>
 #include <signal.h>
 
 #define ft_isspace(x) ((x >= '\t' && x <= '\r') || x == ' ')
