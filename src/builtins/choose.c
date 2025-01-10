@@ -11,4 +11,6 @@ void builtin(Command *cmd, Prompt *prompt) {
 		export(cmd, prompt);
 	else if (cmd->type == UNSET)
 		unset(cmd, prompt);
+	else if (cmd->type == ENV)
+		env(cmd, prompt->env);
 }

@@ -184,6 +184,7 @@ void	cd(Command *cmd, char **env);
 void	pwd(Command *cmd);
 void	export(Command *cmd, Prompt *prompt);
 void	unset(Command *cmd, Prompt *prompt);
+void	env(Command *cmd, char **env);
 
 /* ====== MEMORY ====== */
 void	free_av(char **av);

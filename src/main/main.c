@@ -26,7 +26,7 @@ int main(int ac, char **av, char **envp) {
 	char **new_env = copy_env(envp);
 	tests_parsing(envp);
 
-	char *str = "unset USER";
+	char *str = "env";
 
 	Prompt prompt;
 	prompt.prompt = str;
