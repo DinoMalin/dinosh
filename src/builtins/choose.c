@@ -13,4 +13,6 @@ void builtin(Command *cmd, Context *ctx) {
 		unset(cmd, ctx);
 	else if (cmd->type == ENV)
 		env(cmd, ctx->env);
+	else if (cmd->type == EXIT)
+		builtin_exit(cmd, ctx);
 }

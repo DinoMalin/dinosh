@@ -15,7 +15,7 @@
 #define xfree(x) if (x) {free(x);}
 #define IS_CHILD(x) (!x)
 #define IS_BUILTIN(x) (x == ECHO || x == CD || x == PWD || x == EXPORT \
-						|| x == UNSET|| x == ENV || x == ENV)
+						|| x == UNSET|| x == ENV || x == ENV || x == EXIT)
 
 #define TO_FLAGS O_WRONLY | O_CREAT | O_TRUNC
 #define APPEND_FLAGS O_WRONLY | O_CREAT | O_APPEND
@@ -188,6 +188,7 @@ void	pwd(Command *cmd);
 void	export(Command *cmd, Context *ctx);
 void	unset(Command *cmd, Context *ctx);
 void	env(Command *cmd, char **env);
+void	builtin_exit(Command *cmd, Context *ctx);
 
 /* ====== MEMORY ====== */
 void	free_av(char **av);
