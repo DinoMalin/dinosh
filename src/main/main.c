@@ -1,7 +1,7 @@
 #include "minishell.h"
 
-void handle_prompt(Prompt *prompt) {
-	Node *data = parse(prompt->prompt, prompt->env);
+void handle_input(Context *ctx) {
+	Node *data = parse(ctx->input, ctx->env);
 	if (parsing_error(data)) {
 		free_list(data);
 		return;
@@ -15,7 +15,7 @@ void handle_prompt(Prompt *prompt) {
 		return;
 	}
 
-	execute(cmd, prompt);
+	execute(cmd, ctx);
 	free_cmds(cmd);
 }
 
@@ -26,12 +26,12 @@ int main(int ac, char **av, char **envp) {
 	char **new_env = copy_env(envp);
 	tests_parsing(envp);
 
-	char *str = "env";
+	char *str = "echo test";
 
-	Prompt prompt;
-	prompt.prompt = str;
-	prompt.env = new_env;
+	Context ctx;
+	ctx.input = str;
+	ctx.env = new_env;
 
-	handle_prompt(&prompt);
-	free_av(prompt.env);
+	handle_input(&ctx);
+	free_av(ctx.env);
 }

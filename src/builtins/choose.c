@@ -1,16 +1,16 @@
 #include "minishell.h"
 
-void builtin(Command *cmd, Prompt *prompt) {
+void builtin(Command *cmd, Context *ctx) {
 	if (cmd->type == ECHO)
 		echo(cmd);
 	else if (cmd->type == CD)
-		cd(cmd, prompt->env);
+		cd(cmd, ctx->env);
 	else if (cmd->type == PWD)
 		pwd(cmd);
 	else if (cmd->type == EXPORT)
-		export(cmd, prompt);
+		export(cmd, ctx);
 	else if (cmd->type == UNSET)
-		unset(cmd, prompt);
+		unset(cmd, ctx);
 	else if (cmd->type == ENV)
-		env(cmd, prompt->env);
+		env(cmd, ctx->env);
 }

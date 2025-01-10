@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void export(Command *cmd, Prompt *prompt) {
+void export(Command *cmd, Context *ctx) {
 	if (cmd->ac < 2) {
 		dprintf(2, "dinosh: not enough args\n");
 		return;
@@ -11,7 +11,7 @@ void export(Command *cmd, Prompt *prompt) {
 		if (content) {
 			char *var = ft_substr(cmd->av[i], 0, content - cmd->av[i]);
 			content++;
-			prompt->env = modify_env(prompt->env, var, content);
+			ctx->env = modify_env(ctx->env, var, content);
 			free(var);
 		}
 	}

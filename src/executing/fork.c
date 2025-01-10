@@ -2,9 +2,9 @@
 
 int g_exit_status = 0;
 
-void exit_fork(int exit_code, Command *cmd, Prompt *prompt) {
+void exit_fork(int exit_code, Command *cmd, Context *ctx) {
 	free_cmds(cmd);
-	free_av(prompt->env);
+	free_av(ctx->env);
 	exit(exit_code);
 }
 
@@ -17,38 +17,38 @@ void redirect_pipe(int *pipe_fd, int end) {
 		perror("dinosh: close 1");
 }
 
-void fork_routine(Command *head, Command *cmd, Prompt *prompt, int *pipe_fd) {
+void fork_routine(Command *head, Command *cmd, Context *ctx, int *pipe_fd) {
 	redirect(cmd);
 	if (cmd->next)
 		redirect_pipe(pipe_fd, 1);
 
 	if (IS_BUILTIN(cmd->type))
-		builtin(cmd, prompt);
+		builtin(cmd, ctx);
 	else if (cmd->type == SUBSHELL) {
-		Prompt subprompt = {cmd->cmd, prompt->env};
-		handle_prompt(&subprompt); // todo: create copy of env
+		Context subctx = {cmd->cmd, ctx->env};
+		handle_input(&subctx); // todo: create copy of env
 	} else if (cmd->type == BASIC) {
-		char *path = find_path(prompt->env, cmd->cmd);
+		char *path = find_path(ctx->env, cmd->cmd);
 
 		if (path)
-			execve(path, cmd->av, prompt->env);
+			execve(path, cmd->av, ctx->env);
 	}
 
-	exit_fork(0, head, prompt);
+	exit_fork(0, head, ctx);
 }
 
-void create_fork(Command *head, Command *cmd, Prompt *prompt, int *pipe_fd) {
+void create_fork(Command *head, Command *cmd, Context *ctx, int *pipe_fd) {
 	pid_t pid = fork();
 
 	if (pid == -1)
 		perror("dinosh: fork");
 	else if (IS_CHILD(pid))
-		fork_routine(head, cmd, prompt, pipe_fd);
+		fork_routine(head, cmd, ctx, pipe_fd);
 	else if (cmd->next)
 		redirect_pipe(pipe_fd, 0);
 }
 
-void execute(Command *head, Prompt *prompt) {
+void execute(Command *head, Context *ctx) {
 	Command *curr = head;
 	int pipe_fd[2];
 
@@ -56,9 +56,9 @@ void execute(Command *head, Prompt *prompt) {
 		if (!IS_BUILTIN(curr->type) || curr->transmission == PIPE) {
 			if (curr->next && pipe(pipe_fd) < 0)
 				perror("dinosh: pipe");
-			create_fork(head, curr, prompt, pipe_fd);
+			create_fork(head, curr, ctx, pipe_fd);
 		} else if (IS_BUILTIN(curr->type))
-			builtin(curr, prompt);
+			builtin(curr, ctx);
 		curr = curr->next;
 	}
 

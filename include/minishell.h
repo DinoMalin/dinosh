@@ -153,9 +153,9 @@ typedef struct Command {
 } Command;
 
 typedef struct {
-	char *prompt;
+	char *input;
 	char **env;
-} Prompt;
+} Context;
 
 /* ====== PARSING ====== */
 Node	*tokenize(char *str);
@@ -171,19 +171,19 @@ Command	*process(Node *data);
 /* ====== EXECUTING ====== */
 char	*find_path(char **env, char *cmd);
 void	redirect(Command *cmd);
-void	execute(Command *cmd, Prompt *prompt);
+void	execute(Command *cmd, Context *ctx);
 
 /* ====== BUILTINS ====== */
 char	*ft_getenv(char **envp, char *target);
 char	**copy_env(char **env);
 char	**modify_env(char **env, char *var, char *content);
 void	delete_var(char **env, char *var);
-void	builtin(Command *cmd, Prompt *prompt);
+void	builtin(Command *cmd, Context *ctx);
 void	echo(Command *cmd);
 void	cd(Command *cmd, char **env);
 void	pwd(Command *cmd);
-void	export(Command *cmd, Prompt *prompt);
-void	unset(Command *cmd, Prompt *prompt);
+void	export(Command *cmd, Context *ctx);
+void	unset(Command *cmd, Context *ctx);
 void	env(Command *cmd, char **env);
 
 /* ====== MEMORY ====== */
@@ -197,7 +197,7 @@ char	*clean_join(char *origin, const char *to_join);
 char	**clean_strsjoin(char **origin, char *to_join);
 t_redir	*clean_redirjoin(t_redir *origin, t_redir to_join);
 int		len_until_chr(char *str, char c);
-void	handle_prompt(Prompt *prompt);
+void	handle_input(Context *ctx);
 
 /* ====== ERROR ====== */
 bool	parsing_error(Node *head);
