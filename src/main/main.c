@@ -35,6 +35,8 @@ int main(int ac, char **av, char **envp) {
 	tests_parsing(envp);
 
 	signal(SIGINT, sig_handler);
+	signal(SIGQUIT, SIG_IGN);
+
 	Context ctx = {
 		.input = NULL,
 		.env = copy_env(envp),
