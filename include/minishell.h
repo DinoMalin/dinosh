@@ -155,6 +155,7 @@ typedef struct Command {
 typedef struct {
 	char *input;
 	char **env;
+	bool exit;
 } Context;
 
 /* ====== PARSING ====== */

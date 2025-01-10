@@ -23,15 +23,21 @@ int main(int ac, char **av, char **envp) {
 	(void)ac;
 	(void)av;
 
-	char **new_env = copy_env(envp);
 	tests_parsing(envp);
+	Context ctx = {
+		.input = NULL,
+		.env = copy_env(envp),
+		.exit = false,
+	};
 
-	char *str = "echo test";
+	do {
+		ctx.input = readline("dinosh> ");
+		if (ctx.input)
+			handle_input(&ctx);
+		else
+			ctx.exit = true;
+		free(ctx.input);
+	} while (!ctx.exit);
 
-	Context ctx;
-	ctx.input = str;
-	ctx.env = new_env;
-
-	handle_input(&ctx);
 	free_av(ctx.env);
 }

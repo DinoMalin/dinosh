@@ -25,7 +25,11 @@ void fork_routine(Command *head, Command *cmd, Context *ctx, int *pipe_fd) {
 	if (IS_BUILTIN(cmd->type))
 		builtin(cmd, ctx);
 	else if (cmd->type == SUBSHELL) {
-		Context subctx = {cmd->cmd, ctx->env};
+		Context subctx = {
+			.input = cmd->cmd,
+			.env = ctx->env,
+			.exit = false
+		};
 		handle_input(&subctx); // todo: create copy of env
 	} else if (cmd->type == BASIC) {
 		char *path = find_path(ctx->env, cmd->cmd);
