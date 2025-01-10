@@ -38,6 +38,7 @@ void fork_routine(Command *head, Command *cmd, Context *ctx, int *pipe_fd) {
 			execve(path, cmd->av, ctx->env);
 	}
 
+	close(pipe_fd[1]);
 	exit_fork(0, head, ctx);
 }
 
@@ -50,6 +51,7 @@ void create_fork(Command *head, Command *cmd, Context *ctx, int *pipe_fd) {
 		fork_routine(head, cmd, ctx, pipe_fd);
 	else if (cmd->next)
 		redirect_pipe(pipe_fd, 0);
+	close(pipe_fd[0]);
 }
 
 void execute(Command *head, Context *ctx) {
@@ -57,12 +59,13 @@ void execute(Command *head, Context *ctx) {
 	int pipe_fd[2];
 
 	while (curr) {
-		if (!IS_BUILTIN(curr->type) || curr->transmission == PIPE) {
+		if (IS_BUILTIN(curr->type) && curr->transmission != PIPE)
+			builtin(curr, ctx);
+		else {
 			if (curr->next && pipe(pipe_fd) < 0)
 				perror("dinosh: pipe");
 			create_fork(head, curr, ctx, pipe_fd);
-		} else if (IS_BUILTIN(curr->type))
-			builtin(curr, ctx);
+		}
 		curr = curr->next;
 	}
 
