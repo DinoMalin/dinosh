@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <sys/wait.h>
 #include <readline/readline.h>
+#include <signal.h>
 
 #define ft_isspace(x) ((x >= '\t' && x <= '\r') || x == ' ')
 #define can_expand(x) (x->token == t_double_quotes || x->token == t_word)

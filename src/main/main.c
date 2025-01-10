@@ -1,5 +1,15 @@
 #include "minishell.h"
 
+void sig_handler(int sig) {
+	if (sig == SIGINT) {
+		rl_replace_line("", 0);
+		printf("\n");
+		rl_on_new_line();
+		rl_redisplay();
+		// exit_code to 130
+	}
+}
+
 void handle_input(Context *ctx) {
 	Node *data = parse(ctx->input, ctx->env);
 	if (parsing_error(data)) {
@@ -22,8 +32,9 @@ void handle_input(Context *ctx) {
 int main(int ac, char **av, char **envp) {
 	(void)ac;
 	(void)av;
-
 	tests_parsing(envp);
+
+	signal(SIGINT, sig_handler);
 	Context ctx = {
 		.input = NULL,
 		.env = copy_env(envp),
