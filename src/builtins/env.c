@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "builtins.h"
 
 void env(Command *cmd, char **env) {
 	if (cmd->ac > 1) {

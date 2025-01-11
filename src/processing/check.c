@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "process.h"
 
 void init_ac(Command *head) {
 	while (head) {

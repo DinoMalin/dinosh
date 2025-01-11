@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "execute.h"
 
 char *ft_getenv(char **envp, char *target) {
 	int target_len = ft_strlen(target);

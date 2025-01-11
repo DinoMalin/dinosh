@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "process.h"
 
 Command *init_cmd() {
 	Command *res = ft_calloc(1, sizeof(Command));

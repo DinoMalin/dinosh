@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "parse.h"
 
 void merge(Node *head) {
 	Node *next;

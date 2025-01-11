@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "builtins.h"
 
 void pwd(Command *cmd) {
 	if (cmd->ac > 1) {

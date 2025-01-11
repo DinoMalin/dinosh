@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "parse.h"
 
 bool skip_whitespace(char **str) {
 	bool res = false;

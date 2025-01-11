@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "parse.h"
 
 static char *ft_getenv_alloc(char **envp, char *target) {
 	char *res = ft_getenv(envp, target);

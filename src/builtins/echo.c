@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "builtins.h"
 
 bool has_n_flag(Command *cmd) {
 	if (cmd->ac < 2)

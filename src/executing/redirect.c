@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "execute.h"
 
 int handle_redir(char *file, int *fd, int flags, int dup) {
 	if (*fd > 2)
