@@ -97,6 +97,7 @@ void redirect(Command *cmd) {
 				perror("dinosh: open");
 				return;
 			}
+			unlink(HEREDOC_FILE);
 		}
 	}
 }
