@@ -8,19 +8,9 @@ void exit_fork(int exit_code, Command *cmd, Context *ctx) {
 	exit(exit_code);
 }
 
-void redirect_pipe(int *pipe_fd, int end) {
-	if (dup2(pipe_fd[end], end) < 0)
-		perror("dinosh: dup2");
-	if (end && close(pipe_fd[0]) < 0)
-		perror("dinosh: close 0");
-	if (!end && close(pipe_fd[1]) < 0)
-		perror("dinosh: close 1");
-}
-
-void fork_routine(Command *head, Command *cmd, Context *ctx, int *pipe_fd) {
+void fork_routine(Command *head, Command *cmd, Context *ctx, Pipes *pipes) {
 	redirect(cmd);
-	if (cmd->next)
-		redirect_pipe(pipe_fd, 1);
+	redirect_pipe(cmd, pipes);
 
 	if (IS_BUILTIN(cmd->type))
 		builtin(cmd, ctx);
@@ -38,40 +28,54 @@ void fork_routine(Command *head, Command *cmd, Context *ctx, int *pipe_fd) {
 			execve(path, cmd->av, ctx->env);
 	}
 
-	close(pipe_fd[1]);
 	exit_fork(0, head, ctx);
 }
 
-void create_fork(Command *head, Command *cmd, Context *ctx, int *pipe_fd) {
+void create_fork(Command *head, Command *cmd, Context *ctx, Pipes *pipes) {
 	pid_t pid = fork();
 
 	if (pid == -1)
 		perror("dinosh: fork");
 	else if (IS_CHILD(pid))
-		fork_routine(head, cmd, ctx, pipe_fd);
-	else if (cmd->next)
-		redirect_pipe(pipe_fd, 0);
-	close(pipe_fd[0]);
+		fork_routine(head, cmd, ctx, pipes);
+}
+
+void wait_everything(Command *head) {
+	while (head) {
+		if (!(IS_BUILTIN(head->type) && !IS_PIPED(head)))
+			wait(&g_exit_status);
+		head = head->next;
+	}
 }
 
 void execute(Command *head, Context *ctx) {
 	Command *curr = head;
-	int pipe_fd[2];
+	Pipes pipes = {
+		.curr = {-1, -1},
+		.prev = {-1, -1}
+	};
 
 	while (curr) {
-		if (IS_BUILTIN(curr->type) && curr->transmission != PIPE)
-			builtin(curr, ctx);
+		pipes.curr[0] = -1;
+		pipes.curr[1] = -1;
+		DO_PIPE();
+
+		if (IS_BUILTIN(curr->type) && !IS_PIPED(curr))
+			builtin(curr, ctx); // todo: handle redirection `echo test > out`
 		else {
-			if (curr->next && pipe(pipe_fd) < 0)
-				perror("dinosh: pipe");
-			create_fork(head, curr, ctx, pipe_fd);
+			create_fork(head, curr, ctx, &pipes);
+
+			xclose(pipes.prev[0]);
+			xclose(pipes.prev[1]);
+
+			pipes.prev[0] = pipes.curr[0];
+			pipes.prev[1] = pipes.curr[1];
 		}
 		curr = curr->next;
 	}
 
-	curr = head;
-	while (curr) {
-		wait(&g_exit_status);
-		curr = curr->next;
-	}
+	xclose(pipes.prev[0]);
+	xclose(pipes.prev[1]);
+
+	wait_everything(head);
 }

@@ -77,7 +77,8 @@ typedef struct Command {
 	t_redir			*redirs;
 	Error			error;
 	CommandType		type;
-	Transmission	transmission;
+	Transmission	from;
+	Transmission	to;
 	struct Command	*next;
 } Command;
 

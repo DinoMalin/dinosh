@@ -1,5 +1,21 @@
 #include "execute.h"
 
+void redirect_pipe(Command *cmd, Pipes *pipes) {
+	if (cmd->from == PIPE) {
+		if (dup2(pipes->prev[0], 0) < 0)
+			perror("dinosh: dup2");
+		close(pipes->prev[0]);
+	}
+	if (cmd->to == PIPE) {
+		if (dup2(pipes->curr[1], 1) < 0)
+			perror("dinosh: dup2");
+		close(pipes->curr[1]);
+	}
+
+	if (pipes->prev[1] != -1) close(pipes->prev[1]);
+	if (pipes->curr[0] != -1) close(pipes->curr[0]);
+}
+
 int handle_redir(char *file, int *fd, int flags, int dup) {
 	if (*fd > 2)
 		close(*fd);
