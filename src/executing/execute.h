@@ -23,6 +23,11 @@
 #define FROM_FLAGS O_RDONLY
 #define HEREDOC_FILE "/tmp/dino_heredoc"
 
+typedef enum {
+	STORE,
+	RESTORE
+} StorageAction;
+
 typedef struct {
 	int prev[2];
 	int curr[2];
@@ -31,3 +36,4 @@ typedef struct {
 char	*find_path(char **env, char *cmd);
 void	redirect(Command *cmd);
 void	redirect_pipe(Command *cmd, Pipes *pipes);
+void	fd_storage(StorageAction action);

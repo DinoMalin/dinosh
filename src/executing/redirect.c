@@ -16,6 +16,27 @@ void redirect_pipe(Command *cmd, Pipes *pipes) {
 	if (pipes->curr[0] != -1) close(pipes->curr[0]);
 }
 
+void fd_storage(StorageAction action) {
+	static int fd_stdin = -1;
+	static int fd_stdout = -1;
+
+	if (action == STORE) {
+		fd_stdin = dup(0);
+		if (fd_stdin < 0)
+			perror("dinosh: dup");
+		fd_stdout = dup(1);
+		if (fd_stdout < 0)
+			perror("dinosh: dup");
+	} else {
+		if (dup2(fd_stdin, 0) < 0)
+			perror("dinosh: dup2");
+		if (dup2(fd_stdout, 1) < 0)
+			perror("dinosh: dup2");
+		xclose(fd_stdin);
+		xclose(fd_stdout);
+	}
+}
+
 int handle_redir(char *file, int *fd, int flags, int dup) {
 	if (*fd > 2)
 		close(*fd);
@@ -24,6 +45,7 @@ int handle_redir(char *file, int *fd, int flags, int dup) {
 		return 0;
 	if (dup2(*fd, dup) < 0)
 		return 0;
+	close(*fd);
 	return 1;
 }
 

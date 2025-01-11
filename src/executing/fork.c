@@ -60,9 +60,12 @@ void execute(Command *head, Context *ctx) {
 		pipes.curr[1] = -1;
 		DO_PIPE();
 
-		if (IS_BUILTIN(curr->type) && !IS_PIPED(curr))
-			builtin(curr, ctx); // todo: handle redirection `echo test > out`
-		else {
+		if (IS_BUILTIN(curr->type) && !IS_PIPED(curr)) {
+			fd_storage(STORE);
+			redirect(curr);
+			builtin(curr, ctx);
+			fd_storage(RESTORE);
+		} else {
 			create_fork(head, curr, ctx, &pipes);
 
 			xclose(pipes.prev[0]);
@@ -76,6 +79,5 @@ void execute(Command *head, Context *ctx) {
 
 	xclose(pipes.prev[0]);
 	xclose(pipes.prev[1]);
-
 	wait_everything(head);
 }
