@@ -1,12 +1,14 @@
 #include "minishell.h"
 
+extern int g_exit_status;
+
 void sig_handler(int sig) {
 	if (sig == SIGINT) {
 		rl_replace_line("", 0);
 		printf("\n");
 		rl_on_new_line();
 		rl_redisplay();
-		// exit_code to 130
+		g_exit_status = 130;
 	}
 }
 
@@ -23,15 +25,16 @@ int main(int ac, char **av, char **envp) {
 		.env = copy_env(envp),
 		.exit = false,
 	};
-	ctx.env = modify_env(ctx.env, "?", "0");
 
 	do {
 		ctx.input = readline("dinosh> ");
+		UPDATE_CODE_VAR();
 		if (!ctx.input)
 			break;
 	
 		add_history(ctx.input);
 		handle_input(&ctx);
+
 		free(ctx.input);
 	} while (!ctx.exit);
 
