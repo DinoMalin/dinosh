@@ -10,25 +10,6 @@ void sig_handler(int sig) {
 	}
 }
 
-void handle_input(Context *ctx) {
-	Node *data = parse(ctx->input, ctx->env);
-	if (parsing_error(data)) {
-		free_list(data);
-		return;
-	}
-
-	Command *cmd = process(data);
-	free_list(data);
-
-	if (process_error(cmd)) {
-		free_cmds(cmd);
-		return;
-	}
-
-	execute(cmd, ctx);
-	free_cmds(cmd);
-}
-
 int main(int ac, char **av, char **envp) {
 	(void)ac;
 	(void)av;
