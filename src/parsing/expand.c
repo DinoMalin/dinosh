@@ -24,36 +24,33 @@ char *extract(char *dest, char *src, int size) {
 	char *sub = ft_substr(src, 0, size);
 	dest = clean_join(dest, sub);
 	free(sub);
+
 	return dest;
 }
 
 char *expand(char *str, char **envp) {
-	char	*result = ft_strdup("");
-	char	*variable = NULL;
-	char	*translated_var = NULL;
-	int		size_var = 0;
-	int		i;
+	int not_var = 0;
+	char *res = ft_strdup("");
 
-	int start_copy = 0;
-	for (i = 0; str[i]; i++) {
-		if (str[i] == '$' && str[i + 1]) {
-			if (i != 0)
-				result = extract(result, str + start_copy, i - start_copy);
-			size_var = get_variable(str + i + 1);
-			variable = ft_substr(str, i + 1, size_var);
-			translated_var = ft_getenv_alloc(envp, variable);
-			free(variable);
-			result = clean_join(result, translated_var);
-			free(translated_var);
-			i += size_var + 1;
-			start_copy = i;
+	while (*str) {
+		if (*str == '$' && *str) {
+			res = extract(res, str - not_var, not_var);
+
+			int var_size = get_variable(str+1);
+			char *var = ft_substr(str+1, 0, var_size);
+			char *expanded_var = ft_getenv_alloc(envp, var);
+			res = clean_join(res, expanded_var);
+
+			free(var);
+			free(expanded_var);
+			str += var_size + 1;
+			not_var = 0;
+		} else {
+			not_var++;
+			str++;
 		}
-		if (!str[i])
-			break;
 	}
-	if (str[start_copy])
-		result = extract(result, str + start_copy, i - start_copy);
 
-	return result;
+	res = extract(res, str - not_var, not_var);
+	return res;
 }
-
