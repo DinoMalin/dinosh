@@ -41,9 +41,13 @@ void create_fork(Command *head, Command *cmd, Context *ctx, Pipes *pipes) {
 }
 
 void wait_everything(Command *head) {
+	int exit_status;
+
 	while (head) {
-		if (!(IS_BUILTIN(head->type) && !IS_PIPED(head)))
-			wait(&g_exit_status);
+		if (!(IS_BUILTIN(head->type) && !IS_PIPED(head))) {
+			wait(&exit_status);
+			g_exit_status = WEXITSTATUS(exit_status);
+		}
 		head = head->next;
 	}
 }
@@ -80,4 +84,5 @@ void execute(Command *head, Context *ctx) {
 	xclose(pipes.prev[0]);
 	xclose(pipes.prev[1]);
 	wait_everything(head);
+	UPDATE_CODE_VAR();
 }

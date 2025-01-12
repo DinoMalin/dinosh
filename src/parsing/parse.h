@@ -57,5 +57,12 @@
 		continue;									\
 	}
 
+#define ADD_SPECIAL_VAR(var)			\
+{										\
+	int len = ft_strlen(var);			\
+	if (!ft_strncmp(var, str, len))		\
+		return len;						\
+}
+
 Node	*tokenize(char *str);
 char	*expand(char *str, char **envp);

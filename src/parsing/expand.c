@@ -8,6 +8,8 @@ static char *ft_getenv_alloc(char **envp, char *target) {
 }
 
 int get_variable(char *str) {
+	ADD_SPECIAL_VAR("?");
+
 	int size;
 	for (size = 0; str[size]; size++) {
 		if (!	((str[size] >= 'A' && str[size] <= 'Z')

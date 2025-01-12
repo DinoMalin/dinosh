@@ -94,6 +94,7 @@ void	execute(Command *cmd, Context *ctx);
 
 /* ====== BUILTINS ====== */
 char	**copy_env(char **env);
+char	**modify_env(char **env, char *var, char *content);
 char	*ft_getenv(char **envp, char *target);
 void	builtin(Command *cmd, Context *ctx);
 
