@@ -80,6 +80,7 @@ typedef struct Command {
 	CommandType		type;
 	Transmission	from;
 	Transmission	to;
+	int				exit_code; // used for builins
 	struct Command	*next;
 } Command;
 

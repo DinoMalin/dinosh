@@ -23,6 +23,7 @@ int main(int ac, char **av, char **envp) {
 		.env = copy_env(envp),
 		.exit = false,
 	};
+	ctx.env = modify_env(ctx.env, "?", "0");
 
 	do {
 		ctx.input = readline("dinosh> ");

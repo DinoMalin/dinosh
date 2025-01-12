@@ -47,6 +47,8 @@ void wait_everything(Command *head) {
 		if (!(IS_BUILTIN(head->type) && !IS_PIPED(head))) {
 			wait(&exit_status);
 			g_exit_status = WEXITSTATUS(exit_status);
+		} else {
+			g_exit_status = head->exit_code;
 		}
 		head = head->next;
 	}

@@ -1,10 +1,8 @@
 #include "builtins.h"
 
 void export(Command *cmd, Context *ctx) {
-	if (cmd->ac < 2) {
-		dprintf(2, "dinosh: not enough args\n");
-		return;
-	}
+	if (cmd->ac < 2)
+		BUILTIN_ERROR("not enough args");
 
 	for (int i = 0; cmd->av[i]; i++) {
 		char *content = ft_strchr(cmd->av[i], '=');
