@@ -38,6 +38,10 @@ bool process_error(Command *head) {
 			dprintf(2, "dinosh: redirection toward redirection\n");
 			return true;
 		}
+		if (head->error == start_pipe) {
+			dprintf(2, "dinosh: command cannot start with a pipe\n");
+			return true;
+		}
 		head = head->next;
 	}
 	return false;

@@ -8,6 +8,10 @@
 			head = new;						\
 		else								\
 			last->next = new;				\
+		if (error) {						\
+			new->error = error;				\
+			error = no_error;				\
+		}									\
 	}
 
 #define PROCESS_TRANSMISSION(operator, type)	\
@@ -15,7 +19,10 @@
 		if (data->token == operator) {			\
 			arg_index = 0;						\
 			data_index = 0;						\
-			curr->to = type;					\
+			if (curr)							\
+				curr->to = type;				\
+			else								\
+				error = start_pipe;				\
 			from = type;						\
 			data = data->next;					\
 			continue;							\

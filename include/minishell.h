@@ -27,7 +27,8 @@ typedef enum {
 	no_error,
 	unclosed_token,
 	empty_redir,
-	redir_toward_redir
+	redir_toward_redir,
+	start_pipe
 } Error;
 
 /* === Parsing linked list ===*/

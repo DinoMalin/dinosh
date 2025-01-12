@@ -26,6 +26,7 @@ void analyze_command(Command *cmd, Node **data, int *arg_index) {
 Command *process(Node *data) {
 	int data_index = 0;
 	int arg_index = 0; // count the args w/o redirs
+	Error error = no_error;
 	Transmission from = ANY;
 
 	Command *head = NULL;
