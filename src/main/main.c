@@ -1,30 +1,6 @@
 #include "minishell.h"
 
-int g_signal = 0;
-
-bool skip_hook(bool modify, bool new) {
-	static int res = false;
-	if (modify)
-		res = new;
-	return res;
-}
-
-int rl_hook() {
-	if (g_signal == 130 && !skip_hook(false, false)) {
-		printf("\n");
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-		skip_hook(true, true);
-	}
-	return 0;
-}
-
-void sig_handler(int sig) {
-	if (sig == SIGINT) {
-		g_signal = 130;
-	}
-}
+extern int g_signal;
 
 int main(int ac, char **av, char **envp) {
 	(void)ac;

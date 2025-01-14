@@ -98,9 +98,15 @@ typedef struct {
 	int		code;
 } Context;
 
+/* ====== MINISHELL ====== */
 Node	*parse(char *str, char **envp);
 Command	*process(Node *data);
 void	execute(Command *cmd, Context *ctx);
+
+/* ====== SIGNALS ====== */
+bool skip_hook(bool modify, bool new);
+void sig_handler(int sig);
+int rl_hook();
 
 /* ====== BUILTINS ====== */
 char	**copy_env(char **env);

@@ -12,13 +12,14 @@ LFLAGS =	-Llib -lft -lreadline
 SRC_DIR = src/
 OBJ_DIR = obj/
 MAIN	= main/main
-FILES	= main/memory main/utils main/tests main/errors main/input \
-		parsing/tokenize parsing/expand parsing/parse \
-		processing/process processing/check \
-		builtins/env_utils builtins/choose \
-		builtins/echo builtins/cd \
-		builtins/pwd builtins/export \
-		builtins/unset builtins/env builtins/exit \
+FILES	= main/errors main/input main/signals			\
+		utils/memory utils/utils utils/tests			\
+		parsing/tokenize parsing/expand parsing/parse	\
+		processing/process processing/check				\
+		builtins/env_utils builtins/choose				\
+		builtins/echo builtins/cd						\
+		builtins/pwd builtins/export					\
+		builtins/unset builtins/env builtins/exit		\
 		executing/fork executing/path executing/redirect
 FUZZER_FILES := $(FILES)
 FILES += $(MAIN)
