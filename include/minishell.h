@@ -27,6 +27,8 @@ typedef enum {
 	t_single_quotes,
 	t_double_quotes,
 	t_subshell,
+	t_and,
+	t_or,
 	t_pipe,
 } Token;
 
@@ -75,6 +77,8 @@ typedef struct {
 typedef enum {
 	ANY,
 	PIPE,
+	AND,
+	OR,
 } Transmission;
 
 /* === Executing linked list ===*/

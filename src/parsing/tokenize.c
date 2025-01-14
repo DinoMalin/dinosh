@@ -54,6 +54,8 @@ Node *tokenize(char *str) {
 		PARSE_OPERATOR("<<", t_heredoc);
 		PARSE_OPERATOR(">", t_to);
 		PARSE_OPERATOR("<", t_from);
+		PARSE_OPERATOR("&&", t_and);
+		PARSE_OPERATOR("||", t_or);
 		PARSE_OPERATOR("|", t_pipe);
 		PARSE_WORD();
 	}

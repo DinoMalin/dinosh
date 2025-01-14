@@ -34,6 +34,8 @@ Command *process(Node *data) {
 
 	while (data) {
 		PROCESS_TRANSMISSION(t_pipe, PIPE);
+		PROCESS_TRANSMISSION(t_and, AND);
+		PROCESS_TRANSMISSION(t_or, OR);
 		if (data_index == 0) {
 			Command *new = init_cmd(from);
 			ADD_COMMAND(head, new, curr);

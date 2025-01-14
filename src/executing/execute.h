@@ -1,7 +1,7 @@
 #include "minishell.h"
 
 #define IS_CHILD(x) (!x)
-#define IS_PIPED(x) (x->from == PIPE && x->to == PIPE)
+#define IS_PIPED(x) (x->from == PIPE || x->to == PIPE)
 #define IS_BUILTIN(x) (x == ECHO || x == CD || x == PWD || x == EXPORT \
 						|| x == UNSET|| x == ENV || x == ENV || x == EXIT)
 #define xclose(x) {if (x != -1) close(x);}
@@ -16,6 +16,16 @@
 				return;						\
 			}								\
 		}									\
+	}
+
+#define CHECK_AND_OR()								\
+	{												\
+		if (curr->to == AND || curr->to == OR)		\
+			wait_everything(head, curr, ctx);		\
+		if (curr->to == AND && ctx->code == 1)		\
+			break;									\
+		if (curr->to == OR && ctx->code == 0)		\
+			break;									\
 	}
 
 #define TO_FLAGS O_WRONLY | O_CREAT | O_TRUNC

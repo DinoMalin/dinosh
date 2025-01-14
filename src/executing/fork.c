@@ -27,7 +27,7 @@ void fork_routine(Command *head, Command *cmd, Context *ctx, Pipes *pipes) {
 			execve(path, cmd->av, ctx->env);
 	}
 
-	exit_fork(0, head, ctx);
+	exit_fork(cmd->exit_code, head, ctx);
 }
 
 void create_fork(Command *head, Command *cmd, Context *ctx, Pipes *pipes) {
@@ -39,7 +39,7 @@ void create_fork(Command *head, Command *cmd, Context *ctx, Pipes *pipes) {
 		fork_routine(head, cmd, ctx, pipes);
 }
 
-void wait_everything(Command *head, Context *ctx) {
+void wait_everything(Command *head, Command *until, Context *ctx) {
 	int exit_status;
 
 	while (head) {
@@ -49,6 +49,8 @@ void wait_everything(Command *head, Context *ctx) {
 		} else {
 			ctx->code = head->exit_code;
 		}
+		if (head == until)
+			break;
 		head = head->next;
 	}
 }
@@ -79,10 +81,13 @@ void execute(Command *head, Context *ctx) {
 			pipes.prev[0] = pipes.curr[0];
 			pipes.prev[1] = pipes.curr[1];
 		}
+
+		CHECK_AND_OR();
 		curr = curr->next;
 	}
 
 	xclose(pipes.prev[0]);
 	xclose(pipes.prev[1]);
-	wait_everything(head, ctx);
+	if (!curr || (curr->to != AND && curr->to != OR))
+		wait_everything(head, NULL, ctx);
 }
