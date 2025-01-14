@@ -8,6 +8,8 @@
 
 #define DO_PIPE()							\
 	{										\
+		pipes.curr[0] = -1;					\
+		pipes.curr[1] = -1;					\
 		if (curr->to == PIPE) {				\
 			if (pipe(pipes.curr) < 0) {		\
 				perror("dinosh: pipe");		\
@@ -20,8 +22,10 @@
 
 #define CHECK_AND_OR()								\
 	{												\
-		if (curr->to == AND || curr->to == OR)		\
-			wait_everything(head, curr, ctx);		\
+		if (curr->to == AND || curr->to == OR) {	\
+			wait_everything(wait, curr, ctx);		\
+			wait = curr->next;						\
+		}											\
 		if (curr->to == AND && ctx->code == 1)		\
 			break;									\
 		if (curr->to == OR && ctx->code == 0)		\

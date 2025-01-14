@@ -92,6 +92,7 @@ typedef struct Command {
 	Transmission	from;
 	Transmission	to;
 	int				exit_code; // used for builtins
+	pid_t			pid;
 	struct Command	*next;
 } Command;
 

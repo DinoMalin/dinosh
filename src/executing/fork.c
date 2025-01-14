@@ -37,14 +37,19 @@ void create_fork(Command *head, Command *cmd, Context *ctx, Pipes *pipes) {
 		perror("dinosh: fork");
 	else if (IS_CHILD(pid))
 		fork_routine(head, cmd, ctx, pipes);
+	else
+		cmd->pid = pid;
 }
 
 void wait_everything(Command *head, Command *until, Context *ctx) {
 	int exit_status;
 
 	while (head) {
-		if (!(IS_BUILTIN(head->type) && !IS_PIPED(head))) {
-			wait(&exit_status);
+		if (head->pid == -1)
+			break;
+		if (head->pid) {
+			waitpid(head->pid, &exit_status, 0);
+			head->pid = 0;
 			ctx->code = WEXITSTATUS(exit_status);
 		} else {
 			ctx->code = head->exit_code;
@@ -57,14 +62,13 @@ void wait_everything(Command *head, Command *until, Context *ctx) {
 
 void execute(Command *head, Context *ctx) {
 	Command *curr = head;
+	Command *wait = head;
 	Pipes pipes = {
 		.curr = {-1, -1},
 		.prev = {-1, -1}
 	};
 
 	while (curr) {
-		pipes.curr[0] = -1;
-		pipes.curr[1] = -1;
 		DO_PIPE();
 
 		if (IS_BUILTIN(curr->type) && !IS_PIPED(curr)) {
@@ -88,6 +92,5 @@ void execute(Command *head, Context *ctx) {
 
 	xclose(pipes.prev[0]);
 	xclose(pipes.prev[1]);
-	if (!curr || (curr->to != AND && curr->to != OR))
-		wait_everything(head, NULL, ctx);
+	wait_everything(wait, NULL, ctx);
 }

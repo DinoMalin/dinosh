@@ -6,6 +6,7 @@ Command *init_cmd(Transmission from) {
 	res->av = ft_calloc(1, sizeof(char *));
 	res->redirs = ft_calloc(1, sizeof(t_redir));
 	res->from = from;
+	res->pid = -1;
 	return res;
 }
 
