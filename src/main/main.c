@@ -5,7 +5,6 @@ extern int g_signal;
 int main(int ac, char **av, char **envp) {
 	(void)ac;
 	(void)av;
-	(void)envp;
 	tests_parsing(envp);
 
 	signal(SIGINT, sig_handler);
@@ -20,10 +19,9 @@ int main(int ac, char **av, char **envp) {
 
 	do {
 		ctx.input = readline("dinosh> ");
-		if (g_signal == 130) {
+		if (g_signal == (int)0xDEADBEEF) {
 			ctx.code = 130;
 			g_signal = 0;
-			skip_hook(true, false);
 		}
 		UPDATE_CODE_VAR(ctx.code);
 

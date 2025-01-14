@@ -7,20 +7,13 @@
 
 int g_signal = 0;
 
-bool skip_hook(bool modify, bool new) {
-	static int res = false;
-	if (modify)
-		res = new;
-	return res;
-}
-
 int rl_hook() {
-	if (g_signal == 130 && !skip_hook(false, false)) {
+	if (g_signal == 130) {
 		printf("\n");
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
-		skip_hook(true, true);
+		g_signal = 0xDEADBEEF;
 	}
 	return 0;
 }

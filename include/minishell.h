@@ -87,7 +87,7 @@ typedef struct Command {
 	CommandType		type;
 	Transmission	from;
 	Transmission	to;
-	int				exit_code; // used for builins
+	int				exit_code; // used for builtins
 	struct Command	*next;
 } Command;
 
@@ -104,9 +104,8 @@ Command	*process(Node *data);
 void	execute(Command *cmd, Context *ctx);
 
 /* ====== SIGNALS ====== */
-bool skip_hook(bool modify, bool new);
-void sig_handler(int sig);
-int rl_hook();
+void	sig_handler(int sig);
+int		rl_hook();
 
 /* ====== BUILTINS ====== */
 char	**copy_env(char **env);
