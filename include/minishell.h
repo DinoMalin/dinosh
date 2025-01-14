@@ -11,10 +11,10 @@
 
 #define xfree(x) if (x) {free(x);}
 
-#define UPDATE_CODE_VAR()							\
+#define UPDATE_CODE_VAR(code)						\
 	{												\
-		char *s = ft_itoa(g_exit_status);			\
-		ctx.env = modify_env(ctx.env, "?", s);	\
+		char *s = ft_itoa(code);					\
+		ctx.env = modify_env(ctx.env, "?", s);		\
 		free(s);									\
 	}
 
@@ -92,9 +92,10 @@ typedef struct Command {
 } Command;
 
 typedef struct {
-	char *input;
-	char **env;
-	bool exit;
+	char	*input;
+	char	**env;
+	bool	exit;
+	int		code;
 } Context;
 
 Node	*parse(char *str, char **envp);

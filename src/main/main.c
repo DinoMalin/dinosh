@@ -1,14 +1,14 @@
 #include "minishell.h"
 
-extern int g_exit_status;
+int g_signal = 0;
 
 void sig_handler(int sig) {
 	if (sig == SIGINT) {
-		rl_replace_line("", 0);
 		printf("\n");
 		rl_on_new_line();
+		rl_replace_line("", 0);
 		rl_redisplay();
-		g_exit_status = 130;
+		g_signal = 130;
 	}
 }
 
@@ -28,10 +28,14 @@ int main(int ac, char **av, char **envp) {
 
 	do {
 		ctx.input = readline("dinosh> ");
-		UPDATE_CODE_VAR();
+		if (g_signal == 130) {
+			ctx.code = 130;
+			g_signal = 0;
+		}
+		UPDATE_CODE_VAR(ctx.code);
+
 		if (!ctx.input)
 			break;
-	
 		add_history(ctx.input);
 		handle_input(&ctx);
 

@@ -1,6 +1,5 @@
 #include "execute.h"
 
-int g_exit_status = 0;
 
 void exit_fork(int exit_code, Command *cmd, Context *ctx) {
 	free_cmds(cmd);
@@ -40,15 +39,15 @@ void create_fork(Command *head, Command *cmd, Context *ctx, Pipes *pipes) {
 		fork_routine(head, cmd, ctx, pipes);
 }
 
-void wait_everything(Command *head) {
+void wait_everything(Command *head, Context *ctx) {
 	int exit_status;
 
 	while (head) {
 		if (!(IS_BUILTIN(head->type) && !IS_PIPED(head))) {
 			wait(&exit_status);
-			g_exit_status = WEXITSTATUS(exit_status);
+			ctx->code = WEXITSTATUS(exit_status);
 		} else {
-			g_exit_status = head->exit_code;
+			ctx->code = head->exit_code;
 		}
 		head = head->next;
 	}
@@ -85,5 +84,5 @@ void execute(Command *head, Context *ctx) {
 
 	xclose(pipes.prev[0]);
 	xclose(pipes.prev[1]);
-	wait_everything(head);
+	wait_everything(head, ctx);
 }
