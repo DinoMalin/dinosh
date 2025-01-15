@@ -1,7 +1,14 @@
 #include "minishell.h"
+#include <dirent.h>
 
 #define ft_isspace(x) ((x >= '\t' && x <= '\r') || x == ' ')
-#define can_expand(x) (x->token == t_double_quotes || x->token == t_word)
+
+#define CAN_EXPAND(x) ((x->token == t_double_quotes || x->token == t_word) && ft_strchr(curr->content, '$'))
+#define CAN_WILDCARD(x) (curr->token == t_word && ft_strchr(curr->content, '*'))
+
+#define IS_STAR(x) (x == '*' * -1)
+#define EQUAL(x, e) (x && e && (x == e || (IS_STAR(x) && e == '*')))
+#define NOT_EQUAL(x, e) (x != e && !(IS_STAR(x) && e == '*') && x != '*')
 
 #define ADD_TOKEN(head, curr, new)	\
 	{								\
@@ -17,7 +24,7 @@
 #define PARSE_TOKEN(start, end, type)						\
 	{														\
 		int len = ft_strlen(start);							\
-		if (!ft_strncmp(str, start, len)) {	\
+		if (!ft_strncmp(str, start, len)) {					\
 			str += len;										\
 			Node *new = ft_calloc(1, sizeof(Node));			\
 			new->content = until(&str, end);				\
@@ -66,3 +73,4 @@
 
 Node	*tokenize(char *str);
 char	*expand(char *str, char **envp);
+char	*expand_wildcard(char *str);

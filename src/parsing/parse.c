@@ -26,11 +26,22 @@ Node *parse(char *str, char **envp) {
 	}
 
 	while (curr) {
-		if (can_expand(curr)) {
-			char *new_content = expand(curr->content, envp);
+		if (CAN_EXPAND(curr)) {
+			char *expanded = expand(curr->content, envp);
 			free(curr->content);
-			curr->content = new_content;
+			curr->content = expanded;
 		}
+		if (CAN_WILDCARD(curr)) {
+			char *expanded = expand_wildcard(curr->content);
+			free(curr->content);
+			curr->content = expanded;
+		}
+
+		for (int i = 0; curr->content[i]; i++) {
+			if (IS_STAR(curr->content[i]))
+				curr->content[i] = '*';
+		}
+
 		curr = curr->next;
 	}
 

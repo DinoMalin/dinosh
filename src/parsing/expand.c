@@ -4,7 +4,13 @@ static char *ft_getenv_alloc(char **envp, char *target) {
 	char *res = ft_getenv(envp, target);
 	if (!res)
 		return ft_strdup("");
-	return ft_strdup(res);
+
+	res = ft_strdup(res);
+	for (int i = 0; res[i]; i++) {
+		if (res[i] == '*')
+			res[i] *= -1;
+	}
+	return res;
 }
 
 int get_variable(char *str) {
@@ -33,7 +39,7 @@ char *expand(char *str, char **envp) {
 	char *res = ft_strdup("");
 
 	while (*str) {
-		if (*str == '$' && *str) {
+		if (*str == '$') {
 			res = extract(res, str - not_var, not_var);
 
 			int var_size = get_variable(str+1);
@@ -51,6 +57,5 @@ char *expand(char *str, char **envp) {
 		}
 	}
 
-	res = extract(res, str - not_var, not_var);
-	return res;
+	return extract(res, str - not_var, not_var);
 }
