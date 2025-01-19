@@ -73,4 +73,4 @@
 
 Node	*tokenize(char *str);
 char	*expand(char *str, char **envp);
-char	*expand_wildcard(char *str);
+Node	*expand_wildcard(Node *el, int max);

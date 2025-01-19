@@ -1,5 +1,15 @@
 #include "parse.h"
 
+int max_index(Node *head) {
+	int max = 0;
+	while (head) {
+		if (head->index > max)
+			max = head->index;
+		head = head->next;
+	}
+	return max;
+}
+
 void merge(Node *head) {
 	Node *next;
 	Node *after_next;
@@ -18,11 +28,11 @@ void merge(Node *head) {
 }
 
 Node *parse(char *str, char **envp) {
-	Node *res_head = tokenize(str);
-	Node *curr = res_head;
+	Node *head = tokenize(str);
+	Node *curr = head;
 
-	if (has_parsing_errors(res_head)) {
-		return res_head;
+	if (has_parsing_errors(head)) {
+		return head;
 	}
 
 	while (curr) {
@@ -32,9 +42,7 @@ Node *parse(char *str, char **envp) {
 			curr->content = expanded;
 		}
 		if (CAN_WILDCARD(curr)) {
-			char *expanded = expand_wildcard(curr->content);
-			free(curr->content);
-			curr->content = expanded;
+			curr = expand_wildcard(curr, max_index(head));
 		}
 
 		for (int i = 0; curr->content[i]; i++) {
@@ -45,7 +53,7 @@ Node *parse(char *str, char **envp) {
 		curr = curr->next;
 	}
 
-	if (res_head)
-		merge(res_head);
-	return res_head;
+	if (head)
+		merge(head);
+	return head;
 }

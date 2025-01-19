@@ -30,10 +30,10 @@ static bool its_a_match(char *str, char *entry) {
 	return true;
 }
 
-char *get_entries(char *str) {
+char **get_entries(char *str) {
 	DIR *dir = opendir(".");
 	struct dirent *entry = NULL;
-	char *res = ft_strdup("");
+	char **res = ft_calloc(1, sizeof(char*));
 
 	if (!dir) {
 		perror("dinosh: opendir");
@@ -46,8 +46,7 @@ char *get_entries(char *str) {
 		if (its_a_match(str, entry->d_name)) {
 			if (str[0] != '.' && entry->d_name[0] == '.')
 				continue;
-			res = clean_join(res, entry->d_name);
-			res = clean_join(res, " ");
+			res = clean_strsjoin(res, ft_strdup(entry->d_name));
 		}
 	}
 
@@ -55,10 +54,30 @@ char *get_entries(char *str) {
 	return res;
 }
 
-char *expand_wildcard(char *str) {
-	char *entries = get_entries(str);
-	char *res = ft_strtrim(entries, " ");
+Node *expand_wildcard(Node *el, int max) {
+	char **entries = get_entries(el->content);
+	free(el->content);
+
+	if (!entries[0])
+		el->content = ft_strdup("");
+	else {
+		el->content = entries[0];
+		Node *next = el->next;
+
+		for (int i = 1; entries[i]; i++) {
+			Node *new = ft_calloc(1, sizeof(Node));
+
+			new->content = entries[i];
+			new->index = max + i;
+
+			el->next = new;
+			el = el->next;
+		}
+
+		el->next = next;
+	}
+
 	free(entries);
-	return res;
+	return el;
 }
 
