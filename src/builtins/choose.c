@@ -4,7 +4,7 @@ void builtin(Command *cmd, Context *ctx) {
 	if (cmd->type == ECHO)
 		echo(cmd);
 	else if (cmd->type == CD)
-		cd(cmd, ctx->env);
+		cd(cmd, ctx);
 	else if (cmd->type == PWD)
 		pwd(cmd);
 	else if (cmd->type == EXPORT)

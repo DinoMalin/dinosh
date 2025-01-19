@@ -17,7 +17,7 @@
 
 void	delete_var(char **env, char *var);
 void	echo(Command *cmd);
-void	cd(Command *cmd, char **env);
+void	cd(Command *cmd, Context *ctx);
 void	pwd(Command *cmd);
 void	export(Command *cmd, Context *ctx);
 void	unset(Command *cmd, Context *ctx);
