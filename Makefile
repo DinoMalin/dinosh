@@ -65,7 +65,7 @@ fuzzer: $(FUZZER_OBJS) $(LIBFT)
 tests: $(TESTS_OBJS) $(LIBFT)
 	@echo -e "\e[32m✔ Compilating sources files...\e[37m"
 	@clang -o $@ $(TESTS_OBJS) $(LFLAGS) $(CFLAGS)
-	@echo -e "\e[32m✔ Fuzzer created.\e[37m"
+	@echo -e "\e[32m✔ Tests created.\e[37m"
 
 $(LIBFT):
 	@make -C lib

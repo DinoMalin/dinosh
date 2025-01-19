@@ -19,5 +19,5 @@
 #define REDIRS(...) (t_redir[]){__VA_ARGS__, {NULL, 0}}
 #define xgetenv(x) (getenv(x) ? getenv(x) : "")
 
-#define COMMAND(cmd, av, redirs, type) \
-	(Command){cmd, av, 0, redirs, 0, type, 0, 0, 0, 0, NULL}
+#define CMD(cmd, av, redirs, type, from, to) \
+	(Command){cmd, av, 0, redirs, 0, type, from, to, 0, 0, NULL}
