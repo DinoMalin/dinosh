@@ -184,22 +184,22 @@ void tests_parsing(char **envp) {
 
 	// Env var
 	assert(comp("echo $USER", (Command[]) {
-		COMMAND("echo", AV("echo", getenv("USER")), NO_REDIR, ECHO)
+		COMMAND("echo", AV("echo", xgetenv("USER")), NO_REDIR, ECHO)
 	}, envp));
 	assert(comp("echo $LS_COLORS", (Command[]) {
-		COMMAND("echo", AV("echo", getenv("LS_COLORS")), NO_REDIR, ECHO)
+		COMMAND("echo", AV("echo", xgetenv("LS_COLORS")), NO_REDIR, ECHO)
 	}, envp));
 	assert(comp("echo $UNKNOWN", (Command[]) { // must be non existant
-		COMMAND("echo", AV("echo", ""), NO_REDIR, ECHO)
+		COMMAND("echo", AV("echo", xgetenv("UNKNOWN")), NO_REDIR, ECHO)
 	}, envp));
 	assert(comp("echo '$USER'", (Command[]) {
 		COMMAND("echo", AV("echo", "$USER"), NO_REDIR, ECHO)
 	}, envp));
 	assert(comp("echo \"$USER\"", (Command[]) {
-		COMMAND("echo", AV("echo", getenv("USER")), NO_REDIR, ECHO)
+		COMMAND("echo", AV("echo", xgetenv("USER")), NO_REDIR, ECHO)
 	}, envp));
 	assert(comp("echo \"$XDG_\"", (Command[]) { // must be non existant
-		COMMAND("echo", AV("echo", ""), NO_REDIR, ECHO)
+		COMMAND("echo", AV("echo", xgetenv("XDG_")), NO_REDIR, ECHO)
 	}, envp));
 
 	// Quotes

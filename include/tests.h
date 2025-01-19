@@ -17,6 +17,7 @@
 #define REDIR(file, type) (t_redir){file, type}
 #define NO_REDIR (t_redir[]){{NULL, 0}}
 #define REDIRS(...) (t_redir[]){__VA_ARGS__, {NULL, 0}}
+#define xgetenv(x) (getenv(x) ? getenv(x) : "")
 
 #define COMMAND(cmd, av, redirs, type) \
 	(Command){cmd, av, 0, redirs, 0, type, 0, 0, 0, 0, NULL}

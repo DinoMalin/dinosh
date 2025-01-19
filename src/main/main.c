@@ -5,7 +5,6 @@ extern int g_signal;
 int main(int ac, char **av, char **envp) {
 	(void)ac;
 	(void)av;
-	tests_parsing(envp);
 
 	signal(SIGINT, sig_handler);
 	signal(SIGQUIT, SIG_IGN);

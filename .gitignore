@@ -1,5 +1,6 @@
 minishell
 fuzzer
+tests
 leak-*
 *.o
 *.a
