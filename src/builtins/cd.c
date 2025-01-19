@@ -1,5 +1,13 @@
 #include "builtins.h"
 
+#define CHDIR(x)						\
+	{									\
+		if (chdir(x) == -1) {			\
+			free(oldpwd);				\
+			BUILTIN_PERROR("cd");		\
+		}								\
+	}
+
 void update_pwd(char *old, Context *ctx) {
 	char *new = getcwd(NULL, 0);
 
@@ -21,16 +29,14 @@ void cd(Command *cmd, Context *ctx) {
 			free(oldpwd);
 			BUILTIN_ERROR("not enough args");
 		}
-		if (chdir(home) == -1) {
-			free(oldpwd);
-			BUILTIN_PERROR("cd");
-		}
+		CHDIR(home);
 		update_pwd(oldpwd, ctx);
 		return;
 	}
-	if (chdir(cmd->av[1]) == -1) {
-		free(oldpwd);
-		BUILTIN_PERROR("cd");
-	}
+	if (!ft_strcmp(cmd->av[1], "-")) {
+		CHDIR(ft_getenv(ctx->env, "OLDPWD"));
+	} else
+		CHDIR(cmd->av[1]);
+
 	update_pwd(oldpwd, ctx);
 }
