@@ -2,7 +2,7 @@
 
 void export(Command *cmd, Context *ctx) {
 	if (cmd->ac < 2)
-		BUILTIN_ERROR("not enough args");
+		BUILTIN_ERROR("export: not enough args");
 
 	for (int i = 0; cmd->av[i]; i++) {
 		char *content = ft_strchr(cmd->av[i], '=');
