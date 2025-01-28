@@ -41,13 +41,13 @@ typedef enum {
 } Error;
 
 /* === Parsing linked list ===*/
-typedef struct Node {
+typedef struct Parser {
 	char		*content;
 	Token		token;
-	struct Node	*next;
+	struct Parser	*next;
 	Error		error;
 	int			index;	// isn't used to count : the index will sometime be
-} Node;					// non-consecutives. It's used to know if two args
+} Parser;					// non-consecutives. It's used to know if two args
 						// must be merged
 
 typedef enum {
@@ -84,7 +84,7 @@ typedef enum {
 /* === Executing linked list ===*/
 typedef struct Command {
 	char			*cmd;
-	Node			*args;
+	Parser			*args;
 	char			**av;
 	int				ac;
 	t_redir			*redirs;
@@ -105,8 +105,8 @@ typedef struct {
 } Context;
 
 /* ====== MINISHELL ====== */
-Node	*tokenize(char *str);
-Command	*process(Node *data);
+Parser	*tokenize(char *str);
+Command	*process(Parser *data);
 void	expand(Command *cmd, char **envp);
 void	execute(Command *cmd, Context *ctx);
 
@@ -123,8 +123,8 @@ void	builtin(Command *cmd, Context *ctx);
 /* ====== MEMORY ====== */
 void	free_av(char **av);
 void	free_cmds(Command *list);
-void	free_node(Node *node);
-void	free_list(Node *list);
+void	free_node(Parser *node);
+void	free_list(Parser *list);
 
 /* ====== UTILS ====== */
 char	*clean_join(char *origin, const char *to_join);
@@ -134,9 +134,9 @@ int		len_until_chr(char *str, char c);
 void	handle_input(Context *ctx);
 
 /* ====== ERROR ====== */
-bool	parsing_error(Node *head);
+bool	parsing_error(Parser *head);
 bool	process_error(Command *head);
-bool	has_parsing_errors(Node *head);
+bool	has_parsing_errors(Parser *head);
 
 /* ====== TESTS ====== */
 void	tests_parsing(char **envp);

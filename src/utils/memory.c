@@ -34,14 +34,14 @@ void free_cmds(Command *list) {
 	}
 }
 
-void free_node(Node *node) {
+void free_node(Parser *node) {
 	free(node->content);
 	free(node);
 }
 
-void free_list(Node *list) {
+void free_list(Parser *list) {
 	while (list) {
-		Node *next = list->next;
+		Parser *next = list->next;
 		free_node(list);
 		list = next;
 	}

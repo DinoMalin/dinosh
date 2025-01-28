@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-char get_token(Node *data) {
+char get_token(Parser *data) {
 	if (data->token == t_double_quotes)
 		return '"';
 	if (data->token == t_single_quotes)
@@ -8,7 +8,7 @@ char get_token(Node *data) {
 	return '(';
 }
 
-bool has_parsing_errors(Node *head) {
+bool has_parsing_errors(Parser *head) {
 	while (head) {
 		if (head->error)
 			return true;
@@ -17,7 +17,7 @@ bool has_parsing_errors(Node *head) {
 	return false;
 }
 
-bool parsing_error(Node *head) {
+bool parsing_error(Parser *head) {
 	while (head) {
 		if (head->error) {
 			dprintf(2, "dinosh: unclosed token: %c\n", get_token(head));

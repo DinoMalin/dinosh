@@ -39,10 +39,10 @@ char *parse_word(char **str) {
 	return res;
 }
 
-Node *tokenize(char *str) {
+Parser *tokenize(char *str) {
 	int index = 0;
-	Node *curr = NULL;
-	Node *head = NULL;
+	Parser *curr = NULL;
+	Parser *head = NULL;
 
 	while (*str) {
 		if (skip_whitespace(&str))

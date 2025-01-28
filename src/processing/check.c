@@ -28,7 +28,7 @@ void check_type(Command *cmd, Token token) {
 		cmd->type = SUBSHELL;
 }
 
-void check_redir(Command *cmd, Node **data) {
+void check_redir(Command *cmd, Parser **data) {
 	Token type = (*data)->token;
 	(*data) = (*data)->next;
 

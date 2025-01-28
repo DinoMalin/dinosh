@@ -54,7 +54,7 @@ char **get_entries(char *str) {
 	return res;
 }
 
-Node *expand_wildcard(Node *el, int max) {
+Parser *expand_wildcard(Parser *el, int max) {
 	char **entries = get_entries(el->content);
 	free(el->content);
 
@@ -62,10 +62,10 @@ Node *expand_wildcard(Node *el, int max) {
 		el->content = ft_strdup("");
 	else {
 		el->content = entries[0];
-		Node *next = el->next;
+		Parser *next = el->next;
 
 		for (int i = 1; entries[i]; i++) {
-			Node *new = ft_calloc(1, sizeof(Node));
+			Parser *new = ft_calloc(1, sizeof(Parser));
 
 			new->content = entries[i];
 			new->index = max + i;

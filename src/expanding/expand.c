@@ -1,6 +1,6 @@
 #include "expand.h"
 
-int max_index(Node *head) {
+int max_index(Parser *head) {
 	int max = 0;
 	while (head) {
 		if (head->index > max)
@@ -10,9 +10,9 @@ int max_index(Node *head) {
 	return max;
 }
 
-void merge(Node *head) {
-	Node *next;
-	Node *after_next;
+void merge(Parser *head) {
+	Parser *next;
+	Parser *after_next;
 
 	while (head && head->next) {
 		next = head->next;
@@ -28,10 +28,10 @@ void merge(Node *head) {
 }
 
 void init_av(Command *cmd) {
-	Node *curr = cmd->args;
+	Parser *curr = cmd->args;
 
 	while (curr) {
-		Node *next = curr->next;
+		Parser *next = curr->next;
 		cmd->av = clean_strsjoin(cmd->av, ft_strdup(curr->content));
 		curr = next;
 		cmd->ac++;
@@ -39,7 +39,7 @@ void init_av(Command *cmd) {
 }
 
 void expand(Command *cmd, char **envp) {
-	Node *curr = cmd->args;
+	Parser *curr = cmd->args;
 
 	while (curr) {
 		if (CAN_EXPAND(curr)) {

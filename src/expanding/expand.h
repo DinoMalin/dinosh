@@ -16,4 +16,4 @@
 }
 
 char	*expand_vars(char *str, char **envp);
-Node	*expand_wildcard(Node *el, int max);
+Parser	*expand_wildcard(Parser *el, int max);

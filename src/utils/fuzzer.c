@@ -6,7 +6,7 @@ int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
 	ft_memcpy(input, data, size);
 	input[size] = 0;
 
-	Node *parsing_data = tokenize(input);
+	Parser *parsing_data = tokenize(input);
 
 	if (has_parsing_errors(parsing_data)) {
 		free_list(parsing_data);

@@ -1,13 +1,13 @@
 #include "process.h"
 
-void add_arg(Command *cmd, Node *new) {
-	Node *cpy = ft_calloc(1, sizeof(Node));
+void add_arg(Command *cmd, Parser *new) {
+	Parser *cpy = ft_calloc(1, sizeof(Parser));
 	cpy->content = ft_strdup(new->content);
 	cpy->token = new->token;
 	cpy->index = new->index;
 
 	if (cmd->args) {
-		Node *last = cmd->args;
+		Parser *last = cmd->args;
 		while (last->next) {
 			last = last->next;
 		}
@@ -27,7 +27,7 @@ Command *init_cmd(Transmission from) {
 	return res;
 }
 
-void analyze_command(Command *cmd, Node **data, int *arg_index) {
+void analyze_command(Command *cmd, Parser **data, int *arg_index) {
 	if (is_redir((*data)->token)) {
 		check_redir(cmd, data);
 		return;
@@ -42,7 +42,7 @@ void analyze_command(Command *cmd, Node **data, int *arg_index) {
 	(*arg_index)++;
 }
 
-Command *process(Node *data) {
+Command *process(Parser *data) {
 	int data_index = 0;
 	int arg_index = 0; // count the args w/o redirs
 	Error error = no_error;
@@ -52,7 +52,7 @@ Command *process(Node *data) {
 	Command *curr = NULL;
 
 	while (data) {
-		Node *next = data->next;
+		Parser *next = data->next;
 		PROCESS_TRANSMISSION(t_pipe, PIPE);
 		PROCESS_TRANSMISSION(t_and, AND);
 		PROCESS_TRANSMISSION(t_or, OR);

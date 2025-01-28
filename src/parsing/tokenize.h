@@ -18,7 +18,7 @@
 		int len = ft_strlen(start);							\
 		if (!ft_strncmp(str, start, len)) {					\
 			str += len;										\
-			Node *new = ft_calloc(1, sizeof(Node));			\
+			Parser *new = ft_calloc(1, sizeof(Parser));			\
 			new->content = until(&str, end);				\
 			new->token = type;								\
 			new->index = index;								\
@@ -32,7 +32,7 @@
 #define PARSE_OPERATOR(op, type)						\
 	{													\
 		if (!ft_strncmp(str, op, ft_strlen(op))) {		\
-			Node *new = ft_calloc(1, sizeof(Node));		\
+			Parser *new = ft_calloc(1, sizeof(Parser));		\
 			new->content = operator(&str, op);			\
 			new->token = type;							\
 			new->index = index;							\
@@ -48,7 +48,7 @@
 		char *content = parse_word(&str);			\
 		if (!content)								\
 			continue;								\
-		Node *new = ft_calloc(1, sizeof(Node));		\
+		Parser *new = ft_calloc(1, sizeof(Parser));		\
 		new->content = content;						\
 		new->token = t_word;							\
 		new->index = index;							\

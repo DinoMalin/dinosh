@@ -43,7 +43,7 @@ int comp_cmd(Command *cmd1, Command *cmd2) {
 }
 
 int comp(char *input, Command *expected, char **envp) {
-	Node *data = parse(input, envp);
+	Parser *data = parse(input, envp);
 	if (has_parsing_errors(data)) {
 		free_list(data);
 		return 0;
