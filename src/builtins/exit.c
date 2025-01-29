@@ -31,7 +31,7 @@ void builtin_exit(Command *cmd, Context *ctx) {
 	if (cmd->ac == 2) {
 		if (!is_number(cmd->av[1]))
 			BUILTIN_ERROR_CODE("exit: numeric argument required", 2);
-		cmd->exit_code = ft_atoi(cmd->av[1]);
+		cmd->exit_code = (unsigned char)ft_atoi(cmd->av[1]);
 	}
 
 	ctx->exit = true;
