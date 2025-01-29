@@ -52,7 +52,6 @@ Command *process(Parser *data) {
 	Command *curr = NULL;
 
 	while (data) {
-		Parser *next = data->next;
 		PROCESS_TRANSMISSION(t_pipe, PIPE);
 		PROCESS_TRANSMISSION(t_and, AND);
 		PROCESS_TRANSMISSION(t_or, OR);
@@ -66,7 +65,7 @@ Command *process(Parser *data) {
 			data_index++;
 		}
 		if (data)
-			data = next;
+			data = data->next;
 	}
 	
 	init_ac(head);
