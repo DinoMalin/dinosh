@@ -1,5 +1,15 @@
 #include "minishell.h"
 
+void free_env(Env *env) {
+	while (env) {
+		Env *next = env->next;
+		free(env->var);
+		free(env->value);
+		free(env);
+		env = next;
+	}
+}
+
 void free_av(char **av) {
  	int i = 0;
 	while (av[i]) {

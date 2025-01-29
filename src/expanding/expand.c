@@ -38,12 +38,12 @@ void init_av(Command *cmd) {
 	}
 }
 
-void expand(Command *cmd, char **envp) {
+void expand(Command *cmd, Env *env) {
 	Parser *curr = cmd->args;
 
 	while (curr) {
 		if (CAN_EXPAND(curr)) {
-			char *expanded = expand_vars(curr->content, envp);
+			char *expanded = expand_vars(curr->content, env);
 			free(curr->content);
 			curr->content = expanded;
 		}

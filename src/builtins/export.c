@@ -9,7 +9,7 @@ void export(Command *cmd, Context *ctx) {
 		if (content) {
 			char *var = ft_substr(cmd->av[i], 0, content - cmd->av[i]);
 			content++;
-			ctx->env = modify_env(ctx->env, var, content);
+			modify_env(&ctx->env, var, content);
 			free(var);
 		}
 	}

@@ -15,11 +15,11 @@
 		return;							\
 	}
 
-void	delete_var(char **env, char *var);
+void	delete_var(Env **env, char *target);
 void	echo(Command *cmd);
 void	cd(Command *cmd, Context *ctx);
 void	pwd(Command *cmd);
 void	export(Command *cmd, Context *ctx);
 void	unset(Command *cmd, Context *ctx);
-void	env(Command *cmd, char **env);
+void	env(Command *cmd, Env *env);
 void	builtin_exit(Command *cmd, Context *ctx);

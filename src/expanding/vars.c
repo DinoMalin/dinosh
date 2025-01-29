@@ -1,7 +1,7 @@
 #include "expand.h"
 
-static char *ft_getenv_alloc(char **envp, char *target) {
-	char *res = ft_getenv(envp, target);
+static char *ft_getenv_alloc(Env *env, char *target) {
+	char *res = ft_getenv(env, target);
 	if (!res)
 		return ft_strdup("");
 
@@ -34,7 +34,7 @@ char *extract(char *dest, char *src, int size) {
 	return dest;
 }
 
-char *expand_vars(char *str, char **envp) {
+char *expand_vars(char *str, Env *env) {
 	int not_var = 0;
 	char *res = ft_strdup("");
 
@@ -44,7 +44,7 @@ char *expand_vars(char *str, char **envp) {
 
 			int var_size = get_variable(str+1);
 			char *var = ft_substr(str+1, 0, var_size);
-			char *expanded_var = ft_getenv_alloc(envp, var);
+			char *expanded_var = ft_getenv_alloc(env, var);
 			res = clean_join(res, expanded_var);
 
 			free(var);

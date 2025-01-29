@@ -3,7 +3,7 @@
 
 void exit_fork(int exit_code, Command *cmd, Context *ctx) {
 	free_cmds(cmd);
-	free_av(ctx->env);
+	free_env(ctx->env);
 	exit(exit_code);
 }
 
@@ -23,8 +23,14 @@ void fork_routine(Command *head, Command *cmd, Context *ctx, Pipes *pipes) {
 	} else if (cmd->type == BASIC) {
 		char *path = find_path(ctx->env, cmd->cmd);
 
-		if (path)
-			execve(path, cmd->av, ctx->env);
+		if (path) {
+			char **envp = get_envp(ctx->env);
+			execve(path, cmd->av, get_envp(ctx->env));
+			for (int i = 0; envp[i]; i++) {
+				free(envp[i]);
+			}
+			free(envp);
+		}
 	}
 
 	exit_fork(cmd->exit_code, head, ctx);

@@ -11,7 +11,7 @@ int main(int ac, char **av, char **envp) {
 
 	Context ctx = {
 		.input = NULL,
-		.env = copy_env(envp),
+		.env = create_env(envp),
 		.exit = false,
 	};
 	rl_event_hook = &rl_hook;
@@ -32,6 +32,6 @@ int main(int ac, char **av, char **envp) {
 		free(ctx.input);
 	} while (!ctx.exit);
 
-	free_av(ctx.env);
+	free_env(ctx.env);
 	return ctx.code;
 }

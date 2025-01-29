@@ -14,7 +14,7 @@
 #define UPDATE_CODE_VAR(code)						\
 	{												\
 		char *s = ft_itoa(code);					\
-		ctx.env = modify_env(ctx.env, "?", s);		\
+		modify_env(&ctx.env, "?", s);				\
 		free(s);									\
 	}
 
@@ -97,9 +97,17 @@ typedef struct Command {
 	struct Command	*next;
 } Command;
 
+typedef struct Env {
+	char		*var;
+	char		*value;
+	bool		special;
+	bool		intern;
+	struct Env	*next;
+} Env;
+
 typedef struct {
 	char	*input;
-	char	**env;
+	Env		*env;
 	bool	exit;
 	int		code;
 } Context;
@@ -107,7 +115,7 @@ typedef struct {
 /* ====== MINISHELL ====== */
 Parser	*tokenize(char *str);
 Command	*process(Parser *data);
-void	expand(Command *cmd, char **envp);
+void	expand(Command *cmd, Env *env);
 void	execute(Command *cmd, Context *ctx);
 
 /* ====== SIGNALS ====== */
@@ -115,9 +123,10 @@ void	sig_handler(int sig);
 int		rl_hook();
 
 /* ====== BUILTINS ====== */
-char	**copy_env(char **env);
-char	**modify_env(char **env, char *var, char *content);
-char	*ft_getenv(char **envp, char *target);
+Env		*create_env(char **env);
+void	modify_env(Env **env, char *target, char *new_value);
+char	*ft_getenv(Env *env, char *target);
+char	**get_envp(Env *env);
 void	builtin(Command *cmd, Context *ctx);
 
 /* ====== MEMORY ====== */
@@ -125,6 +134,7 @@ void	free_av(char **av);
 void	free_cmds(Command *list);
 void	free_node(Parser *node);
 void	free_list(Parser *list);
+void	free_env(Env *env);
 
 /* ====== UTILS ====== */
 char	*clean_join(char *origin, const char *to_join);

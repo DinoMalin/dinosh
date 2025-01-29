@@ -47,7 +47,7 @@ typedef struct {
 	int curr[2];
 } Pipes;
 
-char	*find_path(char **env, char *cmd);
+char	*find_path(Env *env, char *cmd);
 void	redirect(Command *cmd);
 void	redirect_pipe(Command *cmd, Pipes *pipes);
 void	fd_storage(StorageAction action);

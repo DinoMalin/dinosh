@@ -1,54 +1,105 @@
 #include "builtins.h"
 
-char **copy_env(char **env) {
-	int size = 0;
-	while (env[size]) {
-		size++;
+Env *create_env(char **env) {
+	Env *head = NULL;
+	Env *last = NULL;
+
+	for (int i = 0; env[i]; i++) {
+		Env *new = ft_calloc(1, sizeof(Env));
+
+		int equal = ft_strchr(env[i], '=') - env[i];
+		int len_value = ft_strlen(env[i]) - equal;
+		new->var = ft_substr(env[i], 0, equal);
+		new->value = ft_substr(env[i], equal + 1, len_value);
+
+		if (!i) {
+			head = new;
+			last = new;
+		} else {
+			last->next = new;
+			last = new;
+		}
 	}
-	char **res = malloc((size + 1) * sizeof(char *));
-	int i = 0;
-	while (env[i]) {
-		res[i] = ft_strdup(env[i]);
-		i++;
-	}
-	res[i] = NULL;
-	return res;
+
+	return head;
 }
 
-char **ft_getenv_ptr(char **envp, char *target) {
-	int target_len = ft_strlen(target);
-
-	for (int i = 0; envp[i]; i++) {
-		int key_len = len_until_chr(envp[i], '=');
-		if (!ft_strncmp(envp[i], target, key_len) && key_len == target_len)
-			return envp + i;
+char *ft_getenv(Env *env, char *target) {
+	while (env) {
+		if (!ft_strcmp(target, env->var))
+			return env->value;
+		env = env->next;
 	}
 	return NULL;
 }
 
-char **modify_env(char **env, char *var, char *content) {
-	char *new_var = ft_strdup(var);
-	new_var = clean_join(new_var, "=");
-	new_var = clean_join(new_var, content);
+void modify_env(Env **env, char *target, char *new_value) {
+	Env *curr = *env;
+	while (curr && curr->next) {
+		if (!ft_strcmp(target, curr->var)) {
+			free(curr->value);
+			curr->value = ft_strdup(new_value);
+			return;
+		}
+		curr = curr->next;
+	}
 
-	char **var_in_env = ft_getenv_ptr(env, var);
-	if (!var_in_env)
-		return clean_strsjoin(env, new_var);
+	Env *new = ft_calloc(1, sizeof(Env));
+	new->var = ft_strdup(target);
+	new->value = ft_strdup(new_value);
 
-	free(*var_in_env);
-	*var_in_env = new_var;
-	return env;
+	if (!*env) {
+		*env = new;
+	} else {
+		curr->next = new;
+	}
 }
 
-void delete_var(char **env, char *var) {
-	char **var_in_env = ft_getenv_ptr(env, var);
+void delete_var(Env **env, char *target) {
+	Env *curr = *env;
+	Env *last = *env;
 
-	if (!var_in_env)
-		return ;
+	while (curr) {
+		if (!ft_strcmp(target, curr->var)) {
+			if (curr == *env)
+				*env = curr->next;
+			else
+				last->next = curr->next;
 
-	free(*var_in_env);
-	while (*(var_in_env)) {
-		*(var_in_env) = *(var_in_env+1);
-		var_in_env++;
+			free(curr->var);
+			free(curr->value);
+			free(curr);
+
+			return;
+		}
+		last = curr;
+		curr = curr->next;
 	}
+}
+
+char **get_envp(Env *env) {
+	int size = 0;
+	Env *curr = env;
+	while (curr) {
+		if (!(curr->intern || curr->special))
+			size++;
+		curr = curr->next;
+	}
+
+	char **res = malloc((size + 1) * sizeof(char *));
+	res[size] = NULL;
+
+	int i = 0;
+	while (env) {
+		if (!(env->intern || env->special)) {
+			char *new = ft_strdup(env->var);
+			new = clean_join(new, "=");
+			new = clean_join(new, env->value);
+			res[i] = new;
+
+			i++;
+		}
+		env = env->next;
+	}
+	return res;
 }

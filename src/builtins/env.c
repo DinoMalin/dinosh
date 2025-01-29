@@ -7,12 +7,12 @@
 			continue;									\
 	}
 
-void env(Command *cmd, char **env) {
+void env(Command *cmd, Env *env) {
 	if (cmd->ac > 1)
 		BUILTIN_ERROR("env: too many args");
 
-	for (int i = 0; env[i]; i++) {
-		SKIP_VAR("?");
-		printf("%s\n", env[i]);
+	while (env) {
+		printf("%s=%s\n", env->var, env->value); // todo : skip $? by making it special
+		env = env->next;
 	}
 }

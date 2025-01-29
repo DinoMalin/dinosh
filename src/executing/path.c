@@ -1,17 +1,6 @@
 #include "execute.h"
 
-char *ft_getenv(char **envp, char *target) {
-	int target_len = ft_strlen(target);
-
-	for (int i = 0; envp[i]; i++) {
-		int key_len = len_until_chr(envp[i], '=');
-		if (!ft_strncmp(envp[i], target, key_len) && key_len == target_len)
-			return ft_strchr(envp[i], '=') + 1;
-	}
-	return NULL;
-}
-
-char *find_path(char **env, char *cmd) {
+char *find_path(Env *env, char *cmd) {
 	if (access(cmd, X_OK) == 0)
 		return ft_strdup(cmd);
 

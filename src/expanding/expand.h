@@ -15,5 +15,5 @@
 		return len;						\
 }
 
-char	*expand_vars(char *str, char **envp);
+char	*expand_vars(char *str, Env *env);
 Parser	*expand_wildcard(Parser *el, int max);
