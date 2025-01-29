@@ -12,7 +12,8 @@ void env(Command *cmd, Env *env) {
 		BUILTIN_ERROR("env: too many args");
 
 	while (env) {
-		printf("%s=%s\n", env->var, env->value); // todo : skip $? by making it special
+		if (!env->special)
+			printf("%s=%s\n", env->var, env->value);
 		env = env->next;
 	}
 }

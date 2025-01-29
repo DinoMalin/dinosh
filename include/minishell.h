@@ -15,6 +15,7 @@
 	{												\
 		char *s = ft_itoa(code);					\
 		modify_env(&ctx.env, "?", s);				\
+		set_special(ctx.env, "?", true);			\
 		free(s);									\
 	}
 
@@ -127,6 +128,8 @@ Env		*create_env(char **env);
 void	modify_env(Env **env, char *target, char *new_value);
 char	*ft_getenv(Env *env, char *target);
 char	**get_envp(Env *env);
+void	set_special(Env *env, char *target, bool special);
+void	set_intern(Env *env, char *target, bool intern);
 void	builtin(Command *cmd, Context *ctx);
 
 /* ====== MEMORY ====== */

@@ -55,6 +55,24 @@ void modify_env(Env **env, char *target, char *new_value) {
 	}
 }
 
+void set_special(Env *env, char *target, bool special) {
+	while (env) {
+		if (!ft_strcmp(env->var, target)) {
+			env->special = special;
+		}
+		env = env->next;
+	}
+}
+
+void set_intern(Env *env, char *target, bool intern) {
+	while (env) {
+		if (!ft_strcmp(env->var, target)) {
+			env->intern = intern;
+		}
+		env = env->next;
+	}
+}
+
 void delete_var(Env **env, char *target) {
 	Env *curr = *env;
 	Env *last = *env;
