@@ -1,10 +1,9 @@
 #include "execute.h"
 
-
-void exit_fork(int exit_code, Command *cmd, Context *ctx) {
-	free_cmds(cmd);
+void exit_fork(Command *head, Context *ctx) {
+	free_cmds(head);
 	free_env(ctx->env);
-	exit(exit_code);
+	exit(ctx->code);
 }
 
 void fork_routine(Command *head, Command *cmd, Context *ctx, Pipes *pipes) {
@@ -20,6 +19,7 @@ void fork_routine(Command *head, Command *cmd, Context *ctx, Pipes *pipes) {
 			.exit = false
 		};
 		handle_input(&subctx); // todo: create copy of env
+		exit_fork(head, &subctx);
 	} else if (cmd->type == BASIC) {
 		char *path = find_path(ctx->env, cmd->cmd);
 
@@ -33,7 +33,7 @@ void fork_routine(Command *head, Command *cmd, Context *ctx, Pipes *pipes) {
 		}
 	}
 
-	exit_fork(cmd->exit_code, head, ctx);
+	exit_fork(head, ctx);
 }
 
 void create_fork(Command *head, Command *cmd, Context *ctx, Pipes *pipes) {
@@ -93,12 +93,13 @@ void execute(Command *head, Context *ctx) {
 			pipes.prev[1] = pipes.curr[1];
 		}
 		CHECK_AND_OR();
-
 		UPDATE_CODE_VAR(ctx->code);
+
 		curr = curr->next;
 	}
 
 	xclose(pipes.prev[0]);
 	xclose(pipes.prev[1]);
 	wait_everything(wait, NULL, ctx);
+	UPDATE_CODE_VAR(ctx->code);
 }

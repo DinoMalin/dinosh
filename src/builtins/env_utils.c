@@ -35,12 +35,15 @@ char *ft_getenv(Env *env, char *target) {
 
 void modify_env(Env **env, char *target, char *new_value) {
 	Env *curr = *env;
-	while (curr && curr->next) {
+	Env *last = curr;
+
+	while (curr) {
 		if (!ft_strcmp(target, curr->var)) {
 			free(curr->value);
 			curr->value = ft_strdup(new_value);
 			return;
 		}
+		last = curr;
 		curr = curr->next;
 	}
 
@@ -51,7 +54,7 @@ void modify_env(Env **env, char *target, char *new_value) {
 	if (!*env) {
 		*env = new;
 	} else {
-		curr->next = new;
+		last->next = new;
 	}
 }
 
