@@ -14,8 +14,9 @@
 #define UPDATE_CODE_VAR(code)						\
 	{												\
 		char *s = ft_itoa(code);					\
-		modify_env(&ctx.env, "?", s);				\
-		set_special(ctx.env, "?", true);			\
+		modify_env(&ctx->env, "?", s);				\
+		set_special(ctx->env, "?", true);			\
+		set_intern(ctx->env, "?", true);			\
 		free(s);									\
 	}
 

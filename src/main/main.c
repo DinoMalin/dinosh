@@ -22,7 +22,6 @@ int main(int ac, char **av, char **envp) {
 			ctx.code = 130;
 			g_signal = 0;
 		}
-		UPDATE_CODE_VAR(ctx.code);
 
 		if (!ctx.input)
 			break;

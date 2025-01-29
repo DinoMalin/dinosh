@@ -92,8 +92,9 @@ void execute(Command *head, Context *ctx) {
 			pipes.prev[0] = pipes.curr[0];
 			pipes.prev[1] = pipes.curr[1];
 		}
-
 		CHECK_AND_OR();
+
+		UPDATE_CODE_VAR(ctx->code);
 		curr = curr->next;
 	}
 
