@@ -135,8 +135,8 @@ void	free_env(Env *env);
 char	*clean_join(char *origin, const char *to_join);
 char	**clean_strsjoin(char **origin, char *to_join);
 t_redir	*clean_redirjoin(t_redir *origin, t_redir to_join);
-int		len_until_chr(char *str, char c);
 void	handle_input(Context *ctx);
+void	update_code_var(Context *ctx);
 
 /* ====== ERROR ====== */
 bool	token_error(Parser *head);

@@ -14,6 +14,7 @@ int main(int ac, char **av, char **envp) {
 		.env = create_env(envp),
 		.exit = false,
 	};
+	update_code_var(&ctx);
 	rl_event_hook = &rl_hook;
 
 	do {

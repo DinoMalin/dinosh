@@ -93,7 +93,7 @@ void execute(Command *head, Context *ctx) {
 			pipes.prev[1] = pipes.curr[1];
 		}
 		CHECK_AND_OR();
-		UPDATE_CODE_VAR(ctx->code);
+		update_code_var(ctx);
 
 		curr = curr->next;
 	}
@@ -101,5 +101,5 @@ void execute(Command *head, Context *ctx) {
 	xclose(pipes.prev[0]);
 	xclose(pipes.prev[1]);
 	wait_everything(wait, NULL, ctx);
-	UPDATE_CODE_VAR(ctx->code);
+	update_code_var(ctx);
 }

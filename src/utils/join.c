@@ -53,12 +53,3 @@ t_redir *clean_redirjoin(t_redir *origin, t_redir to_join) {
 	free(origin);
 	return res;
 }
-
-int len_until_chr(char *str, char c) {
-	int i;
-	for (i = 0; str[i]; i++) {
-		if (str[i] == c)
-			break;
-	}
-	return i;
-}
