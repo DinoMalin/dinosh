@@ -8,7 +8,7 @@ char get_token(Parser *data) {
 	return '(';
 }
 
-bool has_parsing_errors(Parser *head) {
+bool has_parse_errors(Parser *head) {
 	while (head) {
 		if (head->error)
 			return true;
@@ -17,7 +17,7 @@ bool has_parsing_errors(Parser *head) {
 	return false;
 }
 
-bool parsing_error(Parser *head) {
+bool token_error(Parser *head) {
 	while (head) {
 		if (head->error) {
 			dprintf(2, "dinosh: unclosed token: %c\n", get_token(head));
@@ -28,7 +28,7 @@ bool parsing_error(Parser *head) {
 	return false;
 }
 
-bool process_error(Command *head) {
+bool parse_error(Command *head) {
 	while (head) {
 		if (head->error == empty_redir) {
 			dprintf(2, "dinosh: empty redirection\n");

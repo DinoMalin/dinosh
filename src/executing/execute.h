@@ -32,6 +32,15 @@
 			break;									\
 	}
 
+#define UPDATE_CODE_VAR(code)						\
+	{												\
+		char *s = ft_itoa(code);					\
+		modify_env(&ctx->env, "?", s);				\
+		set_special(ctx->env, "?", true);			\
+		set_intern(ctx->env, "?", true);			\
+		free(s);									\
+	}
+
 #define TO_FLAGS O_WRONLY | O_CREAT | O_TRUNC
 #define APPEND_FLAGS O_WRONLY | O_CREAT | O_APPEND
 #define FROM_FLAGS O_RDONLY

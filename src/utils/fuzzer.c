@@ -14,7 +14,7 @@ int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
 		return 0;
 	}
 
-	Command *cmd = process(parsing_data);
+	Command *cmd = parse(parsing_data);
 
 	free_list(parsing_data);
 	free_cmds(cmd);

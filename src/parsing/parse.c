@@ -1,4 +1,4 @@
-#include "process.h"
+#include "parsing.h"
 
 void add_arg(Command *cmd, Parser *new) {
 	Parser *cpy = ft_calloc(1, sizeof(Parser));
@@ -42,7 +42,7 @@ void analyze_command(Command *cmd, Parser **data, int *arg_index) {
 	(*arg_index)++;
 }
 
-Command *process(Parser *data) {
+Command *parse(Parser *data) {
 	int data_index = 0;
 	int arg_index = 0; // count the args w/o redirs
 	Error error = no_error;

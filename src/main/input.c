@@ -2,15 +2,15 @@
 
 void handle_input(Context *ctx) {
 	Parser *data = tokenize(ctx->input);
-	if (parsing_error(data)) {
+	if (token_error(data)) {
 		free_list(data);
 		return;
 	}
 
-	Command *cmd = process(data);
+	Command *cmd = parse(data);
 	free_list(data);
 
-	if (process_error(cmd)) {
+	if (parse_error(cmd)) {
 		free_cmds(cmd);
 		return;
 	}

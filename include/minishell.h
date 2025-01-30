@@ -11,15 +11,6 @@
 
 #define xfree(x) if (x) {free(x);}
 
-#define UPDATE_CODE_VAR(code)						\
-	{												\
-		char *s = ft_itoa(code);					\
-		modify_env(&ctx->env, "?", s);				\
-		set_special(ctx->env, "?", true);			\
-		set_intern(ctx->env, "?", true);			\
-		free(s);									\
-	}
-
 typedef enum {
 	t_word,
 	t_to,
@@ -69,7 +60,7 @@ typedef enum {
 	UNSET,
 	ENV,
 	EXIT
-} CommandType;
+} Type;
 
 typedef struct {
 	char	*file;
@@ -91,7 +82,7 @@ typedef struct Command {
 	int				ac;
 	t_redir			*redirs;
 	Error			error;
-	CommandType		type;
+	Type		type;
 	Transmission	from;
 	Transmission	to;
 	int				exit_code; // used for builtins
@@ -116,7 +107,7 @@ typedef struct {
 
 /* ====== MINISHELL ====== */
 Parser	*tokenize(char *str);
-Command	*process(Parser *data);
+Command	*parse(Parser *data);
 void	expand(Command *cmd, Env *env);
 void	execute(Command *cmd, Context *ctx);
 
@@ -148,8 +139,8 @@ int		len_until_chr(char *str, char c);
 void	handle_input(Context *ctx);
 
 /* ====== ERROR ====== */
-bool	parsing_error(Parser *head);
-bool	process_error(Command *head);
+bool	token_error(Parser *head);
+bool	parse_error(Command *head);
 bool	has_parsing_errors(Parser *head);
 
 /* ====== TESTS ====== */
