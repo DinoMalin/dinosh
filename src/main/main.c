@@ -15,10 +15,14 @@ int main(int ac, char **av, char **envp) {
 		.exit = false,
 	};
 	update_code_var(&ctx);
+	modify_env(&ctx.env, "PROMPT", "dinosh> ");
 	rl_event_hook = &rl_hook;
 
 	do {
-		ctx.input = readline("dinosh> ");
+		char *prompt = ft_getenv(ctx.env, "PROMPT");
+		if (!prompt)
+			prompt = "";
+		ctx.input = readline(prompt);
 		if (g_signal == (int)0xDEADBEEF) {
 			ctx.code = 130;
 			g_signal = 0;
