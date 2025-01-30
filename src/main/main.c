@@ -16,6 +16,40 @@ void config(int ac, char **av, Context *ctx) {
 	}
 }
 
+bool run_script(int ac, char **av, Context *ctx) {
+	for (int i = 1; i < ac; i++) {
+		if (!ft_strcmp(av[i], "--rcfile")) {
+			i++;
+		} else {
+			read_file(av[i], ctx);
+			return true;
+		}
+	}
+	return false;
+}
+
+void run_prompt(Context *ctx) {
+	rl_event_hook = &rl_hook;
+
+	do {
+		char *prompt = ft_getenv(ctx->env, "PROMPT");
+		if (!prompt)
+			prompt = "";
+		ctx->input = readline(prompt);
+		if (g_signal == (int)0xDEADBEEF) {
+			ctx->code = 130;
+			g_signal = 0;
+		}
+
+		if (!ctx->input)
+			break;
+		add_history(ctx->input);
+		handle_input(ctx);
+
+		free(ctx->input);
+	} while (!ctx->exit);
+}
+
 int main(int ac, char **av, char **envp) {
 	(void)ac;
 	(void)av;
@@ -29,27 +63,10 @@ int main(int ac, char **av, char **envp) {
 		.exit = false,
 	};
 	init_basic_vars(&ctx);
-
-	config(ac, av, &ctx);
-	rl_event_hook = &rl_hook;
-
-	do {
-		char *prompt = ft_getenv(ctx.env, "PROMPT");
-		if (!prompt)
-			prompt = "";
-		ctx.input = readline(prompt);
-		if (g_signal == (int)0xDEADBEEF) {
-			ctx.code = 130;
-			g_signal = 0;
-		}
-
-		if (!ctx.input)
-			break;
-		add_history(ctx.input);
-		handle_input(&ctx);
-
-		free(ctx.input);
-	} while (!ctx.exit);
+	if (!run_script(ac, av, &ctx)) {
+		config(ac, av, &ctx);
+		run_prompt(&ctx);
+	}
 
 	free_env(ctx.env);
 	return ctx.code;
