@@ -18,10 +18,12 @@ int get_variable(char *str) {
 
 	int size;
 	for (size = 0; str[size]; size++) {
-		if (!	((str[size] >= 'A' && str[size] <= 'Z')
-			||	(str[size] >= '0' && str[size] <= '9')
-			||	str[size] == '_'))
+		if (!(str[size] >= 'a' && str[size] <= 'z')
+		 && !(str[size] >= 'A' && str[size] <= 'Z')
+		 && !(str[size] >= '0' && str[size] <= '9' && size != 0)
+		 && !(str[size] == '_')) {
 			break;
+		}
 	}
 	return size;
 }
