@@ -1,5 +1,7 @@
 #include "builtins.h"
 
+#define RESET "\033[0m"
+
 #define SKIP_VAR(s)										\
 	{													\
 		char *e = ft_strchr(env[i], '=');				\
@@ -12,8 +14,8 @@ void env(Command *cmd, Env *env) {
 		BUILTIN_ERROR("env: too many args");
 
 	while (env) {
-		if (!env->special)
-			printf("%s=%s\n", env->var, env->value);
+		if (!(env->type & SPECIAL))
+			printf("%s=%s"RESET"\n", env->var, env->value);
 		env = env->next;
 	}
 }

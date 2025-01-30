@@ -33,7 +33,7 @@ char *ft_getenv(Env *env, char *target) {
 	return NULL;
 }
 
-void modify_env(Env **env, char *target, char *new_value) {
+void modify_env(Env **env, char *target, char *new_value, Special special) {
 	Env *curr = *env;
 	Env *last = curr;
 
@@ -41,6 +41,7 @@ void modify_env(Env **env, char *target, char *new_value) {
 		if (!ft_strcmp(target, curr->var)) {
 			free(curr->value);
 			curr->value = ft_strdup(new_value);
+			curr->type = special;
 			return;
 		}
 		last = curr;
@@ -50,29 +51,12 @@ void modify_env(Env **env, char *target, char *new_value) {
 	Env *new = ft_calloc(1, sizeof(Env));
 	new->var = ft_strdup(target);
 	new->value = ft_strdup(new_value);
+	new->type = special;
 
 	if (!*env) {
 		*env = new;
 	} else {
 		last->next = new;
-	}
-}
-
-void set_special(Env *env, char *target, bool special) {
-	while (env) {
-		if (!ft_strcmp(env->var, target)) {
-			env->special = special;
-		}
-		env = env->next;
-	}
-}
-
-void set_intern(Env *env, char *target, bool intern) {
-	while (env) {
-		if (!ft_strcmp(env->var, target)) {
-			env->intern = intern;
-		}
-		env = env->next;
 	}
 }
 
@@ -102,7 +86,7 @@ char **get_envp(Env *env) {
 	int size = 0;
 	Env *curr = env;
 	while (curr) {
-		if (!(curr->intern || curr->special))
+		if (!(curr->type & INTERN || curr->type & SPECIAL))
 			size++;
 		curr = curr->next;
 	}
@@ -112,7 +96,7 @@ char **get_envp(Env *env) {
 
 	int i = 0;
 	while (env) {
-		if (!(env->intern || env->special)) {
+		if (!(env->type & INTERN || env->type & SPECIAL)) {
 			char *new = ft_strdup(env->var);
 			new = clean_join(new, "=");
 			new = clean_join(new, env->value);

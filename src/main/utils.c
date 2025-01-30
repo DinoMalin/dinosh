@@ -19,22 +19,21 @@ bool read_file(char *file, Context *ctx) {
 }
 
 void init_basic_vars(Context *ctx) {
-	modify_env(&ctx->env, "BLACK", "\033[90;1m");
-	modify_env(&ctx->env, "RED", "\033[91;1m");
-	modify_env(&ctx->env, "GREEN", "\033[92;1m");
-	modify_env(&ctx->env, "YELLOW", "\033[93;1m");
-	modify_env(&ctx->env, "BLUE", "\033[94;1m");
-	modify_env(&ctx->env, "MAGENTA", "\033[95;1m");
-	modify_env(&ctx->env, "CYAN", "\033[96;1m");
-	modify_env(&ctx->env, "WHITE", "\033[97;1m");
-	modify_env(&ctx->env, "RESET", "\033[0m");
+	modify_env(&ctx->env, "BLACK", "\033[90;1m", INTERN);
+	modify_env(&ctx->env, "RED", "\033[91;1m", INTERN);
+	modify_env(&ctx->env, "GREEN", "\033[92;1m", INTERN);
+	modify_env(&ctx->env, "YELLOW", "\033[93;1m", INTERN);
+	modify_env(&ctx->env, "BLUE", "\033[94;1m", INTERN);
+	modify_env(&ctx->env, "MAGENTA", "\033[95;1m", INTERN);
+	modify_env(&ctx->env, "CYAN", "\033[96;1m", INTERN);
+	modify_env(&ctx->env, "WHITE", "\033[97;1m", INTERN);
+	modify_env(&ctx->env, "RESET", "\033[0m", INTERN);
+	update_code_var(ctx);
 }
 
 void update_code_var(Context *ctx) {
 	char *s = ft_itoa(ctx->code);
-	modify_env(&ctx->env, "?", s);
-	set_special(ctx->env, "?", true);
-	set_intern(ctx->env, "?", true);
+	modify_env(&ctx->env, "?", s, SPECIAL | INTERN);
 	free(s);
 }
 

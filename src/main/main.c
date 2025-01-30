@@ -12,7 +12,7 @@ void config(int ac, char **av, Context *ctx) {
 	}
 
 	if (default_config) {
-		modify_env(&ctx->env, "PROMPT", "dinosh> ");
+		modify_env(&ctx->env, "PROMPT", "dinosh> ", INTERN);
 	}
 }
 
@@ -29,7 +29,6 @@ int main(int ac, char **av, char **envp) {
 		.exit = false,
 	};
 	init_basic_vars(&ctx);
-	update_code_var(&ctx);
 
 	config(ac, av, &ctx);
 	rl_event_hook = &rl_hook;

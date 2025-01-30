@@ -27,7 +27,7 @@ void export(Command *cmd, Context *ctx) {
 				free(var);
 				BUILTIN_ERROR("export: not a valid identifier");
 			}
-			modify_env(&ctx->env, var, content + 1);
+			modify_env(&ctx->env, var, content + 1, 0);
 			free(var);
 		}
 	}

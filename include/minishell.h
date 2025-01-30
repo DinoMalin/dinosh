@@ -90,11 +90,16 @@ typedef struct Command {
 	struct Command	*next;
 } Command;
 
+typedef enum {
+	EXTERN,
+	SPECIAL,
+	INTERN
+} Special;
+
 typedef struct Env {
 	char		*var;
 	char		*value;
-	bool		special;
-	bool		intern;
+	Special		type;
 	struct Env	*next;
 } Env;
 
@@ -118,11 +123,9 @@ int		rl_hook();
 
 /* ====== BUILTINS ====== */
 Env		*create_env(char **env);
-void	modify_env(Env **env, char *target, char *new_value);
+void	modify_env(Env **env, char *target, char *new_value, Special type);
 char	*ft_getenv(Env *env, char *target);
 char	**get_envp(Env *env);
-void	set_special(Env *env, char *target, bool special);
-void	set_intern(Env *env, char *target, bool intern);
 void	builtin(Command *cmd, Context *ctx);
 
 /* ====== MEMORY ====== */
