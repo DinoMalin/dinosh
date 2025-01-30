@@ -2,6 +2,20 @@
 
 extern int g_signal;
 
+void config(int ac, char **av, Context *ctx) {
+	bool default_config = true;
+
+	for (int i = 0; i < ac; i++) {
+		if (!ft_strcmp(av[i], "--rcfile") && i < ac - 1) {
+			default_config = !read_file(av[i + 1], ctx);
+		}
+	}
+
+	if (default_config) {
+		modify_env(&ctx->env, "PROMPT", "dinosh> ");
+	}
+}
+
 int main(int ac, char **av, char **envp) {
 	(void)ac;
 	(void)av;
@@ -14,8 +28,10 @@ int main(int ac, char **av, char **envp) {
 		.env = create_env(envp),
 		.exit = false,
 	};
+	init_basic_vars(&ctx);
 	update_code_var(&ctx);
-	modify_env(&ctx.env, "PROMPT", "dinosh> ");
+
+	config(ac, av, &ctx);
 	rl_event_hook = &rl_hook;
 
 	do {

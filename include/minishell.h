@@ -110,6 +110,7 @@ Parser	*tokenize(char *str);
 Command	*parse(Parser *data);
 void	expand(Command *cmd, Env *env);
 void	execute(Command *cmd, Context *ctx);
+bool	read_file(char *file, Context *ctx);
 
 /* ====== SIGNALS ====== */
 void	sig_handler(int sig);
@@ -137,6 +138,7 @@ char	**clean_strsjoin(char **origin, char *to_join);
 t_redir	*clean_redirjoin(t_redir *origin, t_redir to_join);
 void	handle_input(Context *ctx);
 void	update_code_var(Context *ctx);
+void	init_basic_vars(Context *ctx);
 
 /* ====== ERROR ====== */
 bool	token_error(Parser *head);

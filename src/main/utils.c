@@ -1,5 +1,35 @@
 #include "minishell.h"
 
+bool read_file(char *file, Context *ctx) {
+	int fd = open(file, O_RDONLY);
+	if (!fd) {
+		perror("dinosh: failed to open file");
+		return false;
+	}
+
+	char *line = get_next_line(fd);
+	while (line) {
+		ctx->input = line;
+		handle_input(ctx);
+		free(line);
+		line = get_next_line(fd);
+	}
+
+	return true;
+}
+
+void init_basic_vars(Context *ctx) {
+	modify_env(&ctx->env, "BLACK", "\033[90;1m");
+	modify_env(&ctx->env, "RED", "\033[91;1m");
+	modify_env(&ctx->env, "GREEN", "\033[92;1m");
+	modify_env(&ctx->env, "YELLOW", "\033[93;1m");
+	modify_env(&ctx->env, "BLUE", "\033[94;1m");
+	modify_env(&ctx->env, "MAGENTA", "\033[95;1m");
+	modify_env(&ctx->env, "CYAN", "\033[96;1m");
+	modify_env(&ctx->env, "WHITE", "\033[97;1m");
+	modify_env(&ctx->env, "RESET", "\033[0m");
+}
+
 void update_code_var(Context *ctx) {
 	char *s = ft_itoa(ctx->code);
 	modify_env(&ctx->env, "?", s);
