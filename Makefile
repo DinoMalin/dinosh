@@ -14,7 +14,7 @@ OBJ_DIR = obj/
 MAIN	= main/main
 FILES	= main/errors main/utils main/signals							\
 		utils/memory utils/join											\
-		parsing/tokenize parsing/parse parsing/check					\
+		parsing/tokenize parsing/parse parsing/check parsing/merge		\
 		builtins/env_utils builtins/choose								\
 		builtins/echo builtins/cd										\
 		builtins/pwd builtins/export									\

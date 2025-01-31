@@ -8,7 +8,7 @@ int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
 
 	Parser *parsing_data = tokenize(input);
 
-	if (has_parsing_errors(parsing_data)) {
+	if (has_token_errors(parsing_data)) {
 		free_list(parsing_data);
 		free(input);
 		return 0;

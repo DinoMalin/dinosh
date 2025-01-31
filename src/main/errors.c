@@ -8,7 +8,7 @@ char get_token(Parser *data) {
 	return '(';
 }
 
-bool has_parse_errors(Parser *head) {
+bool has_token_errors(Parser *head) {
 	while (head) {
 		if (head->error)
 			return true;

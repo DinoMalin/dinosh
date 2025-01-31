@@ -114,6 +114,8 @@ typedef struct {
 /* ====== MINISHELL ====== */
 Parser	*tokenize(char *str);
 Command	*parse(Parser *data);
+void	merge_one_node(Parser *head);
+void	merge(Parser *head);
 void	expand(Command *cmd, Env *env);
 void	execute(Command *cmd, Context *ctx);
 bool	read_file(char *file, Context *ctx);
@@ -147,7 +149,7 @@ void	init_basic_vars(Context *ctx);
 /* ====== ERROR ====== */
 bool	token_error(Parser *head);
 bool	parse_error(Command *head);
-bool	has_parsing_errors(Parser *head);
+bool	has_token_errors(Parser *head);
 
 /* ====== TESTS ====== */
 void	tests_parsing(char **envp);

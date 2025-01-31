@@ -53,6 +53,8 @@ void check_redir(Command *cmd, Parser **data) {
 	else if (type == t_append)
 		r_type = r_append;
 
+	merge_one_node(*data);
 	t_redir redirection = (t_redir){ft_strdup((*data)->content), r_type};
 	cmd->redirs = clean_redirjoin(cmd->redirs, redirection);
+
 }

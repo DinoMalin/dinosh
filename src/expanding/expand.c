@@ -10,23 +10,6 @@ int max_index(Parser *head) {
 	return max;
 }
 
-void merge(Parser *head) {
-	Parser *next;
-	Parser *after_next;
-
-	while (head && head->next) {
-		next = head->next;
-		while (next && head->index == next->index) {
-			head->content = clean_join(head->content, next->content);
-			after_next = next->next;
-			head->next = after_next;
-			free_node(next);
-			next = after_next;
-		}
-		head = head->next;
-	}
-}
-
 void init_av(Command *cmd) {
 	Parser *curr = cmd->args;
 
