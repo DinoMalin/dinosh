@@ -28,7 +28,7 @@ Command *init_cmd(Transmission from) {
 }
 
 void analyze_command(Command *cmd, Parser **data, int *arg_index) {
-	if (is_redir((*data)->token)) {
+	if (IS_REDIR((*data)->token)) {
 		check_redir(cmd, data);
 		return;
 	}

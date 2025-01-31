@@ -34,8 +34,8 @@ bool parse_error(Command *head) {
 			dprintf(2, "dinosh: empty redirection\n");
 			return true;
 		}
-		if (head->error == redir_toward_redir) {
-			dprintf(2, "dinosh: redirection toward redirection\n");
+		if (head->error == unexpected_token) {
+			dprintf(2, "dinosh: unexpected token\n");
 			return true;
 		}
 		if (head->error == start_pipe) {

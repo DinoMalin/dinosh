@@ -29,7 +29,7 @@ typedef enum {
 	no_error,
 	unclosed_token,
 	empty_redir,
-	redir_toward_redir,
+	unexpected_token,
 	start_pipe
 } Error;
 

@@ -38,8 +38,8 @@ void check_redir(Command *cmd, Parser **data) {
 		cmd->error = empty_redir;
 		return;
 	}
-	if (is_redir((*data)->token)) {
-		cmd->error = redir_toward_redir;
+	if (!CAN_REDIR((*data)->token)) {
+		cmd->error = unexpected_token;
 		return;
 	}
 
