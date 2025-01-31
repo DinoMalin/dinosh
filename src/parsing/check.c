@@ -26,6 +26,8 @@ void check_type(Command *cmd, Token token) {
 		cmd->type = EXIT;
 	else if (token == t_subshell)
 		cmd->type = SUBSHELL;
+	else if (ft_strchr(cmd->cmd, '=') && token == t_word)
+		cmd->type = VAR;
 }
 
 void check_redir(Command *cmd, Parser **data) {

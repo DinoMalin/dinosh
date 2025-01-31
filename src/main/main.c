@@ -31,11 +31,15 @@ bool run_script(int ac, char **av, Context *ctx) {
 void run_prompt(Context *ctx) {
 	rl_event_hook = &rl_hook;
 
-	do {
-		char *prompt = ft_getenv(ctx->env, "PROMPT");
-		if (!prompt)
-			prompt = "";
-		ctx->input = readline(prompt);
+	while (!ctx->exit) {
+		if (!isatty(STDIN_FILENO))
+			ctx->input = get_next_line(0);
+		else {
+			char *prompt = ft_getenv(ctx->env, "PROMPT");
+			if (!prompt)
+				prompt = "";
+			ctx->input = readline(prompt);
+		}
 		if (g_signal == (int)0xDEADBEEF) {
 			ctx->code = 130;
 			g_signal = 0;
@@ -47,7 +51,7 @@ void run_prompt(Context *ctx) {
 		handle_input(ctx);
 
 		free(ctx->input);
-	} while (!ctx->exit);
+	}
 }
 
 int main(int ac, char **av, char **envp) {

@@ -53,6 +53,7 @@ typedef enum {
 typedef enum {
 	BASIC,
 	SUBSHELL,
+	VAR,
 	ECHO,
 	CD,
 	PWD,
