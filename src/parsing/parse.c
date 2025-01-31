@@ -52,6 +52,11 @@ Command *parse(Parser *data) {
 	Command *curr = NULL;
 
 	while (data) {
+		if (data_index == 0 && !ft_strlen(data->content)) {
+			data = data->next;
+			continue;
+		}
+
 		PROCESS_TRANSMISSION(t_pipe, PIPE);
 		PROCESS_TRANSMISSION(t_and, AND);
 		PROCESS_TRANSMISSION(t_or, OR);
