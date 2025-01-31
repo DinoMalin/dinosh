@@ -23,13 +23,16 @@ void fork_routine(Command *head, Command *cmd, Context *ctx, Pipes *pipes) {
 	} else if (cmd->type == BASIC) {
 		char *path = find_path(ctx->env, cmd->cmd);
 
-		if (path) {
+		if (!path)
+			ctx->code = 127;
+		else {
 			char **envp = get_envp(ctx->env);
 			execve(path, cmd->av, get_envp(ctx->env));
 			for (int i = 0; envp[i]; i++) {
 				free(envp[i]);
 			}
 			free(envp);
+			ctx->code = 126;
 		}
 	}
 
