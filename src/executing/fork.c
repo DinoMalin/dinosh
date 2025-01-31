@@ -76,6 +76,7 @@ void execute(Command *head, Context *ctx) {
 
 	while (curr) {
 		DO_PIPE();
+		FILL_HEREDOC();
 		expand(curr, ctx->env);
 
 		if (IS_BUILTIN(curr->type) && !IS_PIPED(curr)) {

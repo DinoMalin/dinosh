@@ -89,10 +89,6 @@ void redirect(Command *cmd) {
 				return;
 			}
 		} else if (cmd->redirs[i].type == r_heredoc) {
-			if (!heredoc(cmd->redirs[i].file)) {
-				perror("dinosh: heredoc");
-				return;
-			}
 			if (!handle_redir(HEREDOC_FILE, &fd_in, FROM_FLAGS, 0)) {
 				perror("dinosh: open");
 				return;
