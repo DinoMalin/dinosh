@@ -48,6 +48,8 @@ void handle_input(Context *ctx) {
 	free_list(data);
 
 	if (parse_error(cmd)) {
+		ctx->code = 2;
+		update_code_var(ctx);
 		free_cmds(cmd);
 		return;
 	}
