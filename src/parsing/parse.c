@@ -69,5 +69,6 @@ Command *parse(Parser *data) {
 	}
 	
 	init_ac(head);
+	TREAT_ERRORS(head);
 	return head;
 }

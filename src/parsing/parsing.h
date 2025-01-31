@@ -70,15 +70,23 @@
 		}									\
 	}
 
+#define TREAT_ERRORS(head)						\
+	{											\
+		if (error) {							\
+			Command *new = init_cmd(from);		\
+			ADD_COMMAND(head, new, curr);		\
+		}										\
+	}
+
 #define PROCESS_TRANSMISSION(operator, type)	\
 	{											\
 		if (data->token == operator) {			\
+			if (data_index == 0)				\
+				error = unexpected_token;		\
 			arg_index = 0;						\
 			data_index = 0;						\
 			if (curr)							\
 				curr->to = type;				\
-			else								\
-				error = start_pipe;				\
 			from = type;						\
 			data = data->next;					\
 			continue;							\
