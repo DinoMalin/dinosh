@@ -23,6 +23,7 @@ typedef enum {
 	t_and,
 	t_or,
 	t_pipe,
+	t_unknown,
 } Token;
 
 typedef enum {
@@ -30,6 +31,7 @@ typedef enum {
 	unclosed_token,
 	empty_redir,
 	unexpected_token,
+	unknown_token,
 	start_pipe
 } Error;
 

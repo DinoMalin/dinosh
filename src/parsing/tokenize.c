@@ -57,6 +57,7 @@ Parser *tokenize(char *str) {
 		PARSE_OPERATOR("&&", t_and);
 		PARSE_OPERATOR("||", t_or);
 		PARSE_OPERATOR("|", t_pipe);
+		PARSE_OPERATOR("&", t_unknown); // not implemented yet. Will be in 42sh.
 		PARSE_WORD();
 	}
 

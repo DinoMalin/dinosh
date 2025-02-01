@@ -42,6 +42,10 @@ bool parse_error(Command *head) {
 			dprintf(2, "dinosh: command cannot start with a pipe\n");
 			return true;
 		}
+		if (head->error == unknown_token) {
+			dprintf(2, "dinosh: unknown token\n");
+			return true;
+		}
 		head = head->next;
 	}
 	return false;
