@@ -1,14 +1,5 @@
 #include "parsing.h"
 
-void init_ac(Command *head) {
-	while (head) {
-		while (head->av[head->ac]) {
-			head->ac++;
-		}
-		head = head->next;
-	}
-}
-
 void check_type(Command *cmd, Token token) {
 	char *name = cmd->args->content;
 

@@ -93,6 +93,5 @@
 		}										\
 	}
 
-void	 init_ac(Command *head);
 void	 check_redir(Command *cmd, Parser **data);
 void	 check_type(Command *cmd, Token token);

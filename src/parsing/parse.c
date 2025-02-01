@@ -74,7 +74,6 @@ Command *parse(Parser *data) {
 			data = data->next;
 	}
 	
-	init_ac(head);
 	TREAT_ERRORS(head);
 	return head;
 }
