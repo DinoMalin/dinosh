@@ -7,8 +7,8 @@ void exit_fork(Command *head, Context *ctx) {
 }
 
 void fork_routine(Command *head, Command *cmd, Context *ctx, Pipes *pipes) {
-	redirect(cmd);
 	redirect_pipe(cmd, pipes);
+	redirect(cmd);
 
 	if (IS_BUILTIN(cmd->type))
 		builtin(cmd, ctx);
