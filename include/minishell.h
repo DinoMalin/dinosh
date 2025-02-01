@@ -10,6 +10,7 @@
 #include <signal.h>
 
 #define xfree(x) if (x) {free(x);}
+#define ft_isspace(x) ((x >= '\t' && x <= '\r') || x == ' ')
 
 typedef enum {
 	t_word,

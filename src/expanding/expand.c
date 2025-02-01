@@ -25,14 +25,10 @@ void expand(Command *cmd, Env *env) {
 	Parser *curr = cmd->args;
 
 	while (curr) {
-		if (CAN_EXPAND(curr)) {
-			char *expanded = expand_vars(curr->content, env);
-			free(curr->content);
-			curr->content = expanded;
-		}
-		if (CAN_WILDCARD(curr)) {
+		if (CAN_EXPAND(curr))
+			expand_vars(env, curr, max_index(cmd->args));
+		if (CAN_WILDCARD(curr))
 			curr = expand_wildcard(curr, max_index(cmd->args));
-		}
 
 		for (int i = 0; curr->content[i]; i++) {
 			if (IS_STAR(curr->content[i]))

@@ -36,21 +36,29 @@ char *extract(char *dest, char *src, int size) {
 	return dest;
 }
 
-char *expand_vars(char *str, Env *env) {
+void expand_vars(Env *env, Parser *el, int max) {
 	int not_var = 0;
-	char *res = ft_strdup("");
+	char *str = el->content;
+	char *str_start = str;
+	el->content = ft_strdup("");
+	Token token = el->token;
 
 	while (*str) {
 		if (*str == '$') {
-			res = extract(res, str - not_var, not_var);
+			el->content = extract(el->content, str - not_var, not_var);
 
 			int var_size = get_variable(str+1);
 			char *var = ft_substr(str+1, 0, var_size);
-			char *expanded_var = ft_getenv_alloc(env, var);
-			res = clean_join(res, expanded_var);
+			char *value = ft_getenv_alloc(env, var);
+
+			if (token == t_word) {
+				TOKENIZE_VAR();
+			} else {
+				el->content = clean_join(el->content, value);
+			}
 
 			free(var);
-			free(expanded_var);
+			free(value);
 			str += var_size + 1;
 			not_var = 0;
 		} else {
@@ -59,5 +67,6 @@ char *expand_vars(char *str, Env *env) {
 		}
 	}
 
-	return extract(res, str - not_var, not_var);
+	el->content = extract(el->content, str - not_var, not_var);
+	free(str_start);
 }
