@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-#define WORD_END "\t\n\v\f\r\"' "
+#define WORD_END "\t\n\v\f\r\"' <>|&"
 #define ft_isspace(x) ((x >= '\t' && x <= '\r') || x == ' ')
 #define IS_REDIR(x) (x == t_append || x == t_heredoc || x == t_to || x == t_from)
 #define CAN_REDIR(x) (x == t_word || x == t_double_quotes || x == t_single_quotes)
@@ -32,30 +32,31 @@
 		}													\
 	}
 
-#define PARSE_OPERATOR(op, type)						\
-	{													\
-		if (!ft_strncmp(str, op, ft_strlen(op))) {		\
+#define PARSE_OPERATOR(op, type)							\
+	{														\
+		if (!ft_strncmp(str, op, ft_strlen(op))) {			\
 			Parser *new = ft_calloc(1, sizeof(Parser));		\
-			new->content = operator(&str, op);			\
-			new->token = type;							\
-			new->index = index;							\
-			ADD_TOKEN(head, curr, new);					\
-			index++;									\
-			continue;									\
-		}												\
+			new->content = operator(&str, op);				\
+			new->token = type;								\
+			index++;										\
+			new->index = index;								\
+			index++;										\
+			ADD_TOKEN(head, curr, new);						\
+			continue;										\
+		}													\
 	}
 
-#define PARSE_WORD()								\
-	{												\
-		char *content = parse_word(&str);			\
-		if (!content)								\
-			continue;								\
+#define PARSE_WORD()									\
+	{													\
+		char *content = parse_word(&str);				\
+		if (!content)									\
+			continue;									\
 		Parser *new = ft_calloc(1, sizeof(Parser));		\
-		new->content = content;						\
+		new->content = content;							\
 		new->token = t_word;							\
-		new->index = index;							\
-		ADD_TOKEN(head, curr, new);					\
-		continue;									\
+		new->index = index;								\
+		ADD_TOKEN(head, curr, new);						\
+		continue;										\
 	}
 
 #define ADD_COMMAND(head, new, last)		\
