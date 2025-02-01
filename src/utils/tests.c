@@ -26,8 +26,8 @@ int comp_redir(t_redir *r1, t_redir *r2) {
 }
 
 int comp_cmd(Command *cmd1, Command *cmd2) {
-	if (STRINGS_DIFFER(cmd1->cmd, cmd2->cmd))
-		FAIL("wrong cmd->cmd");
+	if (STRINGS_DIFFER(cmd1->av[0], cmd2->av[0]))
+		FAIL("wrong cmd->av[0]");
 	if (!comp_av(cmd1->av, cmd2->av))
 		FAIL("wrong cmd->av");
 	if (!comp_redir(cmd1->redirs, cmd2->redirs))

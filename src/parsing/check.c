@@ -10,23 +10,25 @@ void init_ac(Command *head) {
 }
 
 void check_type(Command *cmd, Token token) {
-	if (!ft_strcmp("echo", cmd->cmd))
+	char *name = cmd->args->content;
+
+	if (!ft_strcmp("echo", name))
 		cmd->type = ECHO;
-	else if (!ft_strcmp("cd", cmd->cmd))
+	else if (!ft_strcmp("cd", name))
 		cmd->type = CD;
-	else if (!ft_strcmp("pwd", cmd->cmd))
+	else if (!ft_strcmp("pwd", name))
 		cmd->type = PWD;
-	else if (!ft_strcmp("export", cmd->cmd))
+	else if (!ft_strcmp("export", name))
 		cmd->type = EXPORT;
-	else if (!ft_strcmp("unset", cmd->cmd))
+	else if (!ft_strcmp("unset", name))
 		cmd->type = UNSET;
-	else if (!ft_strcmp("env", cmd->cmd))
+	else if (!ft_strcmp("env", name))
 		cmd->type = ENV;
-	else if (!ft_strcmp("exit", cmd->cmd))
+	else if (!ft_strcmp("exit", name))
 		cmd->type = EXIT;
 	else if (token == t_subshell)
 		cmd->type = SUBSHELL;
-	else if (ft_strchr(cmd->cmd, '=') && token == t_word)
+	else if (ft_strchr(name, '=') && token == t_word)
 		cmd->type = VAR;
 }
 

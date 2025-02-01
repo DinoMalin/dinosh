@@ -77,7 +77,6 @@ typedef enum {
 
 /* === Executing linked list ===*/
 typedef struct Command {
-	char			*cmd;
 	Parser			*args;
 	char			**av;
 	int				ac;
@@ -153,4 +152,3 @@ bool	has_token_errors(Parser *head);
 
 /* ====== TESTS ====== */
 void	tests_parsing(char **envp);
-

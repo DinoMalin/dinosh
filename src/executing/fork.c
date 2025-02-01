@@ -14,14 +14,14 @@ void fork_routine(Command *head, Command *cmd, Context *ctx, Pipes *pipes) {
 		builtin(cmd, ctx);
 	else if (cmd->type == SUBSHELL) {
 		Context subctx = {
-			.input = cmd->cmd,
+			.input = cmd->av[0],
 			.env = ctx->env,
 			.exit = false
 		};
 		handle_input(&subctx); // todo: create copy of env
 		exit_fork(head, &subctx);
 	} else if (cmd->type == BASIC) {
-		char *path = find_path(ctx->env, cmd->cmd);
+		char *path = find_path(ctx->env, cmd->av[0]);
 
 		if (!path)
 			ctx->code = 127;

@@ -33,12 +33,10 @@ void analyze_command(Command *cmd, Parser **data, int *arg_index) {
 		return;
 	}
 
-	if (*arg_index == 0) {
-		cmd->cmd = ft_strdup((*data)->content);
-		check_type(cmd, (*data)->token);
-	}
-
 	add_arg(cmd, *data);
+	if (*arg_index == 0)
+		check_type(cmd, (*data)->token);
+
 	(*arg_index)++;
 }
 
