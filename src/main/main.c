@@ -60,6 +60,7 @@ int main(int ac, char **av, char **envp) {
 
 	signal(SIGINT, sig_handler);
 	signal(SIGQUIT, SIG_IGN);
+	rl_outstream = stderr;
 
 	Context ctx = {
 		.input = NULL,
