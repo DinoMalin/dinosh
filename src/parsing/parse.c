@@ -27,11 +27,15 @@ Command *init_cmd(Transmission from) {
 	return res;
 }
 
+// fill the command properties, detect the errors
 void analyze_command(Command *cmd, Parser **data, int *arg_index) {
 	if ((*data)->token == t_unknown)
 		cmd->error = unknown_token;
 	if ((*data)->token == t_unexpected)
 		cmd->error = unexpected_token;
+	if (cmd->type == SUBSHELL) // subshell hasn't be properly transmitted
+		cmd->error = unexpected_token;
+
 	if (IS_REDIR((*data)->token)) {
 		check_redir(cmd, data);
 		return;
@@ -55,6 +59,8 @@ Command *parse(Parser *data) {
 
 	while (data) {
 		if (data_index == 0 && !ft_strlen(data->content)) {
+			if (data->token == t_subshell)
+				error = empty_subshell;
 			data = data->next;
 			continue;
 		}

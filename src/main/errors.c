@@ -46,6 +46,10 @@ bool parse_error(Command *head) {
 			dprintf(2, "dinosh: unknown token\n");
 			return true;
 		}
+		if (head->error == empty_subshell) {
+			dprintf(2, "dinosh: empty subshell\n");
+			return true;
+		}
 		head = head->next;
 	}
 	return false;

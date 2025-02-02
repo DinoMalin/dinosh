@@ -3,7 +3,9 @@
 void check_type(Command *cmd, Token token) {
 	char *name = cmd->args->content;
 
-	if (!ft_strcmp("echo", name))
+	if (token == t_subshell)
+		cmd->type = SUBSHELL;
+	else if (!ft_strcmp("echo", name))
 		cmd->type = ECHO;
 	else if (!ft_strcmp("cd", name))
 		cmd->type = CD;
@@ -17,8 +19,6 @@ void check_type(Command *cmd, Token token) {
 		cmd->type = ENV;
 	else if (!ft_strcmp("exit", name))
 		cmd->type = EXIT;
-	else if (token == t_subshell)
-		cmd->type = SUBSHELL;
 	else if (ft_strchr(name, '=') && token == t_word)
 		cmd->type = VAR;
 }

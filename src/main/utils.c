@@ -47,6 +47,7 @@ void read_token(Parser *head) {
 void handle_input(Context *ctx) {
 	Parser *data = tokenize(ctx->input);
 	if (token_error(data)) {
+		ctx->code = 2;
 		free_list(data);
 		return;
 	}

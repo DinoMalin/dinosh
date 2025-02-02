@@ -33,6 +33,7 @@ typedef enum {
 	empty_redir,
 	unexpected_token,
 	unknown_token,
+	empty_subshell,
 	start_pipe
 } Error;
 
