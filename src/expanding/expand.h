@@ -16,13 +16,13 @@
 	}
 
 
-#define REATTRIBUTE_INDEXES()				\
+#define REATTRIBUTE_ID()					\
 	{										\
 		for (int i = 0; curr; i++) {		\
 			max = max+i;					\
 			if (ft_strlen(el->content))		\
 				max++;						\
-			curr->index = max;				\
+			curr->id = max;					\
 			curr = curr->next;				\
 		}									\
 	}
@@ -49,7 +49,7 @@
 	{											\
 		Parser *args = tokenize(value);			\
 		Parser *curr = args;					\
-		REATTRIBUTE_INDEXES();					\
+		REATTRIBUTE_ID();					\
 		if (!ft_isspace(value[0]) && args) {	\
 			MERGE_FIRST_NODE();					\
 		}										\

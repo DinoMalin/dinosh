@@ -20,10 +20,10 @@
 		int len = ft_strlen(start);							\
 		if (!ft_strncmp(str, start, len)) {					\
 			str += len;										\
-			Parser *new = ft_calloc(1, sizeof(Parser));			\
+			Parser *new = ft_calloc(1, sizeof(Parser));		\
 			new->content = until(&str, end);				\
 			new->token = type;								\
-			new->index = index;								\
+			new->id = id;									\
 			if (!new->content)								\
 				new->error = unclosed_token;				\
 			ADD_TOKEN(head, curr, new);						\
@@ -37,9 +37,9 @@
 			Parser *new = ft_calloc(1, sizeof(Parser));		\
 			new->content = operator(&str, op);				\
 			new->token = type;								\
-			index++;										\
-			new->index = index;								\
-			index++;										\
+			id++;											\
+			new->id = id;									\
+			id++;											\
 			ADD_TOKEN(head, curr, new);						\
 			continue;										\
 		}													\
@@ -53,7 +53,7 @@
 		Parser *new = ft_calloc(1, sizeof(Parser));		\
 		new->content = content;							\
 		new->token = t_word;							\
-		new->index = index;								\
+		new->id = id;									\
 		ADD_TOKEN(head, curr, new);						\
 		continue;										\
 	}

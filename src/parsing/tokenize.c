@@ -40,13 +40,13 @@ char *parse_word(char **str) {
 }
 
 Parser *tokenize(char *str) {
-	int index = 0;
+	int id = 0;
 	Parser *curr = NULL;
 	Parser *head = NULL;
 
 	while (*str) {
 		if (skip_whitespace(&str))
-			index++;
+			id++;
 		PARSE_TOKEN("\"", "\"", t_double_quotes);
 		PARSE_TOKEN("'", "'", t_single_quotes);
 		PARSE_TOKEN("(", ")", t_subshell);

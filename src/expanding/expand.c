@@ -1,10 +1,10 @@
 #include "expand.h"
 
-int max_index(Parser *head) {
+int max_id(Parser *head) {
 	int max = 0;
 	while (head) {
-		if (head->index > max)
-			max = head->index;
+		if (head->id > max)
+			max = head->id;
 		head = head->next;
 	}
 	return max;
@@ -26,9 +26,9 @@ void expand(Command *cmd, Env *env) {
 
 	while (curr) {
 		if (CAN_EXPAND(curr))
-			expand_vars(env, curr, max_index(cmd->args));
+			expand_vars(env, curr, max_id(cmd->args));
 		if (CAN_WILDCARD(curr))
-			curr = expand_wildcard(curr, max_index(cmd->args));
+			curr = expand_wildcard(curr, max_id(cmd->args));
 
 		for (int i = 0; curr->content[i]; i++) {
 			if (IS_STAR(curr->content[i]))

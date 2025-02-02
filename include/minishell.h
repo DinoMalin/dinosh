@@ -43,9 +43,8 @@ typedef struct Parser {
 	Token		token;
 	struct Parser	*next;
 	Error		error;
-	int			index;	// isn't used to count : the index will sometime be
-} Parser;					// non-consecutives. It's used to know if two args
-						// must be merged
+	int			id;
+} Parser;
 
 typedef enum {
 	r_to,

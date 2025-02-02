@@ -4,7 +4,7 @@ void add_arg(Command *cmd, Parser *new) {
 	Parser *cpy = ft_calloc(1, sizeof(Parser));
 	cpy->content = ft_strdup(new->content);
 	cpy->token = new->token;
-	cpy->index = new->index;
+	cpy->id = new->id;
 
 	if (cmd->args) {
 		Parser *last = cmd->args;

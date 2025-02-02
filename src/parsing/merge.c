@@ -3,7 +3,7 @@
 void merge_one_node(Parser *head) {
 	Parser *merge = head->next;
 
-	while (merge && merge->index == head->index) {
+	while (merge && merge->id == head->id) {
 		Parser *next = merge->next;
 
 		head->content = clean_join(head->content, merge->content);
