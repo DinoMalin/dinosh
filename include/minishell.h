@@ -24,6 +24,7 @@ typedef enum {
 	t_or,
 	t_pipe,
 	t_unknown,
+	t_unexpected,
 } Token;
 
 typedef enum {

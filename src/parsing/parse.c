@@ -28,9 +28,10 @@ Command *init_cmd(Transmission from) {
 }
 
 void analyze_command(Command *cmd, Parser **data, int *arg_index) {
-	if ((*data)->token == t_unknown) {
+	if ((*data)->token == t_unknown)
 		cmd->error = unknown_token;
-	}
+	if ((*data)->token == t_unexpected)
+		cmd->error = unexpected_token;
 	if (IS_REDIR((*data)->token)) {
 		check_redir(cmd, data);
 		return;
