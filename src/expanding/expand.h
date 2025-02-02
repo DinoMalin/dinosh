@@ -2,11 +2,17 @@
 #include <dirent.h>
 
 #define CAN_EXPAND(x) ((x->token == t_double_quotes || x->token == t_word) && ft_strchr(curr->content, '$'))
-#define CAN_WILDCARD(x) (curr->token == t_word && ft_strchr(curr->content, '*'))
 
-#define IS_STAR(x) (x == '*' * -1)
-#define EQUAL(x, e) (x && e && (x == e || (IS_STAR(x) && e == '*')))
-#define NOT_EQUAL(x, e) (x != e && !(IS_STAR(x) && e == '*') && x != '*')
+#define SAME_ID(x, y) (x && x->id == y->id)
+#define IS_WILDCARD(x, y) (SAME_ID(x, y) && x->token == t_wildcard)
+#define INCREMENT_CONTENT(curr, index)	\
+	{									\
+		index++;						\
+		if (!curr->content[index]) {	\
+			curr = curr->next;			\
+			index = 0;					\
+		}								\
+	}
 
 #define ADD_SPECIAL_VAR(var)				\
 	{										\
@@ -45,15 +51,16 @@
 		el->next = next;			\
 	}
 
-#define TOKENIZE_VAR()							\
-	{											\
-		Parser *args = tokenize(value);			\
-		Parser *curr = args;					\
-		REATTRIBUTE_ID();					\
-		if (!ft_isspace(value[0]) && args) {	\
-			MERGE_FIRST_NODE();					\
-		}										\
-		INSERT_NEW_ARGS();						\
+#define TOKENIZE_VAR()									\
+	{													\
+		Parser *args = mini_tokenizer(value);			\
+		Parser *curr = args;							\
+		REATTRIBUTE_ID();								\
+		if (!ft_isspace(value[0])						\
+			&& args && args->token != t_wildcard) {		\
+			MERGE_FIRST_NODE();							\
+		}												\
+		INSERT_NEW_ARGS();								\
 	}
 
 void	expand_vars(Env *env, Parser *el, int max);

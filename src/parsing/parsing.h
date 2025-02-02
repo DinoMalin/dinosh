@@ -1,6 +1,7 @@
 #include "minishell.h"
 
-#define WORD_END "\t\n\v\f\r\"' <>|&()"
+#define WORD_END "\t\n\v\f\r\"' <>|&()*"
+#define MINI_WORD_END "\t\n\v\f\r *"
 #define IS_REDIR(x) (x == t_append || x == t_heredoc || x == t_to || x == t_from)
 #define CAN_REDIR(x) (x == t_word || x == t_double_quotes || x == t_single_quotes)
 
@@ -31,6 +32,7 @@
 		}													\
 	}
 
+// A character that does not belong to the same arg
 #define PARSE_OPERATOR(op, type)							\
 	{														\
 		if (!ft_strncmp(str, op, ft_strlen(op))) {			\
@@ -45,9 +47,22 @@
 		}													\
 	}
 
-#define PARSE_WORD()									\
+// A character that belongs to the same arg
+#define PARSE_CHARACTER(ch, type)							\
+	{														\
+		if (!ft_strncmp(str, ch, ft_strlen(ch))) {			\
+			Parser *new = ft_calloc(1, sizeof(Parser));		\
+			new->content = operator(&str, ch);				\
+			new->token = type;								\
+			new->id = id;									\
+			ADD_TOKEN(head, curr, new);						\
+			continue;										\
+		}													\
+	}
+
+#define PARSE_WORD(word_end)							\
 	{													\
-		char *content = parse_word(&str);				\
+		char *content = parse_word(&str, word_end);		\
 		if (!content)									\
 			continue;									\
 		Parser *new = ft_calloc(1, sizeof(Parser));		\

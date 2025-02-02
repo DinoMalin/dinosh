@@ -25,9 +25,9 @@ char *operator(char **str, char *op) {
 	return (ft_strdup(op));
 }
 
-char *parse_word(char **str) {
+char *parse_word(char **str, char *word_end) {
 	char *end = *str;
-	while (*end && !ft_strchr(WORD_END, *end)) {
+	while (*end && !ft_strchr(word_end, *end)) {
 		end++;
 	}
 	char *res = ft_substr(*str, 0, end - *str);
@@ -37,6 +37,21 @@ char *parse_word(char **str) {
 		return NULL;
 	}
 	return res;
+}
+
+Parser *mini_tokenizer(char *str) {
+	int id = 0;
+	Parser *curr = NULL;
+	Parser *head = NULL;
+
+	while (*str) {
+		if (skip_whitespace(&str))
+			id++;
+		PARSE_CHARACTER("*", t_wildcard);
+		PARSE_WORD(MINI_WORD_END);
+	}
+
+	return head;
 }
 
 Parser *tokenize(char *str) {
@@ -59,7 +74,8 @@ Parser *tokenize(char *str) {
 		PARSE_OPERATOR("|", t_pipe);
 		PARSE_OPERATOR(")", t_unexpected);
 		PARSE_OPERATOR("&", t_unknown); // not implemented yet. Will be in 42sh.
-		PARSE_WORD();
+		PARSE_CHARACTER("*", t_wildcard);
+		PARSE_WORD(WORD_END);
 	}
 
 	return head;

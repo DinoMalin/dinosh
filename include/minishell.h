@@ -23,6 +23,7 @@ typedef enum {
 	t_and,
 	t_or,
 	t_pipe,
+	t_wildcard,
 	t_unknown,
 	t_unexpected,
 } Token;
@@ -114,6 +115,7 @@ typedef struct {
 } Context;
 
 /* ====== MINISHELL ====== */
+Parser	*mini_tokenizer(char *str);
 Parser	*tokenize(char *str);
 Command	*parse(Parser *data);
 void	merge_one_node(Parser *head);
@@ -147,6 +149,7 @@ t_redir	*clean_redirjoin(t_redir *origin, t_redir to_join);
 void	handle_input(Context *ctx);
 void	update_code_var(Context *ctx);
 void	init_basic_vars(Context *ctx);
+void	read_token(Parser *head);
 
 /* ====== ERROR ====== */
 bool	token_error(Parser *head);

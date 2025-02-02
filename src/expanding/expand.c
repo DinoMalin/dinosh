@@ -1,5 +1,16 @@
 #include "expand.h"
 
+bool this_id_has_wildcard(Parser *head) {
+	Parser *curr = head;
+	while (curr && curr->id == head->id) {
+		if (curr->token == t_wildcard)
+			return true;
+		curr = curr->next;
+	}
+	
+	return false;
+}
+
 int max_id(Parser *head) {
 	int max = 0;
 	while (head) {
@@ -27,15 +38,17 @@ void expand(Command *cmd, Env *env) {
 	while (curr) {
 		if (CAN_EXPAND(curr))
 			expand_vars(env, curr, max_id(cmd->args));
-		if (CAN_WILDCARD(curr))
-			curr = expand_wildcard(curr, max_id(cmd->args));
-
-		for (int i = 0; curr->content[i]; i++) {
-			if (IS_STAR(curr->content[i]))
-				curr->content[i] = '*';
-		}
-
 		curr = curr->next;
+	}
+
+	curr = cmd->args;
+	while (curr) {
+		if (this_id_has_wildcard(curr)) {
+			curr = expand_wildcard(curr, max_id(cmd->args));
+		}
+		int id = curr->id;
+		while (curr && curr->id == id)
+			curr = curr->next;
 	}
 
 	if (cmd->args)
