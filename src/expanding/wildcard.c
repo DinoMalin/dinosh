@@ -54,8 +54,21 @@ char **get_entries(char *str) {
 	return res;
 }
 
+void sort_entries(char **entries) {
+	for (int i = 0; entries[i]; i++) {
+		for (int j = i + 1; entries[j]; j++) {
+			if (ft_strcmp(entries[i], entries[j]) > 0) {
+				char *tmp = entries[i];
+				entries[i] = entries[j];
+				entries[j] = tmp;
+			}
+		}
+	}
+}
+
 Parser *expand_wildcard(Parser *el, int max) {
 	char **entries = get_entries(el->content);
+	sort_entries(entries);
 	free(el->content);
 
 	if (!entries[0])
