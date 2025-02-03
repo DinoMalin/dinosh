@@ -35,6 +35,7 @@ typedef enum {
 	unexpected_token,
 	unknown_token,
 	empty_subshell,
+	ambiguous_redirect,
 	start_pipe
 } Error;
 
@@ -149,6 +150,7 @@ t_redir	*clean_redirjoin(t_redir *origin, t_redir to_join);
 void	handle_input(Context *ctx);
 void	update_code_var(Context *ctx);
 void	init_basic_vars(Context *ctx);
+bool	this_id_has_wildcard(Parser *head);
 void	read_token(Parser *head);
 
 /* ====== ERROR ====== */

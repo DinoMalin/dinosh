@@ -35,6 +35,10 @@ void check_redir(Command *cmd, Parser **data) {
 		cmd->error = unexpected_token;
 		return;
 	}
+	if (this_id_has_wildcard(*data)) {
+		cmd->error = ambiguous_redirect;
+		return;
+	}
 
 	Redir r_type = 0;
 	if (type == t_from)
