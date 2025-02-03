@@ -18,12 +18,12 @@ Parser:
     content
     token
     error
-    index
+    id
 ```
 ```content```: the content of the token\
 ```token```: the type of the token\
 ```error```: if the tokenizer found an error (unclosed quotes ?)\
-```index```: used to later know which arguments belong to the same argv.
+```id```: used to later know which arguments belong to the same argv.
 
 We now have the necessary data to do the syntactic analysis, or parsing.
 
