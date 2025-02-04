@@ -14,8 +14,12 @@ void env(Command *cmd, Env *env) {
 		BUILTIN_ERROR("env: too many args");
 
 	while (env) {
-		if (!(env->type & SPECIAL))
-			printf("%s=%s"RESET"\n", env->var, env->value);
+		if (!(env->type & SPECIAL)) {
+			ft_putstr_fd(env->var, 1);
+			ft_putstr_fd("=", 1);
+			ft_putstr_fd(env->value, 1);
+			ft_putstr_fd(RESET"\n", 1);
+		}
 		env = env->next;
 	}
 }

@@ -5,6 +5,7 @@ void pwd(Command *cmd) {
 		BUILTIN_ERROR("pwd: too many args");
 
 	char *pwd = getcwd(NULL, 0);
-	printf("%s\n", pwd);
+	ft_putstr_fd(pwd, 1);
+	ft_putstr_fd("\n", 1);
 	free(pwd);
 }

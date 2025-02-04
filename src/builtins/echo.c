@@ -19,12 +19,12 @@ void echo(Command *cmd) {
 	int n_flag = has_n_flag(cmd);
 
 	for (int i = n_flag ? 2 : 1; cmd->av[i]; i++) {
-		printf("%s", cmd->av[i]);
+		ft_putstr_fd(cmd->av[i], 1);
 		if (i < cmd->ac - 1)
-			printf(" ");
+			ft_putstr_fd(" ", 1);
 	}
 
 	if (!n_flag) {
-		printf("\n");
+		ft_putstr_fd("\n", 1);
 	}
 }
