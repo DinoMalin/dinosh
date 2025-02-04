@@ -10,6 +10,11 @@ void fork_routine(Command *head, Command *cmd, Context *ctx, Pipes *pipes) {
 	redirect_pipe(cmd, pipes);
 	redirect(cmd);
 
+	if (cmd->error) {
+		ctx->code = 1;
+		exit_fork(head, ctx);
+	}
+
 	if (IS_BUILTIN(cmd->type))
 		builtin(cmd, ctx);
 	else if (cmd->type == SUBSHELL) {
@@ -61,7 +66,10 @@ void wait_everything(Command *head, Command *until, Context *ctx) {
 			head->pid = 0;
 			ctx->code = WEXITSTATUS(exit_status);
 		} else {
-			ctx->code = head->exit_code;
+			if (head->error)
+				ctx->code = 1;
+			else
+				ctx->code = head->exit_code;
 		}
 		if (head == until)
 			break;
@@ -79,13 +87,22 @@ void execute(Command *head, Context *ctx) {
 
 	while (curr) {
 		DO_PIPE();
-		FILL_HEREDOC();
 		expand(curr, ctx->env);
+		init_redirs(curr);
+		if (curr->error) {
+			curr->pid = 0;
+			curr = curr->next;
+			continue;
+		}
+		init_av(curr);
+		FILL_HEREDOC();
 
 		if (IS_BUILTIN(curr->type) && !IS_PIPED(curr)) {
+			curr->pid = 0;
 			fd_storage(STORE);
 			redirect(curr);
-			builtin(curr, ctx);
+			if (!curr->error)
+				builtin(curr, ctx);
 			fd_storage(RESTORE);
 		} else {
 			create_fork(head, curr, ctx, &pipes);

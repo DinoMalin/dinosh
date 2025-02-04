@@ -23,35 +23,15 @@ void check_type(Command *cmd, Token token) {
 		cmd->type = VAR;
 }
 
-void check_redir(Command *cmd, Parser **data) {
-	Token type = (*data)->token;
-	(*data) = (*data)->next;
+void check_redir_errors(Command *cmd, Parser **data) {
+	Parser *file = (*data)->next;
 
-	if (!(*data)) {
+	if (!file) {
 		cmd->error = empty_redir;
 		return;
 	}
-	if (!CAN_REDIR((*data)->token)) {
+	if (!CAN_REDIR(file->token)) {
 		cmd->error = unexpected_token;
 		return;
 	}
-	if (this_id_has_wildcard(*data)) {
-		cmd->error = ambiguous_redirect;
-		return;
-	}
-
-	Redir r_type = 0;
-	if (type == t_from)
-		r_type = r_from;
-	else if (type == t_heredoc)
-		r_type = r_heredoc;
-	else if (type == t_to)
-		r_type = r_to;
-	else if (type == t_append)
-		r_type = r_append;
-
-	merge_one_node(*data);
-	t_redir redirection = (t_redir){ft_strdup((*data)->content), r_type};
-	cmd->redirs = clean_redirjoin(cmd->redirs, redirection);
-
 }

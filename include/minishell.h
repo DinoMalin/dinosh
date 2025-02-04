@@ -10,6 +10,7 @@
 #include <signal.h>
 
 #define ft_isspace(x) ((x >= '\t' && x <= '\r') || x == ' ')
+#define IS_REDIR(x) (x == t_append || x == t_heredoc || x == t_to || x == t_from)
 
 typedef enum {
 	t_word,
@@ -36,16 +37,17 @@ typedef enum {
 	unknown_token,
 	empty_subshell,
 	ambiguous_redirect,
-	start_pipe
+	start_pipe,
+	e_open
 } Error;
 
 /* === Parsing linked list ===*/
 typedef struct Parser {
-	char		*content;
-	Token		token;
+	char			*content;
+	Token			token;
 	struct Parser	*next;
-	Error		error;
-	int			id;
+	Error			error;
+	int				id;
 } Parser;
 
 typedef enum {

@@ -36,10 +36,8 @@ void analyze_command(Command *cmd, Parser **data, int *arg_index) {
 	if (cmd->type == SUBSHELL) // subshell hasn't be properly transmitted
 		cmd->error = unexpected_token;
 
-	if (IS_REDIR((*data)->token)) {
-		check_redir(cmd, data);
-		return;
-	}
+	if (IS_REDIR((*data)->token))
+		check_redir_errors(cmd, data);
 
 	add_arg(cmd, *data);
 	if (*arg_index == 0)

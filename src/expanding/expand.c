@@ -21,20 +21,15 @@ int max_id(Parser *head) {
 	return max;
 }
 
-void init_av(Command *cmd) {
-	Parser *curr = cmd->args;
-
-	while (curr) {
-		Parser *next = curr->next;
-		cmd->av = clean_strsjoin(cmd->av, ft_strdup(curr->content));
-		curr = next;
-		cmd->ac++;
-	}
-}
-
 void expand(Command *cmd, Env *env) {
 	Parser *curr = cmd->args;
+	while (curr) {
+		if (!CAN_EXPAND(curr) && !this_id_has_wildcard(curr))
+			merge_one_node(curr);
+		curr = curr->next;
+	}
 
+	curr = cmd->args;
 	while (curr) {
 		if (CAN_EXPAND(curr))
 			expand_vars(env, curr, max_id(cmd->args));
@@ -50,9 +45,4 @@ void expand(Command *cmd, Env *env) {
 		while (curr && curr->id == id)
 			curr = curr->next;
 	}
-
-	if (cmd->args)
-		merge(cmd->args);
-
-	init_av(cmd);
 }

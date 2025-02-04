@@ -6,6 +6,16 @@
 						|| x == UNSET|| x == ENV || x == ENV || x == EXIT)
 #define xclose(x) {if (x != -1) close(x);}
 
+#define DELETE_ARG(head, curr, prec)		\
+	{										\
+			Parser *next = curr->next;		\
+			free_node(curr);				\
+			if (curr == cmd->args)			\
+				head = next;				\
+			else							\
+				prec->next = next;			\
+	}
+
 #define DO_PIPE()							\
 	{										\
 		pipes.curr[0] = -1;					\
@@ -61,6 +71,8 @@ typedef struct {
 } Pipes;
 
 char	*find_path(Env *env, char *cmd);
+void	init_redirs(Command *cmd);
+void	init_av(Command *cmd);
 void	redirect(Command *cmd);
 void	redirect_pipe(Command *cmd, Pipes *pipes);
 void	fd_storage(StorageAction action);

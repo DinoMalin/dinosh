@@ -98,7 +98,7 @@ Parser *expand_wildcard(Parser *el, int max) {
 			Parser *new = ft_calloc(1, sizeof(Parser));
 
 			new->content = entries[i];
-			new->id = max + i;
+			new->id = max + 1;
 
 			el->next = new;
 			el = el->next;

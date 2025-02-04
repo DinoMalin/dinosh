@@ -25,10 +25,7 @@
 #define REATTRIBUTE_ID()					\
 	{										\
 		for (int i = 0; curr; i++) {		\
-			max = max+i;					\
-			if (ft_strlen(el->content))		\
-				max++;						\
-			curr->id = max;					\
+			curr->id = max + 1;				\
 			curr = curr->next;				\
 		}									\
 	}

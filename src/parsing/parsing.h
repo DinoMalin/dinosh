@@ -2,8 +2,7 @@
 
 #define WORD_END "\t\n\v\f\r\"' <>|&()*"
 #define MINI_WORD_END "\t\n\v\f\r *"
-#define IS_REDIR(x) (x == t_append || x == t_heredoc || x == t_to || x == t_from)
-#define CAN_REDIR(x) (x == t_word || x == t_double_quotes || x == t_single_quotes)
+#define CAN_REDIR(x) (x == t_word || x == t_wildcard || x == t_double_quotes || x == t_single_quotes)
 
 #define ADD_TOKEN(head, curr, new)	\
 	{								\
@@ -108,5 +107,5 @@
 		}											\
 	}
 
-void	 check_redir(Command *cmd, Parser **data);
-void	 check_type(Command *cmd, Token token);
+void	check_redir_errors(Command *cmd, Parser **data);
+void	check_type(Command *cmd, Token token);
