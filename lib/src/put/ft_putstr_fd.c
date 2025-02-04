@@ -20,6 +20,6 @@ int	ft_putstr_fd(char *str, int fd)
 	if (!str)
 		return (ft_putstr_fd("(null)", 1));
 	while (str[i])
-		ft_putchar_fd(str[i++], fd);
-	return (i);
+		i++;
+	return (write(fd, str, i));
 }
