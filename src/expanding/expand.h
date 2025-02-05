@@ -48,16 +48,16 @@
 		el->next = next;			\
 	}
 
-#define TOKENIZE_VAR()									\
-	{													\
-		Parser *args = mini_tokenizer(value);			\
-		Parser *curr = args;							\
-		REATTRIBUTE_ID();								\
-		if (!ft_isspace(value[0])						\
-			&& args && args->token != t_wildcard) {		\
-			MERGE_FIRST_NODE();							\
-		}												\
-		INSERT_NEW_ARGS();								\
+#define TOKENIZE_VAR()												\
+	{																\
+		Parser *args = mini_tokenizer(value);						\
+		Parser *curr = args;										\
+		REATTRIBUTE_ID();											\
+		if ((!ft_isspace(value[0]) || !ft_strlen(el->content))		\
+			&& args && args->token != t_wildcard) {					\
+			MERGE_FIRST_NODE();										\
+		}															\
+		INSERT_NEW_ARGS();											\
 	}
 
 void	expand_vars(Env *env, Parser *el, int max);
