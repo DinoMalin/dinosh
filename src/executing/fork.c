@@ -87,6 +87,7 @@ void execute(Command *head, Context *ctx) {
 
 	while (curr) {
 		DO_PIPE();
+		fill_heredoc(curr);
 		expand(curr, ctx->env);
 		init_redirs(curr);
 		if (curr->error) {
@@ -96,7 +97,6 @@ void execute(Command *head, Context *ctx) {
 		}
 		merge(curr->args);
 		init_av(curr);
-		FILL_HEREDOC();
 
 		if (IS_BUILTIN(curr->type) && !IS_PIPED(curr)) {
 			curr->pid = 0;

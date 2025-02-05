@@ -119,6 +119,22 @@ void init_redirs(Command *cmd) {
 	}
 }
 
+void fill_heredoc(Command *cmd) {
+	Parser *curr = cmd->args;
+	while (curr) {
+		if (curr->token == t_heredoc) {
+			unlink(HEREDOC_FILE);
+			Parser *file = curr->next;
+			merge_one_node(file);
+			if (!heredoc(file->content)) {
+				perror("dinosh: heredoc");
+				break;
+			}
+		}
+		curr = curr->next;
+	}
+}
+
 void redirect(Command *cmd) {
 	int fd_in = 0;
 	int fd_out = 1;
