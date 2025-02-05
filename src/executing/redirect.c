@@ -103,7 +103,7 @@ void init_redirs(Command *cmd) {
 	while (curr) {
 		if (IS_REDIR(curr->token)) {
 			Parser *file = curr->next;
-			if (file->next && file->next->id == file->id) {
+			if (file->next && file->next->expand_id == file->expand_id) {
 				dprintf(2, "dinosh: ambiguous redirect\n"); // print this elsewhere
 				cmd->error = ambiguous_redirect;
 			}

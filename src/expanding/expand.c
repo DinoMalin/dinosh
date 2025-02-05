@@ -24,9 +24,18 @@ int max_id(Parser *head) {
 void expand(Command *cmd, Env *env) {
 	Parser *curr = cmd->args;
 	while (curr) {
-		if (!CAN_EXPAND(curr) && !this_id_has_wildcard(curr))
+		bool can_expand = false;
+		Parser *node = curr;
+		while (node && node->id == curr->id) {
+			if (CAN_EXPAND(node) || this_id_has_wildcard(node))
+				can_expand = true;
+			node = node->next;
+		}
+		if (!can_expand) {
 			merge_one_node(curr);
-		curr = curr->next;
+			curr->expand_id = -1;
+		}
+		curr = node;
 	}
 
 	curr = cmd->args;

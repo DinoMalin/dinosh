@@ -48,6 +48,7 @@ typedef struct Parser {
 	struct Parser	*next;
 	Error			error;
 	int				id;
+	int				expand_id;
 } Parser;
 
 typedef enum {

@@ -82,6 +82,7 @@ Parser *expand_wildcard(Parser *el, int max) {
 	if (entries[0]) {
 		free(el->content);
 		el->content = entries[0];
+		el->expand_id = max + 1;
 
 		// erase the args with the same id
 		Parser *del = el->next;
@@ -98,7 +99,8 @@ Parser *expand_wildcard(Parser *el, int max) {
 			Parser *new = ft_calloc(1, sizeof(Parser));
 
 			new->content = entries[i];
-			new->id = max + 1;
+			new->id = max + i + 1;
+			new->expand_id = max + 1;
 
 			el->next = new;
 			el = el->next;

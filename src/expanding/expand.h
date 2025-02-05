@@ -1,7 +1,7 @@
 #include "minishell.h"
 #include <dirent.h>
 
-#define CAN_EXPAND(x) ((x->token == t_double_quotes || x->token == t_word) && ft_strchr(curr->content, '$'))
+#define CAN_EXPAND(x) ((x->token == t_double_quotes || x->token == t_word) && ft_strchr(x->content, '$') && x->expand_id != -1)
 
 #define SAME_ID(x, y) (x && x->id == y->id)
 #define IS_WILDCARD(x, y) (SAME_ID(x, y) && x->token == t_wildcard)
@@ -21,13 +21,13 @@
 			return len;						\
 	}
 
-
-#define REATTRIBUTE_ID()					\
-	{										\
-		for (int i = 0; curr; i++) {		\
-			curr->id = max + 1;				\
-			curr = curr->next;				\
-		}									\
+#define REATTRIBUTE_ID()											\
+	{																\
+		for (int i = 0; curr; i++) {								\
+			curr->id = max+i+(ft_strlen(curr->content) > 0);		\
+			curr->expand_id = max+1;								\
+			curr = curr->next;										\
+		}															\
 	}
 
 #define MERGE_FIRST_NODE()											\

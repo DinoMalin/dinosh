@@ -40,7 +40,7 @@ void update_code_var(Context *ctx) {
 void read_token(Parser *head) {
 	if (!head)
 		return;
-	printf("%d [%s] %d\n", head->id, head->content, head->token);
+	printf("%d %d [%s] %d\n", head->id, head->expand_id, head->content, head->token);
 	read_token(head->next);
 }
 

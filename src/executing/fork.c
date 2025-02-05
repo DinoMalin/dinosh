@@ -94,6 +94,7 @@ void execute(Command *head, Context *ctx) {
 			curr = curr->next;
 			continue;
 		}
+		merge(curr->args);
 		init_av(curr);
 		FILL_HEREDOC();
 
