@@ -36,9 +36,10 @@ typedef enum {
 	unexpected_token,
 	unknown_token,
 	empty_subshell,
-	ambiguous_redirect,
 	start_pipe,
-	e_open
+	ambiguous_redirect,
+	eheredoc,
+	eopen
 } Error;
 
 /* === Parsing linked list ===*/
@@ -160,6 +161,7 @@ void	read_token(Parser *head);
 bool	token_error(Parser *head);
 bool	parse_error(Command *head);
 bool	has_token_errors(Parser *head);
+bool	command_error(Command *head);
 
 /* ====== TESTS ====== */
 void	tests_parsing(char **envp);

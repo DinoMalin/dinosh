@@ -58,3 +58,15 @@ bool parse_error(Command *head) {
 	}
 	return false;
 }
+
+bool command_error(Command *head) {
+	if (head->error == eheredoc) {
+		perror("dinosh: heredoc");
+		return true;
+	}
+	if (head->error == ambiguous_redirect) {
+		dprintf(2, "dinosh: ambiguous redirect\n");
+		return true;
+	}
+	return false;
+}

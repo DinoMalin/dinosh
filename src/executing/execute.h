@@ -58,10 +58,8 @@ typedef struct {
 } Pipes;
 
 char	*find_path(Env *env, char *cmd);
-void	init_redirs(Command *cmd);
-void	init_av(Command *cmd);
+bool	init_command(Context *ctx, Command *cmd);
 void	redirect(Command *cmd);
 void	redirect_pipe(Command *cmd, Pipes *pipes);
 void	fd_storage(StorageAction action);
-void	fill_heredoc(Command *cmd);
 int		heredoc(char *lim);

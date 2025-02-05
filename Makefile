@@ -20,7 +20,7 @@ FILES	= main/errors main/utils main/signals							\
 		builtins/pwd builtins/export									\
 		builtins/unset builtins/env builtins/exit						\
 		expanding/vars expanding/wildcard expanding/expand				\
-		executing/fork executing/path executing/redirect
+		executing/fork executing/path executing/redirect executing/init
 
 FUZZER_FILES := $(FILES) utils/fuzzer
 FILES += $(MAIN)
