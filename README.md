@@ -8,7 +8,7 @@ We begin by taking a string, which we will call the input.
 Once we have it, we try to tokenize it.
 
 ### Tokenizing
-The tokenizing, or lexing, is like saying "This vehicle has 4 wheels and is not that big, it must be a car !", but for words.\
+The tokenizing, or lexing, is like saying "This is a wheel, this is a wheel, this is a handlebar", but for words.\
 We will analyze words and characters, extract content between two quotes, recognize redirections and pipes, and so on.
 
 Our function ```tokenize(input)``` returns us a linked list of `Parser`. `Parser` is our parsing type.
@@ -29,7 +29,7 @@ We now have the necessary data to do the syntactic analysis, or parsing.
 
 ### Parsing
 
-The parsing is like saying "This car is fleeing another car with sirens, it must be a criminal fleeing the police !", but for words.\
+The parsing is like saying "There is two wheels and a handlerbar, this must be a bike.", but for words.\
 We will analyze our tokenized input and separate the nodes in commands.
 
 Our function ```parse(data)``` returns us a linked list of `Command`
@@ -58,7 +58,7 @@ Command:
 We now have the necessary data to do the executing.
 
 ### Executing
-The executing is like saying "There's a car chasing me, I must drive !", but for words. I'm lost in my analogies.
+The executing is like saying "If this is a bike, let's drive with more caution.", but for words. I'm lost in my analogies.
 
 During the executing, a lot of things happens.
 First, we expand :
