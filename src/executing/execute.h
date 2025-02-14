@@ -31,9 +31,11 @@
 		}									\
 	}
 
-#define CHECK_AND_OR()								\
+#define CHECK_TRANSMISSION()						\
 	{												\
-		if (curr->to == AND || curr->to == OR) {	\
+		if (curr->to == AND							\
+			|| curr->to == OR						\
+			|| curr->to == SEMICOLON) {				\
 			wait_everything(wait, curr, ctx);		\
 			wait = curr->next;						\
 		}											\

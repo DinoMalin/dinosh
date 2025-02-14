@@ -24,6 +24,7 @@ typedef enum {
 	t_and,
 	t_or,
 	t_pipe,
+	t_semicolon,
 	t_wildcard,
 	t_unknown,
 	t_unexpected,
@@ -82,6 +83,7 @@ typedef enum {
 	PIPE,
 	AND,
 	OR,
+	SEMICOLON,
 } Transmission;
 
 /* === Executing linked list ===*/
