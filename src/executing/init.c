@@ -34,15 +34,16 @@ void init_redirs(Command *cmd) {
 	while (curr) {
 		if (IS_REDIR(curr->token)) {
 			Parser *file = curr->next;
-			if (file->next && file->next->expand_id == file->expand_id) {
+			if (file->next && file->next->expand_id == file->expand_id && file->expand_id != -1) {
 				dprintf(2, "dinosh: ambiguous redirect\n"); // print this elsewhere
 				cmd->error = ambiguous_redirect;
 			}
 			Token token = curr->token;
+			Parser *next = file->next;
 			DELETE_ARG(cmd->args, curr, prec);
 			add_redir(cmd, token, file->content);
 			DELETE_ARG(cmd->args, file, prec);
-			curr = prec->next;
+			curr = next;
 			continue;
 		}
 		prec = curr;

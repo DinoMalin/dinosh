@@ -8,12 +8,13 @@
 
 #define DELETE_ARG(head, curr, prec)		\
 	{										\
-			Parser *next = curr->next;		\
+			if (curr == cmd->args) {		\
+				head = curr->next;			\
+				prec = curr->next;			\
+			} else {						\
+				prec->next = curr->next;	\
+			}								\
 			free_node(curr);				\
-			if (curr == cmd->args)			\
-				head = next;				\
-			else							\
-				prec->next = next;			\
 	}
 
 #define DO_PIPE()							\
