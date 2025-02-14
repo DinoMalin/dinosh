@@ -29,6 +29,7 @@ typedef enum {
 	t_wildcard,
 	t_unknown,
 	t_unexpected,
+	t_missing_parameter,
 } Token;
 
 typedef enum {
@@ -42,7 +43,8 @@ typedef enum {
 	ambiguous_redirect,
 	eheredoc,
 	eopen,
-	numeric_argument
+	numeric_argument,
+	missing_parameter
 } Error;
 
 /* === Parsing linked list ===*/

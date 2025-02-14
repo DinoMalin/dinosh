@@ -31,6 +31,8 @@ Command *init_cmd(Transmission from) {
 void analyze_command(Command *cmd, Parser **data, int *arg_index) {
 	if ((*data)->token == t_unknown)
 		cmd->error = unknown_token;
+	if ((*data)->token == t_missing_parameter)
+		cmd->error = missing_parameter;
 	if ((*data)->token == t_unexpected)
 		cmd->error = unexpected_token;
 	if (cmd->type == SUBSHELL) // subshell hasn't be properly transmitted

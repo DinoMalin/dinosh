@@ -50,8 +50,8 @@ bool parse_error(Command *head) {
 			dprintf(2, "dinosh: empty subshell\n");
 			return true;
 		}
-		if (head->error == ambiguous_redirect) {
-			dprintf(2, "dinosh: ambiguous redirect\n");
+		if (head->error == missing_parameter) {
+			dprintf(2, "dinosh: missing parameter\n");
 			return true;
 		}
 		head = head->next;
