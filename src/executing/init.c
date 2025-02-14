@@ -26,15 +26,16 @@ void add_redir(Command *cmd, Token type, char *name) {
 	cmd->redirs = clean_redirjoin(cmd->redirs, redirection);
 }
 
-void add_redir_to_fd(Command *cmd, char *in, char *out) {
-	if (!is_number(in) || !is_number(out)) {
+void add_redir_to_fd(Command *cmd, char *n, char *word) {
+	bool should_close = !ft_strcmp(word, "-");
+	if ((!is_number(n) || !is_number(word)) && !should_close) {
 		dprintf(2, "dinosh: numeric argument required\n");
 		cmd->error = numeric_argument;
 		return;
 	}
-	int fd_in = ft_atoi(in);
-	int fd_out = ft_atoi(out);
-	t_redir redirection = (t_redir){ft_strdup(""), r_to_fd, fd_in, fd_out};
+	int fd_n = ft_atoi(n);
+	int fd_word = should_close ? -1 : ft_atoi(word);
+	t_redir redirection = (t_redir){ft_strdup(""), r_to_fd, fd_n, fd_word};
 	cmd->redirs = clean_redirjoin(cmd->redirs, redirection);
 }
 

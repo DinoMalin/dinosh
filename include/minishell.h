@@ -81,8 +81,8 @@ typedef enum {
 typedef struct {
 	char	*file;
 	Redir	type;
-	int		in;
-	int		out;
+	int		n;
+	int		word;
 } t_redir;
 
 typedef enum {

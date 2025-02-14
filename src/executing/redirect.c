@@ -99,7 +99,9 @@ void redirect(Command *cmd) {
 			}
 			unlink(HEREDOC_FILE);
 		} else if (cmd->redirs[i].type == r_to_fd) {
-			if (dup2(cmd->redirs[i].out, cmd->redirs[i].in) < 0) {
+			if (cmd->redirs[i].word == -1)
+				close(cmd->redirs[i].n);
+			else if (dup2(cmd->redirs[i].word, cmd->redirs[i].n) < 0) {
 				perror("dinosh: dup2");
 				cmd->error = eopen;
 				return;
