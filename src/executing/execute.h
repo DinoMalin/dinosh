@@ -5,6 +5,7 @@
 #define IS_BUILTIN(x) (x == ECHO || x == CD || x == PWD || x == EXPORT \
 						|| x == UNSET|| x == ENV || x == ENV || x == EXIT)
 #define xclose(x) {if (x != -1) close(x);}
+#define IS_AMBIGUOUS(x) (x->next->expand_id == x->expand_id && x->expand_id != -1)
 
 #define DELETE_ARG(head, curr, prec)		\
 	{										\

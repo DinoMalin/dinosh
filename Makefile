@@ -13,7 +13,7 @@ SRC_DIR = src/
 OBJ_DIR = obj/
 MAIN	= main/main
 FILES	= main/errors main/utils main/signals							\
-		utils/memory utils/join											\
+		utils/memory utils/join	utils/utils								\
 		parsing/tokenize parsing/parse parsing/check parsing/merge		\
 		builtins/env_utils builtins/choose								\
 		builtins/echo builtins/cd										\

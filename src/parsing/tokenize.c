@@ -15,7 +15,7 @@ char *until(char **str, char *sep) {
 		return NULL;
 
 	char *res = ft_substr(*str, 0, end - *str);
-	*str = end + 1;
+	*str = end + ft_strlen(sep);
 
 	return res;
 }
@@ -70,6 +70,7 @@ Parser *tokenize(char *str) {
 		PARSE_OPERATOR("<<", t_heredoc);
 		PARSE_OPERATOR(">", t_to);
 		PARSE_OPERATOR("<", t_from);
+		PARSE_OPERATOR_PARAMETER(">&", 1, t_to_fd);
 		PARSE_OPERATOR("&&", t_and);
 		PARSE_OPERATOR("||", t_or);
 		PARSE_OPERATOR("|", t_pipe);

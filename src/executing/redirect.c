@@ -98,6 +98,12 @@ void redirect(Command *cmd) {
 				return;
 			}
 			unlink(HEREDOC_FILE);
+		} else if (cmd->redirs[i].type == r_to_fd) {
+			if (dup2(cmd->redirs[i].out, cmd->redirs[i].in) < 0) {
+				perror("dinosh: dup2");
+				cmd->error = eopen;
+				return;
+			}
 		}
 	}
 }

@@ -22,7 +22,19 @@ void add_redir(Command *cmd, Token type, char *name) {
 	else if (type == t_append)
 		r_type = r_append;
 
-	t_redir redirection = (t_redir){ft_strdup(name), r_type};
+	t_redir redirection = (t_redir){ft_strdup(name), r_type, 0, 0};
+	cmd->redirs = clean_redirjoin(cmd->redirs, redirection);
+}
+
+void add_redir_to_fd(Command *cmd, char *in, char *out) {
+	if (!is_number(in) || !is_number(out)) {
+		dprintf(2, "dinosh: numeric argument required\n");
+		cmd->error = numeric_argument;
+		return;
+	}
+	int fd_in = ft_atoi(in);
+	int fd_out = ft_atoi(out);
+	t_redir redirection = (t_redir){ft_strdup(""), r_to_fd, fd_in, fd_out};
 	cmd->redirs = clean_redirjoin(cmd->redirs, redirection);
 }
 
@@ -34,16 +46,23 @@ void init_redirs(Command *cmd) {
 	while (curr) {
 		if (IS_REDIR(curr->token)) {
 			Parser *file = curr->next;
-			if (file->next && file->next->expand_id == file->expand_id && file->expand_id != -1) {
-				dprintf(2, "dinosh: ambiguous redirect\n"); // print this elsewhere
+			if (file->next && IS_AMBIGUOUS(file)) {
+				dprintf(2, "dinosh: ambiguous redirect\n");
 				cmd->error = ambiguous_redirect;
 			}
-			Token token = curr->token;
-			Parser *next = file->next;
-			DELETE_ARG(cmd->args, curr, prec);
-			add_redir(cmd, token, file->content);
-			DELETE_ARG(cmd->args, file, prec);
-			curr = next;
+			if (curr->token == t_to_fd) {
+				Parser *next = file->next;
+				add_redir_to_fd(cmd, curr->content, file->content);
+				DELETE_ARG(cmd->args, curr, prec);
+				DELETE_ARG(cmd->args, file, prec);
+				curr = next;
+			} else {
+				Parser *next = file->next;
+				add_redir(cmd, curr->token, file->content);
+				DELETE_ARG(cmd->args, curr, prec);
+				DELETE_ARG(cmd->args, file, prec);
+				curr = next;
+			}
 			continue;
 		}
 		prec = curr;

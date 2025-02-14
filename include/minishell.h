@@ -10,12 +10,13 @@
 #include <signal.h>
 
 #define ft_isspace(x) ((x >= '\t' && x <= '\r') || x == ' ')
-#define IS_REDIR(x) (x == t_append || x == t_heredoc || x == t_to || x == t_from)
+#define IS_REDIR(x) (x == t_append || x == t_heredoc || x == t_to || x == t_from || x == t_to_fd)
 
 typedef enum {
 	t_word,
 	t_to,
 	t_append,
+	t_to_fd,
 	t_from,
 	t_heredoc,
 	t_single_quotes,
@@ -40,7 +41,8 @@ typedef enum {
 	start_pipe,
 	ambiguous_redirect,
 	eheredoc,
-	eopen
+	eopen,
+	numeric_argument
 } Error;
 
 /* === Parsing linked list ===*/
@@ -55,6 +57,7 @@ typedef struct Parser {
 
 typedef enum {
 	r_to,
+	r_to_fd,
 	r_append,
 	r_from,
 	r_heredoc,
@@ -76,6 +79,8 @@ typedef enum {
 typedef struct {
 	char	*file;
 	Redir	type;
+	int		in;
+	int		out;
 } t_redir;
 
 typedef enum {
@@ -158,6 +163,7 @@ void	update_code_var(Context *ctx);
 void	init_basic_vars(Context *ctx);
 bool	this_id_has_wildcard(Parser *head);
 void	read_token(Parser *head);
+bool	is_number(char *str);
 
 /* ====== ERROR ====== */
 bool	token_error(Parser *head);

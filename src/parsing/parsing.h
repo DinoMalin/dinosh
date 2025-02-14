@@ -46,6 +46,21 @@
 		}													\
 	}
 
+// will check only X character after start
+#define PARSE_OPERATOR_PARAMETER(op, len, type)				\
+	{														\
+		if (!ft_strncmp(str+len, op, ft_strlen(op))) {		\
+			Parser *new = ft_calloc(1, sizeof(Parser));		\
+			new->content = until(&str, op);					\
+			new->token = type;								\
+			id++;											\
+			new->id = id;									\
+			id++;											\
+			ADD_TOKEN(head, curr, new);						\
+			continue;										\
+		}													\
+	}
+
 // A character that belongs to the same arg
 #define PARSE_CHARACTER(ch, type)							\
 	{														\

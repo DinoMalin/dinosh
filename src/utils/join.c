@@ -26,7 +26,7 @@ t_redir *redirjoin(t_redir *origin, t_redir r) {
 	}
 	
 	t_redir *res = malloc((len + 2) * sizeof(t_redir));
-	res[len + 1] = (t_redir){NULL, 0};
+	res[len + 1] = (t_redir){NULL, 0, 0, 0};
 	res[len] = r;
 	while (len) {
 		res[len - 1] = origin[len - 1];
