@@ -46,23 +46,23 @@ clean:
 
 fclean: clean
 	@rm -rf $(NAME)
-	@make fclean -C lib
+	@make fclean -C lib --silent
 
 re: fclean all
 
 $(NAME): $(OBJS) $(LIBFT)
-	@echo -e "\e[32m✔ Compilating sources files...\e[37m"
+	@echo -e "\e[32m✔ Compilating source files...\e[37m"
 	@$(CC) -o $@ $(OBJS) $(LFLAGS)
 	@echo -e "\e[32m✔ Executable created.\e[37m"
 
 fuzzer: CFLAGS += -fsanitize=address,fuzzer
 fuzzer: $(FUZZER_OBJS) $(LIBFT)
-	@echo -e "\e[32m✔ Compilating sources files...\e[37m"
+	@echo -e "\e[32m✔ Compilating source files...\e[37m"
 	@clang -o $@ $(FUZZER_OBJS) $(LFLAGS) $(CFLAGS)
 	@echo -e "\e[32m✔ Fuzzer created.\e[37m"
 
 $(LIBFT):
-	@make -C lib
+	@make -C lib --silent
 
 obj/%.o: src/%.c
 	@mkdir -p $(dir $@)
