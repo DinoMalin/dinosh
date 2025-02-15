@@ -26,7 +26,7 @@ void add_redir(Command *cmd, Token type, char *name) {
 	cmd->redirs = clean_redirjoin(cmd->redirs, redirection);
 }
 
-void add_redir_to_fd(Command *cmd, char *n, char *word) {
+void add_redir_fd(Command *cmd, char *n, char *word, Token token) {
 	bool should_close = !ft_strcmp(word, "-");
 	if ((!is_number(n) || !is_number(word)) && !should_close) {
 		dprintf(2, "dinosh: numeric argument required\n");
@@ -35,11 +35,12 @@ void add_redir_to_fd(Command *cmd, char *n, char *word) {
 	}
 	int fd_n = ft_atoi(n);
 	int fd_word = should_close ? -1 : ft_atoi(word);
-	t_redir redirection = (t_redir){ft_strdup(""), r_to_fd, fd_n, fd_word};
+	Redir r_type = token == t_to_fd ? r_to_fd : r_from_fd;
+	t_redir redirection = (t_redir){ft_strdup(""), r_type, fd_n, fd_word};
 	cmd->redirs = clean_redirjoin(cmd->redirs, redirection);
 }
 
-// I don't check if file exists because it's supposed to be checked in parse()
+// I don't check if file exists because it's supposed to be checked in the parsing
 void init_redirs(Command *cmd) {
 	Parser *curr = cmd->args;
 	Parser *prec = curr;
@@ -51,9 +52,9 @@ void init_redirs(Command *cmd) {
 				dprintf(2, "dinosh: ambiguous redirect\n");
 				cmd->error = ambiguous_redirect;
 			}
-			if (curr->token == t_to_fd) {
+			if (curr->token == t_to_fd || curr->token == t_from_fd) {
 				Parser *next = file->next;
-				add_redir_to_fd(cmd, curr->content, file->content);
+				add_redir_fd(cmd, curr->content, file->content, curr->token);
 				DELETE_ARG(cmd->args, curr, prec);
 				DELETE_ARG(cmd->args, file, prec);
 				curr = next;

@@ -106,6 +106,14 @@ void redirect(Command *cmd) {
 				cmd->error = eopen;
 				return;
 			}
+		} else if (cmd->redirs[i].type == r_from_fd) {
+			if (cmd->redirs[i].word == -1)
+				close(cmd->redirs[i].n);
+			else if (dup2(cmd->redirs[i].word, cmd->redirs[i].n) < 0) {
+				perror("dinosh: dup2");
+				cmd->error = eopen;
+				return;
+			}
 		}
 	}
 }

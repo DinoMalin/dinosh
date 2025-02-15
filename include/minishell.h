@@ -10,13 +10,14 @@
 #include <signal.h>
 
 #define ft_isspace(x) ((x >= '\t' && x <= '\r') || x == ' ')
-#define IS_REDIR(x) (x == t_append || x == t_heredoc || x == t_to || x == t_from || x == t_to_fd)
+#define IS_REDIR(x) (x == t_append || x == t_heredoc || x == t_to || x == t_from || x == t_to_fd || x == t_from_fd)
 
 typedef enum {
 	t_word,
 	t_to,
 	t_append,
 	t_to_fd,
+	t_from_fd,
 	t_from,
 	t_heredoc,
 	t_single_quotes,
@@ -62,6 +63,7 @@ typedef enum {
 	r_to_fd,
 	r_append,
 	r_from,
+	r_from_fd,
 	r_heredoc,
 } Redir;
 
