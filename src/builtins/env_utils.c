@@ -34,6 +34,15 @@ char *ft_getenv(Env *env, char *target) {
 	return NULL;
 }
 
+Env *getvar(Env *env, char *target) {
+	while (env) {
+		if (!ft_strcmp(target, env->var))
+			return env;
+		env = env->next;
+	}
+	return NULL;
+}
+
 void modify_env(Env **env, char *target, char *new_value, Special special, int dur) {
 	Env *curr = *env;
 	Env *last = curr;

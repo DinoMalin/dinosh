@@ -37,7 +37,9 @@ void set(Command *cmd, Context *ctx) {
 				free(var);
 				BUILTIN_ERROR("set: not a valid identifier");
 			}
-			modify_env(&ctx->env, var, content + 1, INTERN, durability);
+			Env *true_var = getvar(ctx->env, var);
+			Special type =  true_var ? true_var->type : INTERN;
+			modify_env(&ctx->env, var, content + 1, type, durability);
 			free(var);
 		}
 	}

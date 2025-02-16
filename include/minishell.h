@@ -151,6 +151,7 @@ int		rl_hook();
 Env		*create_env(char **env);
 void	modify_env(Env **env, char *target, char *new_value, Special type, int dur);
 void	delete_var(Env **env, char *target);
+Env		*getvar(Env *env, char *target);
 char	*ft_getenv(Env *env, char *target);
 char	**get_envp(Env *env);
 void	builtin(Command *cmd, Context *ctx);
