@@ -90,7 +90,20 @@ void fill_heredoc(Command *cmd) {
 
 bool add_command(Context *ctx, Command *cmd) {
 	Parser *curr = cmd->args;
+	bool command_specific = false;
 
+	while (curr) {
+		char *content = ft_strchr(curr->content, '=');
+		if (!content) {
+			command_specific = true;
+			break;
+		}
+		curr = curr->next;
+	}
+
+	curr = cmd->args;
+	int durability = command_specific ? 1 : -1;
+	Special type = command_specific ? EXTERN : INTERN;
 	while (curr) {
 		char *content = ft_strchr(curr->content, '=');
 		if (!content)
@@ -104,7 +117,7 @@ bool add_command(Context *ctx, Command *cmd) {
 		}
 
 		Parser *next = curr->next;
-		modify_env(&ctx->env, var, content + 1, 0, 1);
+		modify_env(&ctx->env, var, content + 1, type, durability);
 		DELETE_ARG(cmd->args, curr, cmd->args);
 		free(var);
 		curr = next;
@@ -130,5 +143,9 @@ bool init_command(Context *ctx, Command *cmd) {
 	}
 
 	init_av(cmd);
+	if (!cmd->av[0]) { // happens when all args are deleted (e.g. only redir, vars...)
+		cmd->pid = 0;
+		return false;
+	}
 	return true;
 }
