@@ -65,6 +65,7 @@ Parser *tokenize(char *str) {
 		PARSE_TOKEN("\"", "\"", t_double_quotes);
 		PARSE_TOKEN("'", "'", t_single_quotes);
 		PARSE_TOKEN("(", ")", t_subshell);
+		PARSE_TOKEN("${", "}", t_var);
 		PARSE_OPERATOR(";", t_semicolon);
 		PARSE_OPERATOR(">&", t_missing_parameter);
 		PARSE_OPERATOR("<&", t_missing_parameter);

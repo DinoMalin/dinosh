@@ -22,6 +22,7 @@ typedef enum {
 	t_heredoc,
 	t_single_quotes,
 	t_double_quotes,
+	t_var,
 	t_subshell,
 	t_and,
 	t_or,

@@ -40,7 +40,9 @@ void expand(Command *cmd, Env *env) {
 
 	curr = cmd->args;
 	while (curr) {
-		if (CAN_EXPAND(curr))
+		if (curr->token == t_var)
+			expand_one_var(env, curr, max_id(cmd->args));
+		else if (CAN_EXPAND(curr))
 			expand_vars(env, curr, max_id(cmd->args));
 		curr = curr->next;
 	}

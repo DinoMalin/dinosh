@@ -30,6 +30,14 @@ char *extract(char *dest, char *src, int size) {
 	return dest;
 }
 
+void expand_one_var(Env *env, Parser *el, int max) {
+	char *value = ft_getenv_alloc(env, el->content);
+	free(el->content);
+	el->content = ft_strdup("");
+	TOKENIZE_VAR();
+	free(value);
+}
+
 void expand_vars(Env *env, Parser *el, int max) {
 	int not_var = 0;
 	char *str = el->content;
