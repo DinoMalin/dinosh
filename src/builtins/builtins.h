@@ -15,6 +15,8 @@
 		return;							\
 	}
 
+#define RESET "\033[0m"
+
 void	echo(Command *cmd);
 void	cd(Command *cmd, Context *ctx);
 void	pwd(Command *cmd);
@@ -22,3 +24,4 @@ void	export(Command *cmd, Context *ctx);
 void	unset(Command *cmd, Context *ctx);
 void	env(Command *cmd, Env *env);
 void	builtin_exit(Command *cmd, Context *ctx);
+void	set(Command *cmd, Context *ctx);

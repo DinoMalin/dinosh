@@ -2,22 +2,31 @@
 
 #define IS_CHILD(x) (!x)
 #define IS_PIPED(x) (x->from == PIPE || x->to == PIPE)
-#define IS_BUILTIN(x) (x == ECHO || x == CD || x == PWD || x == EXPORT \
-						|| x == UNSET|| x == ENV || x == ENV || x == EXIT)
+#define IS_BUILTIN(x) (x == ECHO || x == CD || x == PWD || x == EXPORT		\
+						|| x == UNSET|| x == ENV || x == ENV || x == EXIT	\
+						|| x == SET)
 #define xclose(x) {if (x != -1) close(x);}
 #define IS_AMBIGUOUS(x) (x->next->expand_id == x->expand_id && x->expand_id != -1)
 
-#define UPDATE_VAR_DURABILITY(env)				\
-	{											\
-		Env *var = env;							\
-		while (var) {							\
-			Env *next = var->next;				\
-			if (var->durability != -1)			\
-				var->durability--;				\
-			if (!var->durability)				\
-				delete_var(&env, var->var);		\
-			var = next;							\
-		}										\
+#define UPDATE_VAR_DURABILITY(env)					\
+	{												\
+		Env *var = env;								\
+		while (var) {								\
+			Env *next = var->next;					\
+			if (var->durability != -1)				\
+				var->durability--;					\
+			if (!var->durability) {					\
+				if (var->old_value) {				\
+					free(var->value);				\
+					var->value = var->old_value;	\
+					var->old_value = NULL;			\
+					var->durability = -1;			\
+				} else {							\
+					delete_var(&env, var->var);		\
+				}									\
+			}										\
+			var = next;								\
+		}											\
 	}
 
 #define DELETE_ARG(head, curr, prec)		\

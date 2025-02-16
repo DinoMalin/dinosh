@@ -40,9 +40,13 @@ void modify_env(Env **env, char *target, char *new_value, Special special, int d
 
 	while (curr) {
 		if (!ft_strcmp(target, curr->var)) {
-			free(curr->value);
+			if (curr->durability == -1 && dur != -1)
+				curr->old_value = curr->value;
+			else
+				free(curr->value);
 			curr->value = ft_strdup(new_value);
 			curr->type = special;
+			curr->durability = dur;
 			return;
 		}
 		last = curr;
@@ -74,6 +78,7 @@ void delete_var(Env **env, char *target) {
 				last->next = curr->next;
 
 			free(curr->var);
+			free(curr->old_value);
 			free(curr->value);
 			free(curr);
 

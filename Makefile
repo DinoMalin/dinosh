@@ -17,7 +17,7 @@ FILES	= main/errors main/utils main/signals							\
 		parsing/tokenize parsing/parse parsing/check parsing/merge		\
 		builtins/env_utils builtins/choose								\
 		builtins/echo builtins/cd										\
-		builtins/pwd builtins/export									\
+		builtins/pwd builtins/export builtins/set						\
 		builtins/unset builtins/env builtins/exit						\
 		expanding/vars expanding/wildcard expanding/expand				\
 		executing/fork executing/path executing/redirect executing/init

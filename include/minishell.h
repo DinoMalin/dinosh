@@ -77,7 +77,8 @@ typedef enum {
 	EXPORT,
 	UNSET,
 	ENV,
-	EXIT
+	EXIT,
+	SET
 } Type;
 
 typedef struct {
@@ -119,6 +120,7 @@ typedef enum {
 typedef struct Env {
 	char		*var;
 	char		*value;
+	char		*old_value;
 	Special		type;
 	struct Env	*next;
 	int			durability;

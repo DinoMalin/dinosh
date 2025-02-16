@@ -15,4 +15,6 @@ void builtin(Command *cmd, Context *ctx) {
 		env(cmd, ctx->env);
 	else if (cmd->type == EXIT)
 		builtin_exit(cmd, ctx);
+	else if (cmd->type == SET)
+		set(cmd, ctx);
 }

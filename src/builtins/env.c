@@ -1,7 +1,5 @@
 #include "builtins.h"
 
-#define RESET "\033[0m"
-
 #define SKIP_VAR(s)										\
 	{													\
 		char *e = ft_strchr(env[i], '=');				\

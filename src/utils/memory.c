@@ -5,6 +5,7 @@ void free_env(Env *env) {
 		Env *next = env->next;
 		free(env->var);
 		free(env->value);
+		free(env->old_value);
 		free(env);
 		env = next;
 	}
