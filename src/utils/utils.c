@@ -32,3 +32,21 @@ bool var_is_valid(char *name) {
 		return false;
 	return true;
 }
+
+char *get_random_file_name() {
+	int fd = open("/dev/random", O_RDONLY);
+	if (fd < 0)
+		return NULL;
+
+	char buff[21];
+	read(fd, &buff, 20);
+	buff[20] = '\0';
+	for (int i = 0; i < 20; i++) {
+		if (!ft_isprint(buff[i])) {
+			buff[i] *= buff[i] < 0 ? -1 : 1;
+			buff[i] = (buff[i] % 94) + 32;
+		}
+	}
+
+	return ft_strjoin("/tmp/", buff);
+}

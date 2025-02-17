@@ -109,6 +109,7 @@ typedef struct Command {
 	Transmission	to;
 	int				exit_code; // used for builtins
 	pid_t			pid;
+	char			*heredoc_file;
 	struct Command	*next;
 } Command;
 
@@ -177,6 +178,7 @@ void	read_token(Parser *head);
 bool	is_number(char *str);
 bool	var_is_valid(char *name);
 char	*find_path(Env *env, char *cmd);
+char	*get_random_file_name();
 
 /* ====== ERROR ====== */
 bool	token_error(Parser *head);

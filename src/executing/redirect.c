@@ -49,8 +49,8 @@ bool handle_redir(char *file, int *fd, int flags, int dup) {
 	return true;
 }
 
-int heredoc(char *lim) {
-	int fd = open(HEREDOC_FILE, TO_FLAGS, 0644);
+int heredoc(char *heredoc_file, char *lim) {
+	int fd = open(heredoc_file, TO_FLAGS, 0644);
 	if (fd < 0)
 		return 0;
 
@@ -92,12 +92,12 @@ void redirect(Command *cmd) {
 				return;
 			}
 		} else if (cmd->redirs[i].type == r_heredoc) {
-			if (!handle_redir(HEREDOC_FILE, &fd_in, FROM_FLAGS, 0)) {
+			if (!handle_redir(cmd->heredoc_file, &fd_in, FROM_FLAGS, 0)) {
 				perror("dinosh: open");
 				cmd->error = eopen;
 				return;
 			}
-			unlink(HEREDOC_FILE);
+			unlink(cmd->heredoc_file);
 		} else if (cmd->redirs[i].type == r_to_fd) {
 			if (cmd->redirs[i].word == -1)
 				close(cmd->redirs[i].n);

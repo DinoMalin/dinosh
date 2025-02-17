@@ -71,7 +71,6 @@
 #define TO_FLAGS O_WRONLY | O_CREAT | O_TRUNC
 #define APPEND_FLAGS O_WRONLY | O_CREAT | O_APPEND
 #define FROM_FLAGS O_RDONLY
-#define HEREDOC_FILE "/tmp/dino_heredoc"
 
 typedef enum {
 	STORE,
@@ -87,4 +86,5 @@ bool	init_command(Context *ctx, Command *cmd);
 void	redirect(Command *cmd);
 void	redirect_pipe(Command *cmd, Pipes *pipes);
 void	fd_storage(StorageAction action);
-int		heredoc(char *lim);
+int		heredoc(char *heredoc_file, char *lim);
+void	fill_heredoc(Command *head);

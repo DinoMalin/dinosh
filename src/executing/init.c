@@ -72,19 +72,28 @@ void init_redirs(Command *cmd) {
 	}
 }
 
-void fill_heredoc(Command *cmd) {
-	Parser *curr = cmd->args;
-	while (curr) {
-		if (curr->token == t_heredoc) {
-			unlink(HEREDOC_FILE);
-			Parser *file = curr->next;
-			merge_one_node(file);
-			if (!heredoc(file->content)) {
-				cmd->error = eheredoc;
-				return;
+void fill_heredoc(Command *head) {
+	while (head) {
+		Parser *curr = head->args;
+		while (curr) {
+			if (curr->token == t_heredoc) {
+				if (!head->heredoc_file)
+					head->heredoc_file = get_random_file_name();
+				if (!head->heredoc_file) {
+					head->error = eheredoc;
+					return;
+				}
+				unlink(head->heredoc_file);
+				Parser *file = curr->next;
+				merge_one_node(file);
+				if (!heredoc(head->heredoc_file, file->content)) {
+					head->error = eheredoc;
+					return;
+				}
 			}
+			curr = curr->next;
 		}
-		curr = curr->next;
+		head = head->next;
 	}
 }
 
@@ -126,7 +135,6 @@ bool add_command(Context *ctx, Command *cmd) {
 }
 
 bool init_command(Context *ctx, Command *cmd) {
-	fill_heredoc(cmd);
 	expand(cmd, ctx->env);
 	init_redirs(cmd);
 	if (command_error(cmd)) {

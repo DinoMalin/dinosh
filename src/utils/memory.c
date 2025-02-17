@@ -33,6 +33,7 @@ void free_cmd(Command *cmd) {
 	free_av(cmd->av);
 	free_redir(cmd->redirs);
 	free_list(cmd->args);
+	free(cmd->heredoc_file);
 	free(cmd);
 }
 

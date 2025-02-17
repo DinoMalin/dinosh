@@ -88,6 +88,7 @@ void execute(Command *head, Context *ctx) {
 		.prev = {-1, -1}
 	};
 
+	fill_heredoc(head);
 	while (curr) {
 		DO_PIPE();
 		if (!init_command(ctx, curr)) {
