@@ -62,6 +62,11 @@ void wait_everything(Command *head, Command *until, Context *ctx) {
 	int exit_status;
 
 	while (head) {
+		if (head->to == BACKGROUND) {
+			head = head->next;
+			continue;
+		}
+
 		if (head->pid == -1)
 			break;
 		if (head->pid) {

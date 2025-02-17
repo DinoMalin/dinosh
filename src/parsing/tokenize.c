@@ -79,7 +79,7 @@ Parser *tokenize(char *str) {
 		PARSE_OPERATOR("||", t_or);
 		PARSE_OPERATOR("|", t_pipe);
 		PARSE_OPERATOR(")", t_unexpected);
-		PARSE_OPERATOR("&", t_unknown); // not implemented yet. Will be in 42sh.
+		PARSE_OPERATOR("&", t_bg);
 		PARSE_CHARACTER("*", t_wildcard);
 		PARSE_WORD(WORD_END);
 	}

@@ -28,6 +28,7 @@ typedef enum {
 	t_or,
 	t_pipe,
 	t_semicolon,
+	t_bg,
 	t_wildcard,
 	t_unknown,
 	t_unexpected,
@@ -95,6 +96,7 @@ typedef enum {
 	AND,
 	OR,
 	SEMICOLON,
+	BACKGROUND
 } Transmission;
 
 /* === Executing linked list ===*/
@@ -133,6 +135,7 @@ typedef struct {
 	Env		*env;
 	bool	exit;
 	int		code;
+	Command	*jobs;
 } Context;
 
 /* ====== MINISHELL ====== */

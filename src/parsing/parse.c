@@ -69,6 +69,8 @@ Command *parse(Parser *data) {
 		PROCESS_TRANSMISSION(t_and, AND, true);
 		PROCESS_TRANSMISSION(t_or, OR, true);
 		PROCESS_TRANSMISSION(t_semicolon, SEMICOLON, false);
+		PROCESS_TRANSMISSION(t_bg, BACKGROUND, false);
+
 		if (data_index == 0) {
 			Command *new = init_cmd(from);
 			ADD_COMMAND(head, new, curr);
