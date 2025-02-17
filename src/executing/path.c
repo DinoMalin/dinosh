@@ -25,6 +25,5 @@ char *find_path(Env *env, char *cmd) {
 	}
 	free_av(paths);
 
-	dprintf(2, "dinosh: %s: command not found\n", cmd);
 	return NULL;
 }

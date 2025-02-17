@@ -32,4 +32,3 @@ bool var_is_valid(char *name) {
 		return false;
 	return true;
 }
-

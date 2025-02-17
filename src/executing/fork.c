@@ -29,9 +29,10 @@ void fork_routine(Command *head, Command *cmd, Context *ctx, Pipes *pipes) {
 		if (cmd->av[0]) {
 			char *path = find_path(ctx->env, cmd->av[0]);
 
-			if (!path)
+			if (!path) {
 				ctx->code = 127;
-			else {
+				dprintf(2, "dinosh: %s: command not found\n", cmd->av[0]);
+			} else {
 				char **envp = get_envp(ctx->env);
 				execve(path, cmd->av, get_envp(ctx->env));
 				for (int i = 0; envp[i]; i++) {

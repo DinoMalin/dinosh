@@ -3,8 +3,8 @@
 #define IS_CHILD(x) (!x)
 #define IS_PIPED(x) (x->from == PIPE || x->to == PIPE)
 #define IS_BUILTIN(x) (x == ECHO || x == CD || x == PWD || x == EXPORT		\
-						|| x == UNSET|| x == ENV || x == ENV || x == EXIT	\
-						|| x == SET)
+						|| x == UNSET || x == ENV || x == ENV || x == EXIT	\
+						|| x == SET || x == TYPE)
 #define xclose(x) {if (x != -1) close(x);}
 #define IS_AMBIGUOUS(x) (x->next->expand_id == x->expand_id && x->expand_id != -1)
 
@@ -83,7 +83,6 @@ typedef struct {
 	int curr[2];
 } Pipes;
 
-char	*find_path(Env *env, char *cmd);
 bool	init_command(Context *ctx, Command *cmd);
 void	redirect(Command *cmd);
 void	redirect_pipe(Command *cmd, Pipes *pipes);

@@ -17,4 +17,6 @@ void builtin(Command *cmd, Context *ctx) {
 		builtin_exit(cmd, ctx);
 	else if (cmd->type == SET)
 		set(cmd, ctx);
+	else if (cmd->type == TYPE)
+		type(cmd, ctx);
 }

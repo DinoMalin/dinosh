@@ -71,7 +71,6 @@ typedef enum {
 typedef enum {
 	BASIC,
 	SUBSHELL,
-	VAR,
 	ECHO,
 	CD,
 	PWD,
@@ -79,7 +78,8 @@ typedef enum {
 	UNSET,
 	ENV,
 	EXIT,
-	SET
+	SET,
+	TYPE
 } Type;
 
 typedef struct {
@@ -138,6 +138,7 @@ typedef struct {
 Parser	*mini_tokenizer(char *str);
 Parser	*tokenize(char *str);
 Command	*parse(Parser *data);
+Type	get_builtin(char *name);
 void	merge_one_node(Parser *head);
 void	merge(Parser *head);
 void	expand(Command *cmd, Env *env);
@@ -175,6 +176,7 @@ bool	this_id_has_wildcard(Parser *head);
 void	read_token(Parser *head);
 bool	is_number(char *str);
 bool	var_is_valid(char *name);
+char	*find_path(Env *env, char *cmd);
 
 /* ====== ERROR ====== */
 bool	token_error(Parser *head);

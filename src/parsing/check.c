@@ -1,26 +1,35 @@
 #include "parsing.h"
 
+Type get_builtin(char *name) {
+	if (!ft_strcmp("echo", name))
+		return ECHO;
+	if (!ft_strcmp("cd", name))
+		return CD;
+	if (!ft_strcmp("pwd", name))
+		return PWD;
+	if (!ft_strcmp("export", name))
+		return EXPORT;
+	if (!ft_strcmp("unset", name))
+		return UNSET;
+	if (!ft_strcmp("env", name))
+		return ENV;
+	if (!ft_strcmp("exit", name))
+		return EXIT;
+	if (!ft_strcmp("set", name))
+		return SET;
+	if (!ft_strcmp("type", name))
+		return TYPE;
+	return BASIC;
+}
+
 void check_type(Command *cmd, Token token) {
 	char *name = cmd->args->content;
 
 	if (token == t_subshell)
 		cmd->type = SUBSHELL;
-	else if (!ft_strcmp("echo", name))
-		cmd->type = ECHO;
-	else if (!ft_strcmp("cd", name))
-		cmd->type = CD;
-	else if (!ft_strcmp("pwd", name))
-		cmd->type = PWD;
-	else if (!ft_strcmp("export", name))
-		cmd->type = EXPORT;
-	else if (!ft_strcmp("unset", name))
-		cmd->type = UNSET;
-	else if (!ft_strcmp("env", name))
-		cmd->type = ENV;
-	else if (!ft_strcmp("exit", name))
-		cmd->type = EXIT;
-	else if (!ft_strcmp("set", name))
-		cmd->type = SET;
+	Type builtin = get_builtin(name);
+	if (builtin)
+		cmd->type = builtin;
 }
 
 void check_redir_errors(Command *cmd, Parser **data) {

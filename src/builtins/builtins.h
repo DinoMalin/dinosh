@@ -7,6 +7,12 @@
 		return;								\
 	}
 
+#define BUILTIN_VERROR(...)							\
+	{												\
+		dprintf(2, "dinosh: "__VA_ARGS__);		\
+		cmd->exit_code = 1;							\
+		return;										\
+	}
 
 #define BUILTIN_PERROR(msg)				\
 	{									\
@@ -25,3 +31,4 @@ void	unset(Command *cmd, Context *ctx);
 void	env(Command *cmd, Env *env);
 void	builtin_exit(Command *cmd, Context *ctx);
 void	set(Command *cmd, Context *ctx);
+void	type(Command *cmd, Context *ctx);
