@@ -6,7 +6,9 @@ void export(Command *cmd, Context *ctx) {
 
 	for (int i = 0; cmd->av[i]; i++) {
 		char *content = ft_strchr(cmd->av[i], '=');
-		if (content) {
+		if (!content) {
+			set_extern(ctx->env, cmd->av[i]);
+		} else {
 			char *var = ft_substr(cmd->av[i], 0, content - cmd->av[i]);
 			if (!var_is_valid(var)) {
 				free(var);

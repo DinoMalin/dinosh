@@ -43,6 +43,14 @@ Env *getvar(Env *env, char *target) {
 	return NULL;
 }
 
+void set_extern(Env *env, char *target) {
+	while (env) {
+		if (!ft_strcmp(target, env->var))
+			env->type = EXTERN;
+		env = env->next;
+	}
+}
+
 void modify_env(Env **env, char *target, char *new_value, Special special, int dur) {
 	Env *curr = *env;
 	Env *last = curr;

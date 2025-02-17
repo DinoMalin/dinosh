@@ -157,6 +157,7 @@ void	delete_var(Env **env, char *target);
 Env		*getvar(Env *env, char *target);
 char	*ft_getenv(Env *env, char *target);
 char	**get_envp(Env *env);
+void	set_extern(Env *env, char *target);
 void	builtin(Command *cmd, Context *ctx);
 
 /* ====== MEMORY ====== */
