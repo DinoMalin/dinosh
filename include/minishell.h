@@ -145,12 +145,13 @@ void	merge(Parser *head);
 void	expand(Command *cmd, Env *env);
 void	execute(Command *cmd, Context *ctx);
 bool	read_file(char *file, Context *ctx);
+void	builtin(Command *cmd, Context *ctx);
 
 /* ====== SIGNALS ====== */
 void	sig_handler(int sig);
 int		rl_hook();
 
-/* ====== BUILTINS ====== */
+/* ====== ENV ====== */
 Env		*create_env(char **env);
 void	modify_env(Env **env, char *target, char *new_value, Special type, int dur);
 void	delete_var(Env **env, char *target);
@@ -158,7 +159,6 @@ Env		*getvar(Env *env, char *target);
 char	*ft_getenv(Env *env, char *target);
 char	**get_envp(Env *env);
 void	set_extern(Env *env, char *target);
-void	builtin(Command *cmd, Context *ctx);
 
 /* ====== MEMORY ====== */
 void	free_av(char **av);

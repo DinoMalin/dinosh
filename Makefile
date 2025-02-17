@@ -15,10 +15,10 @@ MAIN	= main/main
 FILES	= main/errors main/utils main/signals							\
 		utils/memory utils/join	utils/utils								\
 		parsing/tokenize parsing/parse parsing/check parsing/merge		\
-		builtins/env_utils builtins/choose								\
-		builtins/echo builtins/cd builtins/type							\
+		builtins/choose builtins/echo builtins/cd builtins/type			\
 		builtins/pwd builtins/export builtins/set						\
 		builtins/unset builtins/env builtins/exit						\
+		env/utils env/accessors											\
 		expanding/vars expanding/wildcard expanding/expand				\
 		executing/fork executing/path executing/redirect executing/init
 
