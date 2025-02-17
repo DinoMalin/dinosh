@@ -42,9 +42,9 @@ char *get_random_file_name() {
 	read(fd, &buff, 20);
 	buff[20] = '\0';
 	for (int i = 0; i < 20; i++) {
-		if (!ft_isprint(buff[i])) {
+		if (buff[i] < 48 || buff[i] > 125) {
 			buff[i] *= buff[i] < 0 ? -1 : 1;
-			buff[i] = (buff[i] % 94) + 32;
+			buff[i] = (buff[i] % 78) + 48;
 		}
 	}
 
