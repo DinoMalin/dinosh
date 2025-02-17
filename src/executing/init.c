@@ -143,9 +143,5 @@ bool init_command(Context *ctx, Command *cmd) {
 	}
 
 	init_av(cmd);
-	if (!cmd->av[0]) { // happens when all args are deleted (e.g. only redir, vars...)
-		cmd->pid = 0;
-		return false;
-	}
 	return true;
 }
