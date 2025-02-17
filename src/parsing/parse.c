@@ -65,10 +65,10 @@ Command *parse(Parser *data) {
 			continue;
 		}
 
-		PROCESS_TRANSMISSION(t_pipe, PIPE);
-		PROCESS_TRANSMISSION(t_and, AND);
-		PROCESS_TRANSMISSION(t_or, OR);
-		PROCESS_TRANSMISSION(t_semicolon, SEMICOLON);
+		PROCESS_TRANSMISSION(t_pipe, PIPE, true);
+		PROCESS_TRANSMISSION(t_and, AND, true);
+		PROCESS_TRANSMISSION(t_or, OR, true);
+		PROCESS_TRANSMISSION(t_semicolon, SEMICOLON, false);
 		if (data_index == 0) {
 			Command *new = init_cmd(from);
 			ADD_COMMAND(head, new, curr);

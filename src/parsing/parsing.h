@@ -107,19 +107,21 @@
 		}										\
 	}
 
-#define PROCESS_TRANSMISSION(operator, type)		\
-	{												\
-		if (data->token == operator) {				\
-			if (data_index == 0 || !data->next)		\
-				error = unexpected_token;			\
-			arg_index = 0;							\
-			data_index = 0;							\
-			if (curr)								\
-				curr->to = type;					\
-			from = type;							\
-			data = data->next;						\
-			continue;								\
-		}											\
+#define PROCESS_TRANSMISSION(operator, type, dependant)		\
+	{														\
+		if (data->token == operator) {						\
+			if (data_index == 0)							\
+				error = unexpected_token;					\
+			if (dependant && !data->next)					\
+				error = unexpected_token;					\
+			arg_index = 0;									\
+			data_index = 0;									\
+			if (curr)										\
+				curr->to = type;							\
+			from = type;									\
+			data = data->next;								\
+			continue;										\
+		}													\
 	}
 
 void	check_redir_errors(Command *cmd, Parser **data);
