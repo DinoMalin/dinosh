@@ -81,7 +81,8 @@ typedef enum {
 	EXIT,
 	SET,
 	TYPE,
-	JOBS
+	JOBS,
+	FG
 } Type;
 
 typedef struct {
@@ -205,6 +206,7 @@ char	*get_random_file_name();
 void	add_job(Context *ctx, Command *cmd);
 void	print_job(Job *job, int code);
 void	update_jobs(Context *ctx);
+void	delete_job(Context *ctx, int id);
 
 /* ====== ERROR ====== */
 bool	token_error(Parser *head);

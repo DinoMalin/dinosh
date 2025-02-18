@@ -21,4 +21,6 @@ void builtin(Command *cmd, Context *ctx) {
 		type(cmd, ctx);
 	else if (cmd->type == JOBS)
 		jobs(cmd, ctx);
+	else if (cmd->type == FG)
+		fg(cmd, ctx);
 }

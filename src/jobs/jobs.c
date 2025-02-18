@@ -75,6 +75,26 @@ void add_job(Context *ctx, Command *cmd) {
 	print_pid(new);
 }
 
+void delete_job(Context *ctx, int id) {
+	Job *job = ctx->jobs;
+	Job *prec = ctx->jobs;
+
+	while (job) {
+		Job *next = job->next;
+		if (job->index == id) {
+			if (job == ctx->jobs) {
+				ctx->jobs = next;
+				free_job(job);
+			} else {
+				prec->next = next;
+				free_job(job);
+			}
+		}
+		prec = job;
+		job = next;
+	}
+}
+
 void update_jobs(Context *ctx) {
 	int status = 0;
 

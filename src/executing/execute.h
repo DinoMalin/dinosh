@@ -4,7 +4,7 @@
 #define IS_PIPED(x) (x->from == PIPE || x->to == PIPE)
 #define IS_BUILTIN(x) (	   x == ECHO	|| x == CD		|| x == PWD || x == EXPORT	\
 						|| x == UNSET	|| x == ENV		|| x == ENV || x == EXIT	\
-						|| x == SET		|| x == TYPE	|| x == JOBS)
+						|| x == SET		|| x == TYPE	|| x == FG	|| x == JOBS)
 #define xclose(x) {if (x != -1) close(x);}
 #define IS_AMBIGUOUS(x) (x->next->expand_id == x->expand_id && x->expand_id != -1)
 
