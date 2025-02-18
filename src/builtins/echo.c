@@ -8,13 +8,17 @@ void echo(Command *cmd) {
 		i++;
 	}
 
+	char *to_print = ft_strdup("");
 	for (; cmd->av[i]; i++) {
-		ft_putstr_fd(cmd->av[i], 1);
+		to_print = clean_join(to_print, cmd->av[i]);
 		if (i < cmd->ac - 1)
-			ft_putstr_fd(" ", 1);
+			to_print = clean_join(to_print, " ");
 	}
 
 	if (!nflag) {
-		ft_putstr_fd("\n", 1);
+		to_print = clean_join(to_print, "\n");
 	}
+
+	ft_putstr_fd(to_print, 1);
+	free(to_print);
 }

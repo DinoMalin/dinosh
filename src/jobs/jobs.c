@@ -1,19 +1,21 @@
 #include "minishell.h"
 
 void print_job(Job *job) {
-	ft_printf("[%d] %c %s ",
-		job->index,
-		job->is_current ? '+' : '-',
-		job->state == RUNNING ? "Running" : "Stopped"
-	); // ft_printf because flush problems in builtins
+	char *args = ft_strdup("");
 
 	for (int i = 0; job->cmd->av[i]; i++) {
-		ft_printf("%s", job->cmd->av[i]);
+		args = clean_join(args, job->cmd->av[i]);
 		if (job->cmd->av[i+1])
-			ft_printf(" ");
+			args = clean_join(args, " ");
 	}
 
-	ft_printf("\n");
+	printf("[%d] %c %s %s\n",
+		job->index,
+		job->is_current ? '+' : '-',
+		job->state == RUNNING ? "Running" : "Stopped",
+		args
+	);
+	free(args);
 }
 
 void print_pid(Job *job) {
