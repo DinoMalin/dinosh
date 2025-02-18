@@ -202,7 +202,8 @@ char	*get_random_file_name();
 
 /* ====== JOBS ====== */
 void	add_job(Context *ctx, Command *cmd);
-void	print_job(Job *job);
+void	print_job(Job *job, int code);
+void	update_jobs(Context *ctx);
 
 /* ====== ERROR ====== */
 bool	token_error(Parser *head);

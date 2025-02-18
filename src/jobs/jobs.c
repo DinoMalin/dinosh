@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void print_job(Job *job) {
+void print_job(Job *job, int code) {
 	char *args = ft_strdup("");
 
 	for (int i = 0; job->cmd->av[i]; i++) {
@@ -9,12 +9,30 @@ void print_job(Job *job) {
 			args = clean_join(args, " ");
 	}
 
-	printf("[%d] %c %s %s\n",
-		job->index,
-		job->is_current ? '+' : '-',
-		job->state == RUNNING ? "Running" : "Stopped",
-		args
-	);
+	if (!code) {
+		printf("[%d] %c %s %s\n",
+			job->index,
+			job->is_current ? '+' : '-',
+		 	(
+				job->state == RUNNING ?	"Running" :
+				job->state == STOPPED ?	"Stopped" :
+		 								"Done"
+		 	),
+			args
+		);
+	} else {
+		printf("[%d] %c %s(%d) %s\n",
+			job->index,
+			job->is_current ? '+' : '-',
+		 	(
+				job->state == RUNNING ?	"Running" :
+				job->state == STOPPED ?	"Stopped" :
+		 								"Done"
+		 	),
+		 	code,
+			args
+		);
+	}
 	free(args);
 }
 
@@ -57,4 +75,14 @@ void add_job(Context *ctx, Command *cmd) {
 		new->next = next;
 	}
 	print_pid(new);
+}
+
+void update_jobs(Context *ctx) {
+	int status = 0;
+	for (Job *job=ctx->jobs; job; job=job->next) {
+		if (waitpid(job->cmd->pid, &status, WNOHANG)) {
+			job->state = DONE;
+			print_job(job, status);
+		}
+	}
 }

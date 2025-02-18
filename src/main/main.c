@@ -51,6 +51,7 @@ void run_prompt(Context *ctx) {
 		handle_input(ctx);
 
 		free(ctx->input);
+		update_jobs(ctx);
 	}
 }
 

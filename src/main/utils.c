@@ -13,6 +13,7 @@ bool read_file(char *file, Context *ctx) {
 		handle_input(ctx);
 		free(line);
 		line = get_next_line(fd);
+		update_jobs(ctx);
 	}
 
 	return true;
