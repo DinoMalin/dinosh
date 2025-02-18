@@ -40,8 +40,18 @@ void free_cmd(Command *cmd) {
 void free_cmds(Command *list) {
 	while (list) {
 		Command *next = list->next;
-		free_cmd(list);
+		if (list->to != BACKGROUND)
+			free_cmd(list);
 		list = next;
+	}
+}
+
+void free_jobs(Job *job) {
+	while (job) {
+		Job *next = job->next;
+		free_cmd(job->cmd);
+		free(job);
+		job = next;
 	}
 }
 

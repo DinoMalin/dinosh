@@ -2,9 +2,9 @@
 
 #define IS_CHILD(x) (!x)
 #define IS_PIPED(x) (x->from == PIPE || x->to == PIPE)
-#define IS_BUILTIN(x) (x == ECHO || x == CD || x == PWD || x == EXPORT		\
-						|| x == UNSET || x == ENV || x == ENV || x == EXIT	\
-						|| x == SET || x == TYPE)
+#define IS_BUILTIN(x) (	   x == ECHO	|| x == CD		|| x == PWD || x == EXPORT	\
+						|| x == UNSET	|| x == ENV		|| x == ENV || x == EXIT	\
+						|| x == SET		|| x == TYPE	|| x == JOBS)
 #define xclose(x) {if (x != -1) close(x);}
 #define IS_AMBIGUOUS(x) (x->next->expand_id == x->expand_id && x->expand_id != -1)
 
@@ -66,6 +66,8 @@
 			break;									\
 		if (curr->to == OR && ctx->code == 0)		\
 			break;									\
+		if (curr->to == BACKGROUND)					\
+			add_job(ctx, curr);						\
 	}
 
 #define TO_FLAGS O_WRONLY | O_CREAT | O_TRUNC

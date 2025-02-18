@@ -19,6 +19,8 @@ Type get_builtin(char *name) {
 		return SET;
 	if (!ft_strcmp("type", name))
 		return TYPE;
+	if (!ft_strcmp("jobs", name))
+		return JOBS;
 	return BASIC;
 }
 

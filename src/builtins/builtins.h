@@ -32,3 +32,4 @@ void	env(Command *cmd, Env *env);
 void	builtin_exit(Command *cmd, Context *ctx);
 void	set(Command *cmd, Context *ctx);
 void	type(Command *cmd, Context *ctx);
+void	jobs(Command *cmd, Context *ctx);

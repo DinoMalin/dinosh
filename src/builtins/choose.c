@@ -19,4 +19,6 @@ void builtin(Command *cmd, Context *ctx) {
 		set(cmd, ctx);
 	else if (cmd->type == TYPE)
 		type(cmd, ctx);
+	else if (cmd->type == JOBS)
+		jobs(cmd, ctx);
 }
