@@ -45,10 +45,8 @@ void add_job(Context *ctx, Command *cmd) {
 
 	int index = 1;
 	for (Job *job=ctx->jobs; job; job=job->next) {
-		if (job->index != index) {
-			index = job->index;
+		if (job->index != index)
 			break;
-		}
 		index++;
 	}
 
