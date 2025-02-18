@@ -79,10 +79,24 @@ void add_job(Context *ctx, Command *cmd) {
 
 void update_jobs(Context *ctx) {
 	int status = 0;
-	for (Job *job=ctx->jobs; job; job=job->next) {
+
+	Job *prec = ctx->jobs;
+	Job *job = ctx->jobs;
+	while (job) {
+		Job *next = job->next;
 		if (waitpid(job->cmd->pid, &status, WNOHANG)) {
 			job->state = DONE;
 			print_job(job, status);
+			
+			if (job == ctx->jobs) {
+				ctx->jobs = next;
+				free_job(job);
+			} else {
+				prec->next = next;
+				free_job(job);
+			}
 		}
+		prec = job;
+		job = next;
 	}
 }

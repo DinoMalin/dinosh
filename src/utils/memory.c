@@ -36,7 +36,6 @@ void free_cmd(Command *cmd) {
 	free(cmd->heredoc_file);
 	free(cmd);
 }
-
 void free_cmds(Command *list) {
 	while (list) {
 		Command *next = list->next;
@@ -46,11 +45,14 @@ void free_cmds(Command *list) {
 	}
 }
 
+void free_job(Job *job) {
+	free_cmd(job->cmd);
+	free(job);
+}
 void free_jobs(Job *job) {
 	while (job) {
 		Job *next = job->next;
-		free_cmd(job->cmd);
-		free(job);
+		free_job(job);
 		job = next;
 	}
 }

@@ -183,6 +183,7 @@ void	free_av(char **av);
 void	free_cmds(Command *list);
 void	free_node(Parser *node);
 void	free_list(Parser *list);
+void	free_job(Job *job);
 void	free_env(Env *env);
 void	free_jobs(Job *job);
 
