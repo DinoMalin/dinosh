@@ -59,7 +59,7 @@ void create_fork(Command *head, Command *cmd, Context *ctx, Pipes *pipes) {
 }
 
 void wait_everything(Command *head, Command *until, Context *ctx) {
-	int exit_status;
+	int exit_status = 0;
 
 	while (head) {
 		if (head->to == BACKGROUND) {
