@@ -101,7 +101,7 @@ void execute(Command *head, Context *ctx) {
 			continue;
 		}
 
-		if (IS_BUILTIN(curr->type) && !IS_PIPED(curr)) {
+		if (IS_BUILTIN(curr->type) && !IS_PIPED(curr) && curr->to != BACKGROUND) {
 			curr->pid = 0;
 			fd_storage(STORE);
 			redirect(curr);

@@ -199,7 +199,10 @@ bool	is_number(char *str);
 bool	var_is_valid(char *name);
 char	*find_path(Env *env, char *cmd);
 char	*get_random_file_name();
+
+/* ====== JOBS ====== */
 void	add_job(Context *ctx, Command *cmd);
+void	print_job(Job *job);
 
 /* ====== ERROR ====== */
 bool	token_error(Parser *head);
