@@ -47,8 +47,10 @@ void run_prompt(Context *ctx) {
 
 		if (!ctx->input)
 			break;
-		add_history(ctx->input);
-		handle_input(ctx);
+		if (ft_strlen(ctx->input)) {
+			add_history(ctx->input);
+			handle_input(ctx);
+		}
 
 		free(ctx->input);
 		update_jobs(ctx);
