@@ -1,7 +1,7 @@
 
-# Better Minishell
+# Dinosh
 
-A minishell that does everything it's supposed to do, and a bit more.
+Dinosh, or dinoshell, is an attempt to create a POSIX-compliant shell.
 ## How does it work ?
 
 We begin by taking a string, which we will call the input.
@@ -53,7 +53,8 @@ Command:
 ```type```: the type of the command (builtin, subshell, basic command...)\
 ```from, to```: the type of operator toward which the command is redirected (pipe, and, or, none)\
 ```exit_code```: the exit code of the current command. Used only for non-forked commands. \
-```pid```: The pid of the forked command.
+```pid```: The pid of the forked command. \
+I simplified the struct because a big part of it wouldn't be useful to someone trying to write a tinier shell.
 
 We now have the necessary data to do the executing.
 
@@ -61,13 +62,19 @@ We now have the necessary data to do the executing.
 The executing is like saying "If this is a bike, let's drive with more caution.", but for words. I'm lost in my analogies.
 
 During the executing, a lot of things happens.
-First, we expand :
-- Env vars (words preceded by a '$') are expanded to their values, creating more args if necessary
-- Globs (wildcard '*') are expanded to the content of the working directory.
+First, we fill all the heredocs from all the commands.  \
+I chose to use a temporary file, which name I set randomly for each command.
+
+Then we enter the loop and for each iteration:
+- we expand:
+    - Env vars (words preceded by a '$') are expanded to their values, creating more args if necessary
+    - Globs (wildcard '*') are expanded to the content of the working directory.
+- we create a list of redirections
+- we create the argv of the command
 
 At this point, if the command is a builtin and is not piped to or from anything, we just call the command. In other cases, we create the pipe, fork the command, redirect the ouput toward the pipe, redirect the output toward and from the `redirs`, and execute the command.
 
-There must not be any wait between the command, except for the && and || operators, which needs to know the result of the previous command.
+There must not be any wait between the piped commands.
 
 When every command has been executed, we wait each one of them and save the exit code. All done !
 ## Some extras
@@ -88,6 +95,8 @@ This shell have some bonus vars from the start, just colors for now so your rcfi
 - `$CYAN`
 - `$WHITE`
 - `$RESET`
+
+Dinosh introduces temporary variables: using `set -d X KEY=VALUE`, you can define a temporary internal variable (exportable if needed). X commands later, the variable is automatically unset if it didn’t exist before or restored to its original value if it was previously a permanent variable.
 
 ## Running Tests
 
