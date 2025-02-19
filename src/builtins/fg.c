@@ -1,19 +1,27 @@
 #include "builtins.h"
 
 void fg(Command *cmd, Context *ctx) {
-	if (cmd->ac > 1)
-		BUILTIN_ERROR("fg: didn't handle more args yet im lazy");
+	if (cmd->ac > 2)
+		BUILTIN_ERROR("fg: too many args");
+
+	bool arg_mode = false;
+	int arg = 0;
+	if (cmd->ac == 2) {
+		arg_mode = true;
+		if (!is_number(cmd->av[1]))
+			BUILTIN_ERROR("fg: numeric argument required");
+		arg = ft_atoi(cmd->av[1]);
+	}
 
 	Job *job = ctx->jobs;
 	while (job) {
 		Job *next = job->next;
-		if (job->is_current) {
-
+		if ((arg_mode && arg == job->index) || (!arg_mode && job->is_current)) {
 			if (job->state != STOPPED)
 				print_job(job, 0);
 			else {
 				if (kill(job->pid, SIGCONT) < 0)
-					BUILTIN_PERROR("bg: failed to continue job");
+					BUILTIN_PERROR("fg: failed to continue job");
 				job->state = CONTINUED;
 				print_job(job, 0);
 				job->state = RUNNING;
