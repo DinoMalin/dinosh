@@ -64,12 +64,15 @@ int main(int ac, char **av, char **envp) {
 	signal(SIGINT, sig_handler);
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGTSTP, SIG_IGN);
+	//signal(SIGTTOU, SIG_IGN);
+	//signal(SIGTTIN, SIG_IGN);
 	rl_outstream = stderr;
 
 	Context ctx = {
 		.input = NULL,
 		.env = create_env(envp),
 		.exit = false,
+		.gpid = getpgrp()
 	};
 	init_basic_vars(&ctx);
 	if (!run_script(ac, av, &ctx)) {

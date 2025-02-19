@@ -155,6 +155,7 @@ typedef struct {
 	bool	exit;
 	int		code;
 	Job		*jobs;
+	pid_t	gpid;
 } Context;
 
 /* ====== MINISHELL ====== */

@@ -53,10 +53,13 @@ void create_fork(Command *head, Command *cmd, Context *ctx, Pipes *pipes) {
 
 	if (pid == -1)
 		perror("dinosh: fork");
-	else if (IS_CHILD(pid))
+	else if (IS_CHILD(pid)) {
+		setpgid(0, 0);
 		fork_routine(head, cmd, ctx, pipes);
-	else
+	} else {
+		setpgid(pid, pid);
 		cmd->pid = pid;
+	}
 }
 
 void wait_everything(Command *head, Command *until, Context *ctx) {
@@ -71,7 +74,15 @@ void wait_everything(Command *head, Command *until, Context *ctx) {
 		if (head->pid == -1)
 			break;
 		if (head->pid) {
-			waitpid(head->pid, &status, WUNTRACED);
+			signal(SIGTTOU, SIG_IGN);
+			if (tcsetpgrp(0, head->pid) == -1)
+				perror("dinosh: failed to tcsetpgrp");
+			if (waitpid(head->pid, &status, WUNTRACED) == -1)
+				perror("dinosh: failed to wait");
+			if (tcsetpgrp(0, ctx->gpid) == -1)
+				perror("dinosh: failed to tcsetpgrp");
+			signal(SIGTTOU, SIG_DFL);
+
 			if (WIFEXITED(status)) {
 				ctx->code = WEXITSTATUS(status);
 			} else if (WIFSTOPPED(status)) {

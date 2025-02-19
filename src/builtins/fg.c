@@ -17,6 +17,10 @@ void fg(Command *cmd, Context *ctx) {
 	while (job) {
 		Job *next = job->next;
 		if ((arg_mode && arg == job->index) || (!arg_mode && job->is_current)) {
+			signal(SIGTTOU, SIG_IGN);
+			if (tcsetpgrp(0, job->pid) == -1)
+				BUILTIN_PERROR("dinosh: failed to tcsetpgrp");
+
 			if (job->state != STOPPED)
 				print_job(job, 0);
 			else {
@@ -28,7 +32,12 @@ void fg(Command *cmd, Context *ctx) {
 			}
 
 			int status = 0;
-			waitpid(job->pid, &status, WUNTRACED);
+
+			while (waitpid(job->pid, &status, WUNTRACED) == -1 && errno == EINTR);
+			if (tcsetpgrp(0, ctx->gpid) == -1)
+				BUILTIN_PERROR("dinosh: failed to tcsetpgrp");
+			signal(SIGTTOU, SIG_DFL);
+
 			if (WIFEXITED(status)) {
 				cmd->exit_code = WEXITSTATUS(status);
 				delete_job(ctx, job->index);
