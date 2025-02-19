@@ -55,12 +55,12 @@ void free_jobs(Job *job) {
 	while (job) {
 		Job *next = job->next;
 
-		if (!waitpid(job->cmd->pid, NULL, WNOHANG)) {
+		if (!waitpid(job->pid, NULL, WNOHANG)) {
 			if (!notified) {
 				printf("dinosh: killing running jobs...\n");
 				notified = true;
 			}
-			kill(job->cmd->pid, SIGKILL);
+			kill(job->pid, SIGKILL);
 		}
 
 		free_job(job);

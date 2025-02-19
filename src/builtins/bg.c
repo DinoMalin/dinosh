@@ -8,7 +8,7 @@ void bg(Command *cmd, Context *ctx) {
 	while (job) {
 		if (job->is_current) {
 			if (job->state == STOPPED) {
-				if (kill(job->cmd->pid, SIGCONT) < 0)
+				if (kill(job->pid, SIGCONT) < 0)
 					BUILTIN_PERROR("bg: failed to continue job");
 				job->state = CONTINUED;
 				print_job(job, 0);

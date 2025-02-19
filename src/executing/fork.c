@@ -60,7 +60,7 @@ void create_fork(Command *head, Command *cmd, Context *ctx, Pipes *pipes) {
 }
 
 void wait_everything(Command *head, Command *until, Context *ctx) {
-	int exit_status = 0;
+	int status = 0;
 
 	while (head) {
 		if (head->to == BACKGROUND) {
@@ -71,14 +71,15 @@ void wait_everything(Command *head, Command *until, Context *ctx) {
 		if (head->pid == -1)
 			break;
 		if (head->pid) {
-			waitpid(head->pid, &exit_status, WUNTRACED);
-			head->pid = 0;
-			if (WIFEXITED(exit_status)) {
-				ctx->code = WEXITSTATUS(exit_status);
-			} else if (WIFSTOPPED(exit_status)) {
+			waitpid(head->pid, &status, WUNTRACED);
+			if (WIFEXITED(status)) {
+				ctx->code = WEXITSTATUS(status);
+			} else if (WIFSTOPPED(status)) {
 				add_job(ctx, head, STOPPED);
 				head->to = BACKGROUND;
+				ctx->code = 148;
 			}
+			head->pid = 0;
 		} else {
 			if (head->error)
 				ctx->code = 1;

@@ -144,6 +144,7 @@ typedef struct Job {
 	int			index;
 	bool		is_current;
 	State		state;
+	pid_t		pid; // I keep it here because I play with the pid field of the command
 	Command		*cmd;
 	struct Job	*next;
 } Job;
@@ -210,6 +211,7 @@ void	print_job(Job *job, int code);
 void	update_jobs(Context *ctx);
 void	delete_job(Context *ctx, int id);
 void	print_pid(Job *job);
+bool	is_job(Context *ctx, Command *cmd);
 
 /* ====== ERROR ====== */
 bool	token_error(Parser *head);

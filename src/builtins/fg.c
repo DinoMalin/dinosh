@@ -12,7 +12,7 @@ void fg(Command *cmd, Context *ctx) {
 			if (job->state != STOPPED)
 				print_job(job, 0);
 			else {
-				if (kill(job->cmd->pid, SIGCONT) < 0)
+				if (kill(job->pid, SIGCONT) < 0)
 					BUILTIN_PERROR("bg: failed to continue job");
 				job->state = CONTINUED;
 				print_job(job, 0);
@@ -20,7 +20,7 @@ void fg(Command *cmd, Context *ctx) {
 			}
 
 			int status = 0;
-			waitpid(job->cmd->pid, &status, WUNTRACED);
+			waitpid(job->pid, &status, WUNTRACED);
 			if (WIFEXITED(status)) {
 				cmd->exit_code = WEXITSTATUS(status);
 				delete_job(ctx, job->index);

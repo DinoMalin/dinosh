@@ -57,6 +57,9 @@
 
 #define CHECK_TRANSMISSION()						\
 	{												\
+		if (curr->to == BACKGROUND) {				\
+			add_job(ctx, curr, RUNNING);			\
+		}											\
 		if (curr->to == AND							\
 			|| curr->to == OR						\
 			|| curr->to == SEMICOLON) {				\
@@ -67,9 +70,6 @@
 			break;									\
 		if (curr->to == OR && ctx->code == 0)		\
 			break;									\
-		if (curr->to == BACKGROUND) {				\
-			add_job(ctx, curr, RUNNING);			\
-		}											\
 	}
 
 #define TO_FLAGS O_WRONLY | O_CREAT | O_TRUNC

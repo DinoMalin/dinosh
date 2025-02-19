@@ -39,7 +39,7 @@ void print_job(Job *job, int code) {
 }
 
 void print_pid(Job *job) {
-	printf("[%d] %d\n", job->index, job->cmd->pid);
+	printf("[%d] %d\n", job->index, job->pid);
 }
 
 void add_job(Context *ctx, Command *cmd, State state) {
@@ -60,6 +60,7 @@ void add_job(Context *ctx, Command *cmd, State state) {
 	new->index = index;
 	new->is_current = true;
 	new->state = state;
+	new->pid = cmd->pid;
 	new->cmd = cmd;
 
 	if (!ctx->jobs)
@@ -108,7 +109,7 @@ void update_jobs(Context *ctx) {
 	Job *job = ctx->jobs;
 	while (job) {
 		Job *next = job->next;
-		if (waitpid(job->cmd->pid, &status, WNOHANG)) {
+		if (waitpid(job->pid, &status, WNOHANG)) {
 			job->state = DONE;
 			print_job(job, status);
 			
@@ -123,4 +124,12 @@ void update_jobs(Context *ctx) {
 		prec = job;
 		job = next;
 	}
+}
+
+bool is_job(Context *ctx, Command *cmd) {
+	for (Job *job=ctx->jobs; job; job=job->next) {
+		if (job->cmd == cmd)
+			return true;
+	}
+	return false;
 }
