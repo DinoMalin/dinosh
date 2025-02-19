@@ -34,3 +34,4 @@ void	set(Command *cmd, Context *ctx);
 void	type(Command *cmd, Context *ctx);
 void	jobs(Command *cmd, Context *ctx);
 void	fg(Command *cmd, Context *ctx);
+void	bg(Command *cmd, Context *ctx);

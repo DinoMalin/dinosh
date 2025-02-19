@@ -16,7 +16,8 @@ void print_job(Job *job, int code) {
 		 	(
 				job->state == RUNNING ?	"Running" :
 				job->state == STOPPED ?	"Stopped" :
-		 								"Done"
+				job->state == DONE	  ?	"Done"	  :
+										"Continued"
 		 	),
 			args
 		);
@@ -27,7 +28,8 @@ void print_job(Job *job, int code) {
 		 	(
 				job->state == RUNNING ?	"Running" :
 				job->state == STOPPED ?	"Stopped" :
-		 								"Done"
+				job->state == DONE	  ?	"Done"	  :
+										"Continued"
 		 	),
 		 	code,
 			args
@@ -40,8 +42,8 @@ void print_pid(Job *job) {
 	printf("[%d] %d\n", job->index, job->cmd->pid);
 }
 
-void add_job(Context *ctx, Command *cmd) {
-	Job *new = malloc(sizeof(Job));
+void add_job(Context *ctx, Command *cmd, State state) {
+	Job *new = ft_calloc(1, sizeof(Job));
 
 	int index = 1;
 	for (Job *job=ctx->jobs; job; job=job->next) {
@@ -57,9 +59,8 @@ void add_job(Context *ctx, Command *cmd) {
 
 	new->index = index;
 	new->is_current = true;
-	new->state = RUNNING;
+	new->state = state;
 	new->cmd = cmd;
-	new->next = NULL;
 
 	if (!ctx->jobs)
 		ctx->jobs = new;
@@ -72,7 +73,12 @@ void add_job(Context *ctx, Command *cmd) {
 		job->next = new;
 		new->next = next;
 	}
-	print_pid(new);
+
+	if (state == RUNNING)
+		print_pid(new);
+	else
+		print_job(new, 0);
+
 }
 
 void delete_job(Context *ctx, int id) {

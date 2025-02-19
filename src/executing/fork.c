@@ -7,6 +7,7 @@ void exit_fork(Command *head, Context *ctx) {
 }
 
 void fork_routine(Command *head, Command *cmd, Context *ctx, Pipes *pipes) {
+	signal(SIGTSTP, SIG_DFL);
 	redirect_pipe(cmd, pipes);
 	redirect(cmd);
 
@@ -70,9 +71,14 @@ void wait_everything(Command *head, Command *until, Context *ctx) {
 		if (head->pid == -1)
 			break;
 		if (head->pid) {
-			waitpid(head->pid, &exit_status, 0);
+			waitpid(head->pid, &exit_status, WUNTRACED);
 			head->pid = 0;
-			ctx->code = WEXITSTATUS(exit_status);
+			if (WIFEXITED(exit_status)) {
+				ctx->code = WEXITSTATUS(exit_status);
+			} else if (WIFSTOPPED(exit_status)) {
+				add_job(ctx, head, STOPPED);
+				head->to = BACKGROUND;
+			}
 		} else {
 			if (head->error)
 				ctx->code = 1;

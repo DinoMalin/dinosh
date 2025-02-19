@@ -82,7 +82,8 @@ typedef enum {
 	SET,
 	TYPE,
 	JOBS,
-	FG
+	FG,
+	BG
 } Type;
 
 typedef struct {
@@ -136,6 +137,7 @@ typedef enum {
 	DONE,
 	RUNNING,
 	STOPPED,
+	CONTINUED
 } State;
 
 typedef struct Job {
@@ -203,10 +205,11 @@ char	*find_path(Env *env, char *cmd);
 char	*get_random_file_name();
 
 /* ====== JOBS ====== */
-void	add_job(Context *ctx, Command *cmd);
+void	add_job(Context *ctx, Command *cmd, State state);
 void	print_job(Job *job, int code);
 void	update_jobs(Context *ctx);
 void	delete_job(Context *ctx, int id);
+void	print_pid(Job *job);
 
 /* ====== ERROR ====== */
 bool	token_error(Parser *head);

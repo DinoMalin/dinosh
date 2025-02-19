@@ -23,4 +23,6 @@ void builtin(Command *cmd, Context *ctx) {
 		jobs(cmd, ctx);
 	else if (cmd->type == FG)
 		fg(cmd, ctx);
+	else if (cmd->type == BG)
+		bg(cmd, ctx);
 }

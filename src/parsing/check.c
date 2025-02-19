@@ -23,6 +23,8 @@ Type get_builtin(char *name) {
 		return JOBS;
 	if (!ft_strcmp("fg", name))
 		return FG;
+	if (!ft_strcmp("bg", name))
+		return BG;
 	return BASIC;
 }
 
