@@ -1,5 +1,13 @@
 #include "minishell.h"
 
+#define BUILTIN(n, func)			\
+	{								\
+		if (cmd->type == n) {		\
+			func(cmd, ctx);			\
+			return;					\
+		}							\
+	}
+
 #define BUILTIN_ERROR(msg)					\
 	{										\
 		dprintf(2, "dinosh: "msg"\n");		\
@@ -9,7 +17,7 @@
 
 #define BUILTIN_VERROR(...)							\
 	{												\
-		dprintf(2, "dinosh: "__VA_ARGS__);		\
+		dprintf(2, "dinosh: "__VA_ARGS__);			\
 		cmd->exit_code = 1;							\
 		return;										\
 	}
@@ -23,12 +31,12 @@
 
 #define RESET "\033[0m"
 
-void	echo(Command *cmd);
+void	echo(Command *cmd, Context *ctx);
 void	cd(Command *cmd, Context *ctx);
-void	pwd(Command *cmd);
+void	pwd(Command *cmd, Context *ctx);
 void	export(Command *cmd, Context *ctx);
 void	unset(Command *cmd, Context *ctx);
-void	env(Command *cmd, Env *env);
+void	env(Command *cmd, Context *ctx);
 void	builtin_exit(Command *cmd, Context *ctx);
 void	set(Command *cmd, Context *ctx);
 void	type(Command *cmd, Context *ctx);

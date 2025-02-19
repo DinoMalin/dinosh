@@ -1,6 +1,7 @@
 #include "builtins.h"
 
-void pwd(Command *cmd) {
+void pwd(Command *cmd, Context *ctx) {
+	(void)ctx;
 	if (cmd->ac > 1)
 		BUILTIN_ERROR("pwd: too many args");
 

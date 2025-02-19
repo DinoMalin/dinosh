@@ -7,10 +7,11 @@
 			continue;									\
 	}
 
-void env(Command *cmd, Env *env) {
+void env(Command *cmd, Context *ctx) {
 	if (cmd->ac > 1)
 		BUILTIN_ERROR("env: too many args");
 
+	Env *env = ctx->env;
 	while (env) {
 		if (!(env->type & SPECIAL)) {
 			ft_putstr_fd(env->var, 1);

@@ -1,8 +1,10 @@
 #include "builtins.h"
 
-void echo(Command *cmd) {
+void echo(Command *cmd, Context *ctx) {
+	(void)ctx;
 	bool nflag = false;
 	int i = 1;
+
 	while (cmd->av[i] && !ft_strncmp(cmd->av[i], "-n", 2)) {
 		nflag = true;
 		i++;

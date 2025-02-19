@@ -4,6 +4,12 @@
 #define MINI_WORD_END "\t\n\v\f\r *"
 #define CAN_REDIR(x) (x == t_word || x == t_wildcard || x == t_double_quotes || x == t_single_quotes)
 
+#define BUILTIN(s, type)					\
+	{										\
+		if (!ft_strcmp(s, name))			\
+			return type;					\
+	}
+
 #define ADD_TOKEN(head, curr, new)	\
 	{								\
 		if (!head) {				\

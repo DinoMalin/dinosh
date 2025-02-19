@@ -1,30 +1,18 @@
 #include "parsing.h"
 
 Type get_builtin(char *name) {
-	if (!ft_strcmp("echo", name))
-		return ECHO;
-	if (!ft_strcmp("cd", name))
-		return CD;
-	if (!ft_strcmp("pwd", name))
-		return PWD;
-	if (!ft_strcmp("export", name))
-		return EXPORT;
-	if (!ft_strcmp("unset", name))
-		return UNSET;
-	if (!ft_strcmp("env", name))
-		return ENV;
-	if (!ft_strcmp("exit", name))
-		return EXIT;
-	if (!ft_strcmp("set", name))
-		return SET;
-	if (!ft_strcmp("type", name))
-		return TYPE;
-	if (!ft_strcmp("jobs", name))
-		return JOBS;
-	if (!ft_strcmp("fg", name))
-		return FG;
-	if (!ft_strcmp("bg", name))
-		return BG;
+	BUILTIN("echo", ECHO);
+	BUILTIN("cd", CD);
+	BUILTIN("pwd", PWD);
+	BUILTIN("export", EXPORT);
+	BUILTIN("unset", UNSET);
+	BUILTIN("env", ENV);
+	BUILTIN("exit", EXIT);
+	BUILTIN("set", SET);
+	BUILTIN("type", TYPE);
+	BUILTIN("jobs", JOBS);
+	BUILTIN("fg", FG);
+	BUILTIN("bg", BG);
 	return BASIC;
 }
 
