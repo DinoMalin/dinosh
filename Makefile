@@ -1,4 +1,4 @@
-NAME = minishell
+NAME = dinosh
 
 LIBFT = lib/libft.a
 
