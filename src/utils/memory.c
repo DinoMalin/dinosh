@@ -36,10 +36,10 @@ void free_cmd(Command *cmd) {
 	free(cmd->heredoc_file);
 	free(cmd);
 }
-void free_cmds(Command *list) {
+void free_cmds(Command *list, bool skip_background) {
 	while (list) {
 		Command *next = list->next;
-		if (list->to != BACKGROUND)
+		if (!(skip_background && list->to == BACKGROUND))
 			free_cmd(list);
 		list = next;
 	}

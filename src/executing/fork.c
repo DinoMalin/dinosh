@@ -1,7 +1,7 @@
 #include "execute.h"
 
 void exit_fork(Command *head, Context *ctx) {
-	free_cmds(head);
+	free_cmds(head, false);
 	free_env(ctx->env);
 	exit(ctx->code);
 }
