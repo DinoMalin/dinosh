@@ -190,6 +190,7 @@ void	set_extern(Env *env, char *target);
 
 /* ====== MEMORY ====== */
 void	free_av(char **av);
+void	free_cmd(Command *cmd);
 void	free_cmds(Command *list);
 void	free_node(Parser *node);
 void	free_list(Parser *list);
