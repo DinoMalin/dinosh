@@ -9,6 +9,7 @@
 #include <readline/history.h>
 #include <signal.h>
 
+#define B_SIZE 10
 #define ft_isspace(x) ((x >= '\t' && x <= '\r') || x == ' ')
 #define IS_REDIR(x) (x == t_append || x == t_heredoc || x == t_to || x == t_from || x == t_to_fd || x == t_from_fd)
 

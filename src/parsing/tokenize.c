@@ -9,8 +9,45 @@ bool skip_whitespace(char **str) {
 	return res;
 }
 
+char *until_escaped(char **str, char *sep) {
+	int i = 0;
+	bool escape = false;
+	int seplen = ft_strlen(sep);
+	char *res = ft_strdup("");
+	char buff[B_SIZE] = {};
+	char *s = *str;
+
+	while (*s) {
+		if (!escape && !ft_strncmp(s, sep, seplen))
+			break;
+		if (*s == '\\' && !ft_strncmp(s+1, sep, seplen))
+			escape = true;
+		else {
+			escape = false;
+			buff[i] = *s;
+			i++;
+		}
+
+		if (i+1 == B_SIZE) {
+			res = clean_join(res, buff);
+			bzero(buff, B_SIZE);
+			i = 0;
+		}
+		s++;
+	}
+	res = clean_join(res, buff);
+	if (!*s) {
+		free(res);
+		return NULL;
+	}
+
+	*str = s + ft_strlen(sep);
+
+	return res;
+}
+
 char *until(char **str, char *sep) {
-	char *end = ft_strnstr(*str, sep, strlen(*str));
+	char *end = ft_strnstr(*str, sep, ft_strlen(*str));
 	if (!end)
 		return NULL;
 
@@ -62,7 +99,7 @@ Parser *tokenize(char *str) {
 	while (*str) {
 		if (skip_whitespace(&str))
 			id++;
-		PARSE_TOKEN("\"", "\"", t_double_quotes);
+		PARSE_ESCAPED_TOKEN("\"", "\"", t_double_quotes);
 		PARSE_TOKEN("'", "'", t_single_quotes);
 		PARSE_TOKEN("(", ")", t_subshell);
 		PARSE_TOKEN("${", "}", t_var);

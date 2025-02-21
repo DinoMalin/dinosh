@@ -2,6 +2,7 @@
 
 #define WORD_END "\t\n\v\f\r\"' <>|&()*;\\"
 #define MINI_WORD_END "\t\n\v\f\r *"
+#define ESCAPED	"\""
 #define CAN_REDIR(x) (x == t_word || x == t_wildcard || x == t_double_quotes || x == t_single_quotes)
 
 #define BUILTIN(s, type)					\
@@ -28,6 +29,22 @@
 			str += len;										\
 			Parser *new = ft_calloc(1, sizeof(Parser));		\
 			new->content = until(&str, end);				\
+			new->token = type;								\
+			new->id = id;									\
+			if (!new->content)								\
+				new->error = unclosed_token;				\
+			ADD_TOKEN(head, curr, new);						\
+			continue;										\
+		}													\
+	}
+
+#define PARSE_ESCAPED_TOKEN(start, end, type)				\
+	{														\
+		int len = ft_strlen(start);							\
+		if (!ft_strncmp(str, start, len)) {					\
+			str += len;										\
+			Parser *new = ft_calloc(1, sizeof(Parser));		\
+			new->content = until_escaped(&str, end);		\
 			new->token = type;								\
 			new->id = id;									\
 			if (!new->content)								\

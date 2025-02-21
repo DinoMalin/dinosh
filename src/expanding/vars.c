@@ -22,14 +22,6 @@ int get_variable(char *str) {
 	return size;
 }
 
-char *extract(char *dest, char *src, int size) {
-	char *sub = ft_substr(src, 0, size);
-	dest = clean_join(dest, sub);
-	free(sub);
-
-	return dest;
-}
-
 void expand_one_var(Env *env, Parser *el, int max) {
 	char *value = ft_getenv_alloc(env, el->content);
 	free(el->content);
@@ -39,15 +31,20 @@ void expand_one_var(Env *env, Parser *el, int max) {
 }
 
 void expand_vars(Env *env, Parser *el, int max) {
-	int not_var = 0;
 	char *str = el->content;
 	char *str_start = str;
+	bool escape = false;
 	el->content = ft_strdup("");
 	Token token = el->token;
 
+	char buff[B_SIZE] = {};
+	int i = 0;
+
 	while (*str) {
-		if (*str == '$') {
-			el->content = extract(el->content, str - not_var, not_var);
+		if (*str == '$' && !escape) {
+			el->content = clean_join(el->content, buff);
+			bzero(buff, B_SIZE);
+			i = 0;
 
 			int var_size = get_variable(str+1);
 			char *var = ft_substr(str+1, 0, var_size);
@@ -62,13 +59,25 @@ void expand_vars(Env *env, Parser *el, int max) {
 			free(var);
 			free(value);
 			str += var_size + 1;
-			not_var = 0;
 		} else {
-			not_var++;
+			if (*str == '\\') {
+	   			escape = true;
+			} else
+				escape = false;
+
+			if (ft_strncmp(str, "\\$", 2)) {
+				buff[i] = *str;
+				i++;
+			}
+			if (i+1 == B_SIZE) {
+				el->content = clean_join(el->content, buff);
+				bzero(buff, B_SIZE);
+				i = 0;
+			}
 			str++;
 		}
 	}
 
-	el->content = extract(el->content, str - not_var, not_var);
+	el->content = clean_join(el->content, buff);
 	free(str_start);
 }
