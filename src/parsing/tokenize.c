@@ -104,6 +104,7 @@ Parser *tokenize(char *str) {
 		PARSE_TOKEN("(", ")", t_subshell);
 		PARSE_TOKEN("{", "}", t_control_group);
 		PARSE_TOKEN("${", "}", t_var);
+		PARSE_OPERATOR("\\\0", t_unexpected);
 		PARSE_OPERATOR_APARAMETER("\\", 1, t_backslash, false);
 		PARSE_OPERATOR(";", t_semicolon);
 		PARSE_OPERATOR(">&", t_missing_parameter);
