@@ -1,5 +1,13 @@
 #include "minishell.h"
 
+#define HANDLE_ERROR(err, msg)		\
+	{									\
+		if (head->error == err) {		\
+			ERROR(msg);					\
+			return true;				\
+		}								\
+	}
+
 char get_token(Parser *data) {
 	if (data->token == t_double_quotes)
 		return '"';
@@ -20,7 +28,7 @@ bool has_token_errors(Parser *head) {
 bool token_error(Parser *head) {
 	while (head) {
 		if (head->error) {
-			dprintf(2, "dinosh: unclosed token: %c\n", get_token(head));
+			ERROR("unclosed token: %c", get_token(head));
 			return true;
 		}
 		head = head->next;
@@ -30,47 +38,21 @@ bool token_error(Parser *head) {
 
 bool parse_error(Command *head) {
 	while (head) {
-		if (head->error == empty_redir) {
-			dprintf(2, "dinosh: empty redirection\n");
-			return true;
-		}
-		if (head->error == unexpected_token) {
-			dprintf(2, "dinosh: unexpected token\n");
-			return true;
-		}
-		if (head->error == start_pipe) {
-			dprintf(2, "dinosh: command cannot start with a pipe\n");
-			return true;
-		}
-		if (head->error == unknown_token) {
-			dprintf(2, "dinosh: unknown token\n");
-			return true;
-		}
-		if (head->error == empty_subshell) {
-			dprintf(2, "dinosh: empty subshell\n");
-			return true;
-		}
-		if (head->error == empty_control_group) {
-			dprintf(2, "dinosh: empty control group\n");
-			return true;
-		}
-		if (head->error == missing_parameter) {
-			dprintf(2, "dinosh: missing parameter\n");
-			return true;
-		}
+		HANDLE_ERROR(empty_redir, "empty redirection");
+		HANDLE_ERROR(unexpected_token, "unexpected token");
+		HANDLE_ERROR(start_pipe, "start pipe");
+		HANDLE_ERROR(unknown_token, "unknown token");
+		HANDLE_ERROR(empty_subshell, "empty subshell");
+		HANDLE_ERROR(empty_subshell, "empty subshell");
+		HANDLE_ERROR(empty_control_group, "empty control group");
+		HANDLE_ERROR(missing_parameter, "missing_parameter");
 		head = head->next;
 	}
 	return false;
 }
 
 bool command_error(Command *head) {
-	if (head->error == eheredoc) {
-		perror("dinosh: heredoc");
-		return true;
-	}
-	if (head->error == ambiguous_redirect) {
-		dprintf(2, "dinosh: ambiguous redirect\n");
-		return true;
-	}
+	HANDLE_ERROR(eheredoc, "failed heredoc");
+	HANDLE_ERROR(ambiguous_redirect, "ambiguous redirect");
 	return false;
 }

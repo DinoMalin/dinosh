@@ -4,7 +4,7 @@ char *find_path(Env *env, char *cmd) {
 	if (access(cmd, X_OK) == 0)
 		return ft_strdup(cmd);
 	if (!ft_strncmp(cmd, "./", 1) || !ft_strncmp(cmd, "../", 2)) {
-		dprintf(2, "dinosh: %s: No such file or directory\n", cmd);
+		ERROR("%s: No such file or directory", cmd);
 		return NULL;
 	}
 

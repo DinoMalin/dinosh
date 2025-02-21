@@ -29,7 +29,7 @@ void add_redir(Command *cmd, Token type, char *name) {
 void add_redir_fd(Command *cmd, char *n, char *word, Token token) {
 	bool should_close = !ft_strcmp(word, "-");
 	if ((!is_number(n) || !is_number(word)) && !should_close) {
-		dprintf(2, "dinosh: numeric argument required\n");
+		ERROR("numeric argument required");
 		cmd->error = numeric_argument;
 		return;
 	}
@@ -49,7 +49,7 @@ void init_redirs(Command *cmd) {
 		if (IS_REDIR(curr->token)) {
 			Parser *file = curr->next;
 			if (file->next && IS_AMBIGUOUS(file)) {
-				dprintf(2, "dinosh: ambiguous redirect\n");
+				ERROR("ambiguous redirect");
 				cmd->error = ambiguous_redirect;
 			}
 			if (curr->token == t_to_fd || curr->token == t_from_fd) {
@@ -121,7 +121,7 @@ bool add_command(Context *ctx, Command *cmd) {
 		char *var = ft_substr(curr->content, 0, content - curr->content);
 		if (!var_is_valid(var)) {
 			free(var);
-			dprintf(2, "dinosh: not a valid identifier\n");
+			ERROR("not a valid identifier");
 			return false;
 		}
 

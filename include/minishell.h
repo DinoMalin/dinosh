@@ -13,6 +13,8 @@
 #define ft_isspace(x) ((x >= '\t' && x <= '\r') || x == ' ')
 #define IS_REDIR(x) (x == t_append || x == t_heredoc || x == t_to || x == t_from || x == t_to_fd || x == t_from_fd)
 
+#define ERROR(format, ...) dprintf(2, "dinosh: "format"\n", ##__VA_ARGS__)
+
 typedef enum {
 	t_word,
 	t_to,

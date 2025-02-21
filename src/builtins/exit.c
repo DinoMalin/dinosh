@@ -2,7 +2,7 @@
 
 #define BUILTIN_ERROR_CODE(msg, code)		\
 	{										\
-		dprintf(2, "dinosh: "msg"\n");		\
+		ERROR(msg);							\
 		cmd->exit_code = code;				\
 		return;								\
 	}

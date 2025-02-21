@@ -10,14 +10,14 @@
 
 #define BUILTIN_ERROR(msg)					\
 	{										\
-		dprintf(2, "dinosh: "msg"\n");		\
+		ERROR(msg);							\
 		cmd->exit_code = 1;					\
 		return;								\
 	}
 
 #define BUILTIN_VERROR(...)							\
 	{												\
-		dprintf(2, "dinosh: "__VA_ARGS__);			\
+		ERROR(__VA_ARGS__);							\
 		cmd->exit_code = 1;							\
 		return;										\
 	}
