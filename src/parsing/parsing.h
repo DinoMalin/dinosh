@@ -72,7 +72,9 @@
 // will check only X character before start
 #define PARSE_OPERATOR_BPARAMETER(op, len, type, next_arg)	\
 	{														\
-		if (!ft_strncmp(str+len, op, ft_strlen(op))) {		\
+		int l = ft_strlen(op);								\
+		if (ft_strlen(str) >= (size_t)len+l					\
+			&& !ft_strncmp(str+len, op, l)) {				\
 			Parser *new = ft_calloc(1, sizeof(Parser));		\
 			new->content = until(&str, op);					\
 			new->token = type;								\
