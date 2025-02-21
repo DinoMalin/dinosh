@@ -30,6 +30,7 @@ typedef enum {
 	t_semicolon,
 	t_bg,
 	t_wildcard,
+	t_backslash,
 	t_unknown,
 	t_unexpected,
 	t_missing_parameter,

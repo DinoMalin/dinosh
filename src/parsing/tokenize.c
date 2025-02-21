@@ -66,6 +66,7 @@ Parser *tokenize(char *str) {
 		PARSE_TOKEN("'", "'", t_single_quotes);
 		PARSE_TOKEN("(", ")", t_subshell);
 		PARSE_TOKEN("${", "}", t_var);
+		PARSE_OPERATOR_APARAMETER("\\", 1, t_backslash, false);
 		PARSE_OPERATOR(";", t_semicolon);
 		PARSE_OPERATOR(">&", t_missing_parameter);
 		PARSE_OPERATOR("<&", t_missing_parameter);
@@ -73,8 +74,8 @@ Parser *tokenize(char *str) {
 		PARSE_OPERATOR("<<", t_heredoc);
 		PARSE_OPERATOR(">", t_to);
 		PARSE_OPERATOR("<", t_from);
-		PARSE_OPERATOR_PARAMETER(">&", 1, t_to_fd);
-		PARSE_OPERATOR_PARAMETER("<&", 1, t_from_fd);
+		PARSE_OPERATOR_BPARAMETER(">&", 1, t_to_fd, true);
+		PARSE_OPERATOR_BPARAMETER("<&", 1, t_from_fd, true);
 		PARSE_OPERATOR("&&", t_and);
 		PARSE_OPERATOR("||", t_or);
 		PARSE_OPERATOR("|", t_pipe);
