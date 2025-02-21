@@ -25,5 +25,6 @@ char *find_path(Env *env, char *cmd) {
 	}
 	free_av(paths);
 
+	ERROR("%s: command not found", cmd);
 	return NULL;
 }
