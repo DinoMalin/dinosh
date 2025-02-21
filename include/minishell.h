@@ -32,6 +32,7 @@ typedef enum {
 	t_bg,
 	t_wildcard,
 	t_backslash,
+	t_control_group,
 	t_unknown,
 	t_unexpected,
 	t_missing_parameter,
@@ -44,6 +45,7 @@ typedef enum {
 	unexpected_token,
 	unknown_token,
 	empty_subshell,
+	empty_control_group,
 	start_pipe,
 	ambiguous_redirect,
 	eheredoc,
@@ -74,6 +76,7 @@ typedef enum {
 typedef enum {
 	BASIC,
 	SUBSHELL,
+	CONTROL_GROUP,
 	ECHO,
 	CD,
 	PWD,

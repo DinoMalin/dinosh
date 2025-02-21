@@ -143,7 +143,7 @@ bool init_command(Context *ctx, Command *cmd) {
 	}
 
 	merge(cmd->args);
-	if (cmd->type != SUBSHELL)
+	if (cmd->type != SUBSHELL && cmd->type != CONTROL_GROUP)
 		add_command(ctx, cmd);
 	if (command_error(cmd)) {
 		cmd->pid = 0;

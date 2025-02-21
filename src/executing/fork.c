@@ -22,7 +22,8 @@ void fork_routine(Command *head, Command *cmd, Context *ctx, Pipes *pipes) {
 		Context subctx = {
 			.input = cmd->av[0],
 			.env = ctx->env,
-			.exit = false
+			.exit = false,
+			.gpid = getpgrp()
 		};
 		handle_input(&subctx);
 		exit_fork(head, &subctx);
@@ -126,6 +127,14 @@ void execute(Command *head, Context *ctx) {
 			if (!curr->error)
 				builtin(curr, ctx);
 			fd_storage(RESTORE);
+		} else if (curr->type == CONTROL_GROUP) {
+			Context subctx = {
+				.input = curr->av[0],
+				.env = ctx->env,
+				.exit = false,
+				.gpid = ctx->gpid
+			};
+			handle_input(&subctx);
 		} else {
 			create_fork(head, curr, ctx, &pipes);
 

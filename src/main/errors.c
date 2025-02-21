@@ -50,6 +50,10 @@ bool parse_error(Command *head) {
 			dprintf(2, "dinosh: empty subshell\n");
 			return true;
 		}
+		if (head->error == empty_control_group) {
+			dprintf(2, "dinosh: empty control group\n");
+			return true;
+		}
 		if (head->error == missing_parameter) {
 			dprintf(2, "dinosh: missing parameter\n");
 			return true;

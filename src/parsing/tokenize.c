@@ -102,6 +102,7 @@ Parser *tokenize(char *str) {
 		PARSE_ESCAPED_TOKEN("\"", "\"", t_double_quotes);
 		PARSE_TOKEN("'", "'", t_single_quotes);
 		PARSE_TOKEN("(", ")", t_subshell);
+		PARSE_TOKEN("{", "}", t_control_group);
 		PARSE_TOKEN("${", "}", t_var);
 		PARSE_OPERATOR_APARAMETER("\\", 1, t_backslash, false);
 		PARSE_OPERATOR(";", t_semicolon);

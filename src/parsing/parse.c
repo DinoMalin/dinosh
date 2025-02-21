@@ -35,8 +35,6 @@ void analyze_command(Command *cmd, Parser **data, int *arg_index) {
 		cmd->error = missing_parameter;
 	if ((*data)->token == t_unexpected)
 		cmd->error = unexpected_token;
-	if (cmd->type == SUBSHELL) // subshell hasn't be properly transmitted
-		cmd->error = unexpected_token;
 
 	if (IS_REDIR((*data)->token))
 		check_redir_errors(cmd, data);
@@ -61,6 +59,8 @@ Command *parse(Parser *data) {
 		if (data_index == 0 && !ft_strlen(data->content)) {
 			if (data->token == t_subshell)
 				error = empty_subshell;
+			if (data->token == t_control_group)
+				error = empty_control_group;
 			data = data->next;
 			continue;
 		}
