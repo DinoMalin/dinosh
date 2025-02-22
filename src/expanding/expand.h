@@ -63,3 +63,4 @@
 void	expand_one_var(Env *env, Parser *el, int max);
 void	expand_vars(Env *env, Parser *el, int max);
 Parser	*expand_wildcard(Parser *el, int max);
+void	arithmetic(Env *env, Parser *el);

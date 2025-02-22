@@ -27,8 +27,11 @@ void expand(Command *cmd, Env *env) {
 		bool can_expand = false;
 		Parser *node = curr;
 		while (node && node->id == curr->id) {
-			if (CAN_EXPAND(node) || this_id_has_wildcard(node))
+			if (CAN_EXPAND(node)
+				|| node->token == t_wildcard
+				|| node->token == t_arithmetic) {
 				can_expand = true;
+			}
 			node = node->next;
 		}
 		if (!can_expand) {
@@ -55,5 +58,12 @@ void expand(Command *cmd, Env *env) {
 		int id = curr->id;
 		while (curr && curr->id == id)
 			curr = curr->next;
+	}
+
+	curr = cmd->args;
+	while (curr) {
+		if (curr->token == t_arithmetic)
+			arithmetic(env, curr);
+		curr = curr->next;
 	}
 }
