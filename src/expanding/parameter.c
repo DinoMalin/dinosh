@@ -79,14 +79,21 @@ char *substitution(Env *env, Command *cmd, char *parameter, char *word) {
 
 char *get_value(Env *env, Command *cmd, char *str) {
 	char *colon = ft_strchr(str, ':');
-	if (colon) {
+	char *hashtag = ft_strchr(str, '#');
+
+	if (colon && hashtag)
+		return NULL;
+	if (hashtag == str) {
+		char *var = ft_getenv(env, str+1);
+		int len = var ? ft_strlen(var) : 0;
+		return ft_itoa(len);
+	} if (colon) {
 		return substitution(env, cmd,
 					ft_substr(str, 0, colon-str),
 					ft_substr(colon+1, 0, ft_strlen(colon+1))
 				);
-	} else
-		return ft_getenv_alloc(env, str);
-	return ft_strdup("");
+	}
+	return ft_getenv_alloc(env, str);
 }
 
 void expand_parameter(Env *env, Command *cmd, Parser *el, int max) {
