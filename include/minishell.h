@@ -15,6 +15,12 @@
 
 #define ERROR(format, ...) dprintf(2, "dinosh: "format"\n", ##__VA_ARGS__)
 
+#define SETPGRP(fd, gpid)								\
+	{													\
+		if (tcsetpgrp(fd, gpid) == -1)					\
+			perror("dinosh: failed to tcsetpgrp");		\
+	}
+
 typedef enum {
 	t_word,
 	t_to,

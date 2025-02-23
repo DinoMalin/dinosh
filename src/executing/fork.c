@@ -75,13 +75,15 @@ void wait_everything(Command *head, Command *until, Context *ctx) {
 			break;
 		if (head->pid) {
 			signal(SIGTTOU, SIG_IGN);
-			if (tcsetpgrp(0, head->pid) == -1)
-				perror("dinosh: failed to tcsetpgrp");
+			signal(SIGTTIN, SIG_IGN);
+			SETPGRP(0, head->pid);
+			SETPGRP(1, head->pid);
 			if (waitpid(head->pid, &status, WUNTRACED) == -1)
 				perror("dinosh: failed to wait");
-			if (tcsetpgrp(0, ctx->gpid) == -1)
-				perror("dinosh: failed to tcsetpgrp");
+			SETPGRP(0, ctx->gpid);
+			SETPGRP(1, ctx->gpid);
 			signal(SIGTTOU, SIG_DFL);
+			signal(SIGTTIN, SIG_DFL);
 
 			if (WIFEXITED(status)) {
 				ctx->code = WEXITSTATUS(status);
