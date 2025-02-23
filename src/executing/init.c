@@ -158,5 +158,7 @@ bool init_command(Context *ctx, Command *cmd) {
 	}
 
 	init_av(cmd);
+	if (cmd->type == CONTROL_GROUP && cmd->to == BACKGROUND)
+		cmd->type = SUBSHELL;
 	return true;
 }
