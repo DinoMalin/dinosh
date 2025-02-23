@@ -16,6 +16,28 @@ void config(int ac, char **av, Context *ctx) {
 	}
 }
 
+bool run_av(int ac, char **av, Context *ctx) {
+	if (ac < 2)
+		return false;
+
+	int i = 0;
+	for (; av[i]; i++) {
+		if (!ft_strcmp("-c", av[i]))
+			break;
+	}
+	if (!av[i])
+		return false;
+	if (!av[i+1]) {
+		ERROR("-c: option requires an argument");
+		ctx->code = 2;
+		return true;
+	}
+
+	ctx->input = av[i+1];
+	handle_input(ctx);
+	return true;
+}
+
 bool run_script(int ac, char **av, Context *ctx) {
 	for (int i = 1; i < ac; i++) {
 		if (!ft_strcmp(av[i], "--rcfile")) {
@@ -73,7 +95,8 @@ int main(int ac, char **av, char **envp) {
 		.gpid = getpgrp()
 	};
 	init_basic_vars(&ctx);
-	if (!run_script(ac, av, &ctx)) {
+
+	if (!run_av(ac, av, &ctx) && !run_script(ac, av, &ctx)) {
 		config(ac, av, &ctx);
 		run_prompt(&ctx);
 	}
