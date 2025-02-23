@@ -112,7 +112,7 @@ bool add_command(Context *ctx, Command *cmd) {
 
 	curr = cmd->args;
 	int durability = command_specific ? 1 : -1;
-	Special type = command_specific ? EXTERN : INTERN;
+	Special default_type = command_specific ? EXTERN : INTERN;
 	while (curr) {
 		char *content = ft_strchr(curr->content, '=');
 		if (!content)
@@ -126,6 +126,8 @@ bool add_command(Context *ctx, Command *cmd) {
 		}
 
 		Parser *next = curr->next;
+		Env *varenv = getvar(ctx->env, var);
+		Special type = varenv ? varenv->type : default_type;
 		modify_env(&ctx->env, var, content + 1, type, durability);
 		DELETE_ARG(cmd->args, curr, cmd->args);
 		free(var);
