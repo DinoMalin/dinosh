@@ -174,6 +174,7 @@ typedef struct {
 	int		code;
 	Job		*jobs;
 	pid_t	gpid;
+	char	*access;
 } Context;
 
 /* ====== MINISHELL ====== */

@@ -92,7 +92,8 @@ int main(int ac, char **av, char **envp) {
 		.input = NULL,
 		.env = create_env(envp),
 		.exit = false,
-		.gpid = getpgrp()
+		.gpid = getpgrp(),
+		.access = ft_strdup(av[0])
 	};
 	init_basic_vars(&ctx);
 
@@ -103,6 +104,7 @@ int main(int ac, char **av, char **envp) {
 
 	free_env(ctx.env);
 	free_jobs(ctx.jobs);
+	free(ctx.access);
 	rl_clear_history();
 	return ctx.code;
 }

@@ -2,7 +2,9 @@
 
 void exit_fork(Command *head, Context *ctx) {
 	free_cmds(head, false);
+	free(ctx->access);
 	free_env(ctx->env);
+	free_jobs(ctx->jobs);
 	exit(ctx->code);
 }
 
@@ -19,14 +21,10 @@ void fork_routine(Command *head, Command *cmd, Context *ctx, Pipes *pipes) {
 	if (IS_BUILTIN(cmd->type))
 		builtin(cmd, ctx);
 	else if (cmd->type == SUBSHELL) {
-		Context subctx = {
-			.input = cmd->av[0],
-			.env = ctx->env,
-			.exit = false,
-			.gpid = getpgrp()
-		};
-		handle_input(&subctx);
-		exit_fork(head, &subctx);
+		char *av[4] = {ctx->access, "-c", cmd->av[0], NULL};
+		char **envp = get_envp(ctx->env);
+		execve(ctx->access, av, envp);
+		free_av(envp);
 	} else if (cmd->type == BASIC) {
 		if (cmd->av[0]) {
 			char *path = find_path(ctx->env, cmd->av[0]);
@@ -36,10 +34,7 @@ void fork_routine(Command *head, Command *cmd, Context *ctx, Pipes *pipes) {
 			else {
 				char **envp = get_envp(ctx->env);
 				execve(path, cmd->av, get_envp(ctx->env));
-				for (int i = 0; envp[i]; i++) {
-					free(envp[i]);
-				}
-				free(envp);
+				free_av(envp);
 				ctx->code = 126;
 			}
 		}
