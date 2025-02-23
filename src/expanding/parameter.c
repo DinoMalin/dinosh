@@ -1,6 +1,16 @@
 #include "expand.h"
 
-char *replace(Env *env, char *parameter, char *word) {
+#define HANDLE_SUBSTITUTION(c, fun)						\
+	{													\
+		if (*word == c) {								\
+			char *w = ft_strdup(word+1);				\
+			free(word);									\
+			return fun(env, cmd, parameter, w);			\
+		}												\
+	}
+
+char *replace(Env *env, Command *cmd, char *parameter, char *word) {
+	(void)cmd;
 	char *var = ft_getenv(env, parameter);
 	free(parameter);
 
@@ -11,7 +21,8 @@ char *replace(Env *env, char *parameter, char *word) {
 	return ft_strdup(var);
 }
 
-char *assign(Env *env, char *parameter, char *word) {
+char *assign(Env *env, Command *cmd, char *parameter, char *word) {
+	(void)cmd;
 	char *var = ft_getenv(env, parameter);
 
 	if (!var || !ft_strlen(var)) {
@@ -22,31 +33,54 @@ char *assign(Env *env, char *parameter, char *word) {
 		return word;
 	}
 
+	free(parameter);
 	free(word);
 	return ft_strdup(var);
 }
 
-char *substitution(Env *env, char *parameter, char *word) {
-	if (*word == '-') {
-		char *res = ft_strdup(word+1);
+char *check(Env *env, Command *cmd, char *parameter, char *word) {
+	char *var = ft_getenv(env, parameter);
+
+	if (!var || !ft_strlen(var)) {
+		cmd->error_message = ft_strdup(parameter);
+		cmd->error_message = clean_join(cmd->error_message, ": ");
+		cmd->error_message = clean_join(cmd->error_message, word);
+		cmd->error = special;
+		free(parameter);
 		free(word);
-		return replace(env, parameter, res);
+		return NULL;
 	}
-	if (*word == '=') {
-		char *res = ft_strdup(word+1);
-		free(word);
-		return assign(env, parameter, res);
-	}
+
+	return ft_strdup(var);
+}
+
+char *add(Env *env, Command *cmd, char *parameter, char *word) {
+	(void)cmd;
+	char *var = ft_getenv(env, parameter);
+	free(parameter);
+
+	if (var)
+		return word;
+
+	free(word);
+	return ft_strdup("");
+}
+
+char *substitution(Env *env, Command *cmd, char *parameter, char *word) {
+	HANDLE_SUBSTITUTION('-', replace);
+	HANDLE_SUBSTITUTION('=', assign);
+	HANDLE_SUBSTITUTION('?', check);
+	HANDLE_SUBSTITUTION('+', add);
 
 	free(parameter);
 	free(word);
 	return NULL;
 }
 
-char *get_value(Env *env, char *str) {
+char *get_value(Env *env, Command *cmd, char *str) {
 	char *colon = ft_strchr(str, ':');
 	if (colon) {
-		return substitution(env,
+		return substitution(env, cmd,
 					ft_substr(str, 0, colon-str),
 					ft_substr(colon+1, 0, ft_strlen(colon+1))
 				);
@@ -55,13 +89,15 @@ char *get_value(Env *env, char *str) {
 	return ft_strdup("");
 }
 
-Error expand_parameter(Env *env, Parser *el, int max) {
-	char *value = get_value(env, el->content);
-	if (!value)
-		return bad_substitution;
+void expand_parameter(Env *env, Command *cmd, Parser *el, int max) {
+	char *value = get_value(env, cmd, el->content);
+	if (!value) {
+		if (!cmd->error)
+			cmd->error = bad_substitution;
+		return ;
+	}
 	free(el->content);
 	el->content = ft_strdup("");
 	TOKENIZE_VAR();
 	free(value);
-	return no_error;
 }

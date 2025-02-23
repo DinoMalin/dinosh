@@ -56,7 +56,8 @@ typedef enum {
 	eopen,
 	numeric_argument,
 	missing_parameter,
-	bad_substitution
+	bad_substitution,
+	special
 } Error;
 
 /* === Parsing linked list ===*/
@@ -124,6 +125,7 @@ typedef struct Command {
 	Transmission	to;
 	int				exit_code; // used for builtins
 	pid_t			pid;
+	char			*error_message;
 	char			*heredoc_file;
 	struct Command	*next;
 } Command;

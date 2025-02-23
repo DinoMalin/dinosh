@@ -34,6 +34,7 @@ void free_cmd(Command *cmd) {
 	free_redir(cmd->redirs);
 	free_list(cmd->args);
 	free(cmd->heredoc_file);
+	free(cmd->error_message);
 	free(cmd);
 }
 void free_cmds(Command *list, bool skip_background) {

@@ -46,7 +46,7 @@ void expand(Command *cmd, Env *env) {
 	curr = cmd->args;
 	while (curr) {
 		if (curr->token == t_var)
-			cmd->error = expand_parameter(env, curr, max_id(cmd->args));
+			expand_parameter(env, cmd, curr, max_id(cmd->args));
 		else if (CAN_EXPAND(curr))
 			expand_vars(env, curr, max_id(cmd->args));
 		curr = curr->next;
