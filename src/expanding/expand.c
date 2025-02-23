@@ -29,7 +29,9 @@ void expand(Command *cmd, Env *env) {
 		while (node && node->id == curr->id) {
 			if (CAN_EXPAND(node)
 				|| node->token == t_wildcard
-				|| node->token == t_arithmetic) {
+				|| node->token == t_arithmetic
+				|| node->token == t_tilde
+			) {
 				can_expand = true;
 			}
 			node = node->next;
@@ -64,6 +66,8 @@ void expand(Command *cmd, Env *env) {
 	while (curr) {
 		if (curr->token == t_arithmetic)
 			arithmetic(env, curr);
+		if (curr->token == t_tilde)
+			tilde(curr);
 		curr = curr->next;
 	}
 }

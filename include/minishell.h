@@ -36,6 +36,7 @@ typedef enum {
 	t_backslash,
 	t_control_group,
 	t_arithmetic,
+	t_tilde,
 	t_unknown,
 	t_unexpected,
 	t_missing_parameter,

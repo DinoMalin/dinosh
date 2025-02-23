@@ -122,6 +122,7 @@ Parser *tokenize(char *str) {
 		PARSE_OPERATOR(")", t_unexpected);
 		PARSE_OPERATOR("&", t_bg);
 		PARSE_CHARACTER("*", t_wildcard);
+		PARSE_CHARACTER("~", t_tilde);
 		PARSE_WORD(WORD_END);
 	}
 
