@@ -54,5 +54,6 @@ bool parse_error(Command *head) {
 bool command_error(Command *head) {
 	HANDLE_ERROR(eheredoc, "failed heredoc");
 	HANDLE_ERROR(ambiguous_redirect, "ambiguous redirect");
+	HANDLE_ERROR(bad_substitution, "bad substitution");
 	return false;
 }

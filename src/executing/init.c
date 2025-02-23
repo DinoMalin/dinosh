@@ -138,6 +138,11 @@ bool add_command(Context *ctx, Command *cmd) {
 
 bool init_command(Context *ctx, Command *cmd) {
 	expand(cmd, ctx->env);
+	if (command_error(cmd)) {
+		cmd->pid = 0;
+		return false;
+	}
+
 	init_redirs(cmd);
 	if (command_error(cmd)) {
 		cmd->pid = 0;

@@ -1,6 +1,6 @@
 #include "expand.h"
 
-static char *ft_getenv_alloc(Env *env, char *target) {
+char *ft_getenv_alloc(Env *env, char *target) {
 	char *res = ft_getenv(env, target);
 	if (!res)
 		return ft_strdup("");
@@ -20,14 +20,6 @@ int get_variable(char *str) {
 		}
 	}
 	return size;
-}
-
-void expand_one_var(Env *env, Parser *el, int max) {
-	char *value = ft_getenv_alloc(env, el->content);
-	free(el->content);
-	el->content = ft_strdup("");
-	TOKENIZE_VAR();
-	free(value);
 }
 
 void expand_vars(Env *env, Parser *el, int max) {

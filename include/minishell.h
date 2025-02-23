@@ -55,7 +55,8 @@ typedef enum {
 	eheredoc,
 	eopen,
 	numeric_argument,
-	missing_parameter
+	missing_parameter,
+	bad_substitution
 } Error;
 
 /* === Parsing linked list ===*/

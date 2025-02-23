@@ -46,7 +46,7 @@ void expand(Command *cmd, Env *env) {
 	curr = cmd->args;
 	while (curr) {
 		if (curr->token == t_var)
-			expand_one_var(env, curr, max_id(cmd->args));
+			cmd->error = expand_parameter(env, curr, max_id(cmd->args));
 		else if (CAN_EXPAND(curr))
 			expand_vars(env, curr, max_id(cmd->args));
 		curr = curr->next;
@@ -54,9 +54,9 @@ void expand(Command *cmd, Env *env) {
 
 	curr = cmd->args;
 	while (curr) {
-		if (this_id_has_wildcard(curr)) {
+		if (this_id_has_wildcard(curr))
 			curr = expand_wildcard(curr, max_id(cmd->args));
-		}
+
 		int id = curr->id;
 		while (curr && curr->id == id)
 			curr = curr->next;
