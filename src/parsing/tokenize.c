@@ -84,7 +84,6 @@ Parser *mini_tokenizer(char *str) {
 	while (*str) {
 		if (skip_whitespace(&str))
 			id++;
-		PARSE_CHARACTER("*", t_wildcard);
 		PARSE_WORD(MINI_WORD_END);
 	}
 

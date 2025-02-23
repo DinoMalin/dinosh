@@ -1,7 +1,7 @@
 #include "minishell.h"
 
 #define WORD_END "\t\n\v\f\r\"' <>|&()*;\\"
-#define MINI_WORD_END "\t\n\v\f\r *"
+#define MINI_WORD_END "\t\n\v\f\r "
 #define ESCAPED	"\""
 #define CAN_REDIR(x) (x == t_word || x == t_wildcard || x == t_double_quotes || x == t_single_quotes)
 
