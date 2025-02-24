@@ -46,6 +46,37 @@ char *until_escaped(char **str, char *sep) {
 	return res;
 }
 
+char *until_nested(char **str, char *start, char *sep) {
+	char *end = *str;
+	int nested = 1;
+
+	int start_len = ft_strlen(start);
+	int end_len = ft_strlen(sep);
+	int len = ft_strlen(*str);
+
+	while (*end) {
+		if (len >= start_len && !ft_strncmp(end, start, start_len)) {
+				nested++;
+				end += start_len;
+		} else if (len >= end_len && !ft_strncmp(end, sep, end_len)) {
+			nested--;
+			if (nested == 0) {
+				break;
+			}
+			end += end_len;
+		} else {
+			end++;
+			len = ft_strlen(end);
+		}
+	}
+	if (nested != 0)
+		return NULL;
+
+	char *res = ft_substr(*str, 0, end - *str);
+	*str = end + ft_strlen(sep);
+	return res;
+}
+
 char *until(char **str, char *sep) {
 	char *end = ft_strnstr(*str, sep, ft_strlen(*str));
 	if (!end)
@@ -104,7 +135,7 @@ Parser *tokenize(char *str) {
 		PARSE_TOKEN("{", "}", t_control_group);
 		PARSE_TOKEN("${", "}", t_var);
 		PARSE_TOKEN("$((", "))", t_arithmetic);
-		PARSE_TOKEN("$(", ")", t_control_substitution);
+		PARSE_TOKEN_NESTED("$(", ")", t_control_substitution);
 		PARSE_OPERATOR("\\\0", t_unexpected);
 		PARSE_OPERATOR_APARAMETER("\\", 1, t_backslash, false);
 		PARSE_OPERATOR(";", t_semicolon);

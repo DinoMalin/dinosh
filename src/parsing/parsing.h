@@ -38,6 +38,22 @@
 		}													\
 	}
 
+#define PARSE_TOKEN_NESTED(start, end, type)				\
+	{														\
+		int len = ft_strlen(start);							\
+		if (!ft_strncmp(str, start, len)) {					\
+			str += len;										\
+			Parser *new = ft_calloc(1, sizeof(Parser));		\
+			new->content = until_nested(&str, start, end);	\
+			new->token = type;								\
+			new->id = id;									\
+			if (!new->content)								\
+				new->error = unclosed_token;				\
+			ADD_TOKEN(head, curr, new);						\
+			continue;										\
+		}													\
+	}
+
 #define PARSE_ESCAPED_TOKEN(start, end, type)				\
 	{														\
 		int len = ft_strlen(start);							\
