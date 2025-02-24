@@ -43,6 +43,7 @@ typedef enum {
 	t_control_group,
 	t_arithmetic,
 	t_tilde,
+	t_control_substitution,
 	t_unknown,
 	t_unexpected,
 	t_missing_parameter,
@@ -100,7 +101,8 @@ typedef enum {
 	TYPE,
 	JOBS,
 	FG,
-	BG
+	BG,
+	CONTROL_SUBSTITUTION
 } Type;
 
 typedef struct {

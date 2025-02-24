@@ -92,3 +92,5 @@ void	redirect_pipe(Command *cmd, Pipes *pipes);
 void	fd_storage(StorageAction action);
 int		heredoc(char *heredoc_file, char *lim);
 void	fill_heredoc(Command *head);
+void	control_substitution(Context *ctx, Command *cmd);
+void	fork_routine(Command *head, Command *cmd, Context *ctx, Pipes *pipes);

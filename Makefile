@@ -25,7 +25,8 @@ FILES	= main/errors main/utils main/signals							\
 		expanding/vars expanding/wildcard expanding/parameter			\
 		expanding/arithmetic expanding/expand expanding/tilde			\
 		expanding/param_globing											\
-		executing/fork executing/path executing/redirect executing/init
+		executing/fork executing/path executing/redirect executing/init	\
+		executing/substitute
 
 FUZZER_FILES := $(FILES) utils/fuzzer
 FILES += $(MAIN)

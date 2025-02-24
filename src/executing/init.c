@@ -137,6 +137,12 @@ bool add_command(Context *ctx, Command *cmd) {
 }
 
 bool init_command(Context *ctx, Command *cmd) {
+	control_substitution(ctx, cmd);
+	if (command_error(cmd)) {
+		cmd->pid = 0;
+		return false;
+	}
+
 	expand(cmd, ctx->env);
 	if (command_error(cmd)) {
 		cmd->pid = 0;

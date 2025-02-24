@@ -1,7 +1,8 @@
 #include "execute.h"
 
 void exit_fork(Command *head, Context *ctx) {
-	free_cmds(head, false);
+	if (head->type != CONTROL_SUBSTITUTION)
+		free_cmds(head, false);
 	free(ctx->access);
 	free_env(ctx->env);
 	free_jobs(ctx->jobs);
@@ -9,7 +10,6 @@ void exit_fork(Command *head, Context *ctx) {
 }
 
 void fork_routine(Command *head, Command *cmd, Context *ctx, Pipes *pipes) {
-	signal(SIGTSTP, SIG_DFL);
 	redirect_pipe(cmd, pipes);
 	redirect(cmd);
 
@@ -20,7 +20,7 @@ void fork_routine(Command *head, Command *cmd, Context *ctx, Pipes *pipes) {
 
 	if (IS_BUILTIN(cmd->type))
 		builtin(cmd, ctx);
-	else if (cmd->type == SUBSHELL) {
+	else if (cmd->type == SUBSHELL || cmd->type == CONTROL_SUBSTITUTION) {
 		char *av[4] = {ctx->access, "-c", cmd->av[0], NULL};
 		char **envp = get_envp(ctx->env);
 		execve(ctx->access, av, envp);
@@ -50,6 +50,7 @@ void create_fork(Command *head, Command *cmd, Context *ctx, Pipes *pipes) {
 		perror("dinosh: fork");
 	else if (IS_CHILD(pid)) {
 		setpgid(0, 0);
+		signal(SIGTSTP, SIG_DFL);
 		fork_routine(head, cmd, ctx, pipes);
 	} else {
 		setpgid(pid, pid);
@@ -74,7 +75,7 @@ void wait_everything(Command *head, Command *until, Context *ctx) {
 			SETPGRP(0, head->pid);
 			SETPGRP(1, head->pid);
 			if (waitpid(head->pid, &status, WUNTRACED) == -1)
-				perror("dinosh: failed to wait");
+				perror("dinosh: wait");
 			SETPGRP(0, ctx->gpid);
 			SETPGRP(1, ctx->gpid);
 			signal(SIGTTOU, SIG_DFL);

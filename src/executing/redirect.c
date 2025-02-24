@@ -72,6 +72,9 @@ void redirect(Command *cmd) {
 	int fd_in = 0;
 	int fd_out = 1;
 
+	if (!cmd->redirs)
+		return;
+
 	for (int i = 0; cmd->redirs[i].file; i++) {
 		if (cmd->redirs[i].type == r_to) {
 			if (!handle_redir(cmd->redirs[i].file, &fd_out, TO_FLAGS, 1)) {
