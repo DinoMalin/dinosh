@@ -1,6 +1,6 @@
 #include "expand.h"
 
-bool its_a_match(Parser *head, char *str) {
+static bool its_a_match(Parser *head, char *str) {
 	int i = 0;
 	Parser *curr = head;
 

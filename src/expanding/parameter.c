@@ -80,18 +80,34 @@ char *substitution(Env *env, Command *cmd, char *parameter, char *word) {
 char *get_value(Env *env, Command *cmd, char *str) {
 	char *colon = ft_strchr(str, ':');
 	char *hashtag = ft_strchr(str, '#');
+	char *percent = ft_strchr(str, '%');
 
-	if (colon && hashtag)
+	if ((colon && hashtag) || (colon && percent) || (hashtag && percent))
 		return NULL;
+
 	if (hashtag == str) {
 		char *var = ft_getenv(env, str+1);
 		int len = var ? ft_strlen(var) : 0;
 		return ft_itoa(len);
-	} if (colon) {
-		return substitution(env, cmd,
-					ft_substr(str, 0, colon-str),
-					ft_substr(colon+1, 0, ft_strlen(colon+1))
-				);
+	}
+	if (colon) {
+		char *parameter = ft_substr(str, 0, colon-str);
+		char *word = ft_substr(colon+1, 0, ft_strlen(colon+1));
+		return substitution(env, cmd, parameter, word);
+	}
+	if (percent) {
+		char *parameter = ft_substr(str, 0, percent-str);
+		char *var = ft_getenv_alloc(env, parameter);
+		char *word = ft_substr(percent+1, 0, ft_strlen(percent+1));
+		free(parameter);
+		return resolve_globing(var, word, true);
+	}
+	if (hashtag) {
+		char *parameter = ft_substr(str, 0, hashtag-str);
+		char *var = ft_getenv_alloc(env, parameter);
+		char *word = ft_substr(hashtag+1, 0, ft_strlen(hashtag+1));
+		free(parameter);
+		return resolve_globing(var, word, false);
 	}
 	return ft_getenv_alloc(env, str);
 }
