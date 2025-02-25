@@ -42,11 +42,10 @@ void expand_vars(Env *env, Parser *el, int max) {
 			char *var = ft_substr(str+1, 0, var_size);
 			char *value = ft_getenv_alloc(env, var);
 
-			if (token == t_word) {
-				TOKENIZE_VAR();
-			} else {
+			if (token == t_word)
+				add_tokenized_args(el, value, max);
+			else
 				el->content = clean_join(el->content, value);
-			}
 
 			free(var);
 			free(value);

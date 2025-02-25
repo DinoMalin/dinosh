@@ -81,16 +81,9 @@ typedef enum {
 	RESTORE
 } StorageAction;
 
-typedef struct {
-	int prev[2];
-	int curr[2];
-} Pipes;
-
 bool	init_command(Context *ctx, Command *cmd);
 void	redirect(Command *cmd);
 void	redirect_pipe(Command *cmd, Pipes *pipes);
 void	fd_storage(StorageAction action);
 int		heredoc(char *heredoc_file, char *lim);
 void	fill_heredoc(Command *head);
-void	control_substitution(Context *ctx, Command *cmd);
-void	fork_routine(Command *head, Command *cmd, Context *ctx, Pipes *pipes);

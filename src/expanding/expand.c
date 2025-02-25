@@ -21,7 +21,7 @@ int max_id(Parser *head) {
 	return max;
 }
 
-void expand(Command *cmd, Env *env) {
+void expand(Context *ctx, Command *cmd) {
 	Parser *curr = cmd->args;
 	while (curr) {
 		bool can_expand = false;
@@ -31,6 +31,7 @@ void expand(Command *cmd, Env *env) {
 				|| node->token == t_wildcard
 				|| node->token == t_arithmetic
 				|| node->token == t_tilde
+				|| node->token == t_control_substitution
 			) {
 				can_expand = true;
 			}
@@ -46,9 +47,9 @@ void expand(Command *cmd, Env *env) {
 	curr = cmd->args;
 	while (curr) {
 		if (curr->token == t_var)
-			expand_parameter(env, cmd, curr, max_id(cmd->args));
+			expand_parameter(ctx->env, cmd, curr, max_id(cmd->args));
 		else if (CAN_EXPAND(curr))
-			expand_vars(env, curr, max_id(cmd->args));
+			expand_vars(ctx->env, curr, max_id(cmd->args));
 		curr = curr->next;
 	}
 
@@ -65,9 +66,11 @@ void expand(Command *cmd, Env *env) {
 	curr = cmd->args;
 	while (curr) {
 		if (curr->token == t_arithmetic)
-			arithmetic(env, curr);
+			arithmetic(ctx->env, curr);
 		if (curr->token == t_tilde)
 			tilde(curr);
+		if (curr->token == t_control_substitution)
+			control_substitution(ctx, cmd, curr, max_id(cmd->args));
 		curr = curr->next;
 	}
 }

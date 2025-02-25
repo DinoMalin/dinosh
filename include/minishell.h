@@ -121,6 +121,11 @@ typedef enum {
 	BACKGROUND
 } Transmission;
 
+typedef struct {
+	int prev[2];
+	int curr[2];
+} Pipes;
+
 /* === Executing linked list ===*/
 typedef struct Command {
 	Parser			*args;
@@ -186,7 +191,7 @@ Command	*parse(Parser *data);
 Type	get_builtin(char *name);
 void	merge_one_node(Parser *head);
 void	merge(Parser *head);
-void	expand(Command *cmd, Env *env);
+void	expand(Context *ctx, Command *cmd);
 void	execute(Command *cmd, Context *ctx);
 bool	read_file(char *file, Context *ctx);
 void	builtin(Command *cmd, Context *ctx);
@@ -228,6 +233,8 @@ bool	var_is_valid(char *name);
 char	*find_path(Env *env, char *cmd);
 char	*get_random_file_name();
 char	*resolve_globing(char *str, char *pattern, bool suffix);
+void	add_tokenized_args(Parser *el, char *value, int max);
+void	fork_routine(Command *head, Command *cmd, Context *ctx, Pipes *pipes);
 
 /* ====== JOBS ====== */
 void	add_job(Context *ctx, Command *cmd, State state);

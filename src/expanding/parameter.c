@@ -121,6 +121,6 @@ void expand_parameter(Env *env, Command *cmd, Parser *el, int max) {
 	}
 	free(el->content);
 	el->content = ft_strdup("");
-	TOKENIZE_VAR();
+	add_tokenized_args(el, value, max);
 	free(value);
 }
