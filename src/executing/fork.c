@@ -72,12 +72,14 @@ void wait_everything(Command *head, Command *until, Context *ctx) {
 		if (head->pid) {
 			signal(SIGTTOU, SIG_IGN);
 			signal(SIGTTIN, SIG_IGN);
-			SETPGRP(0, head->pid);
-			SETPGRP(1, head->pid);
+
+			if (ctx->interactive)
+				SETPGRP(0, head->pid);
 			if (waitpid(head->pid, &status, WUNTRACED) == -1)
 				perror("dinosh: wait");
-			SETPGRP(0, ctx->gpid);
-			SETPGRP(1, ctx->gpid);
+			if (ctx->interactive)
+				SETPGRP(0, ctx->gpid);
+
 			signal(SIGTTOU, SIG_DFL);
 			signal(SIGTTIN, SIG_DFL);
 

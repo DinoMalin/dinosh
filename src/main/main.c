@@ -14,6 +14,7 @@ void config(int ac, char **av, Context *ctx) {
 	if (default_config) {
 		modify_env(&ctx->env, "PROMPT", "dinosh> ", INTERN, -1);
 	}
+	ctx->interactive = true;
 }
 
 bool run_av(int ac, char **av, Context *ctx) {

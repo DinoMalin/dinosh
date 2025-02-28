@@ -182,6 +182,7 @@ typedef struct {
 	Job		*jobs;
 	pid_t	gpid;
 	char	*access;
+	bool	interactive;
 } Context;
 
 /* ====== MINISHELL ====== */

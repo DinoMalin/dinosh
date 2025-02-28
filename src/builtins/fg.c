@@ -19,8 +19,9 @@ void fg(Command *cmd, Context *ctx) {
 		if ((arg_mode && arg == job->index) || (!arg_mode && job->is_current)) {
 			signal(SIGTTOU, SIG_IGN);
 			signal(SIGTTIN, SIG_IGN);
-			SETPGRP(0, job->pid);
-			SETPGRP(1, job->pid);
+
+			if (ctx->interactive)
+				SETPGRP(0, job->pid);
 
 			if (job->state != STOPPED)
 				print_job(job, 0);
@@ -35,8 +36,10 @@ void fg(Command *cmd, Context *ctx) {
 			int status = 0;
 
 			while (waitpid(job->pid, &status, WUNTRACED) == -1 && errno == EINTR) {}
-			SETPGRP(0, ctx->gpid);
-			SETPGRP(1, ctx->gpid);
+
+			if (ctx->interactive)
+				SETPGRP(0, ctx->gpid);
+
 			signal(SIGTTOU, SIG_DFL);
 			signal(SIGTTIN, SIG_DFL);
 
