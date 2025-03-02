@@ -29,8 +29,6 @@ typedef enum {
 	t_from_fd,
 	t_from,
 	t_heredoc,
-	t_single_quotes,
-	t_double_quotes,
 	t_var,
 	t_subshell,
 	t_and,
@@ -66,6 +64,12 @@ typedef enum {
 	bad_substitution,
 	special
 } Error;
+	
+typedef enum {
+	none,
+	doubles,
+	singles,
+} Quotes;
 
 /* === Parsing linked list ===*/
 typedef struct Parser {
@@ -75,6 +79,8 @@ typedef struct Parser {
 	Error			error;
 	int				id;
 	int				expand_id;
+	Quotes			quoting;		
+	bool			escaped;
 } Parser;
 
 typedef enum {

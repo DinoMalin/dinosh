@@ -9,10 +9,12 @@
 	}
 
 char get_token(Parser *data) {
-	if (data->token == t_double_quotes)
+	if (data->quoting == doubles)
 		return '"';
-	if (data->token == t_single_quotes)
+	if (data->quoting == singles)
 		return '\'';
+	if (data->escaped)
+		return '\\';
 	return '(';
 }
 

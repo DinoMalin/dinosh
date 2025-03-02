@@ -38,13 +38,6 @@ void update_code_var(Context *ctx) {
 	free(s);
 }
 
-void read_token(Parser *head) {
-	if (!head)
-		return;
-	printf("%d %d [%s] %d\n", head->id, head->expand_id, head->content, head->token);
-	read_token(head->next);
-}
-
 void handle_input(Context *ctx) {
 	Parser *data = tokenize(ctx->input);
 	if (token_error(data)) {

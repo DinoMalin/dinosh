@@ -1,5 +1,19 @@
 #include "minishell.h"
 
+void read_token(Parser *head) {
+	if (!head)
+		return;
+	printf("%d %d [%s] %d %s %s\n", head->id, head->expand_id,
+		head->content,
+		head->token,
+		head->quoting == doubles ? "double quoted" :
+		head->quoting == singles ? "single quoted" :
+								   "not quoted",
+		head->escaped ? "escaped" : ""
+	);
+	read_token(head->next);
+}
+
 bool is_number(char *str) {
 	if (!*str)
 		return false;

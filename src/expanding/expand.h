@@ -1,7 +1,7 @@
 #include "minishell.h"
 #include <dirent.h>
 
-#define CAN_EXPAND(x) (((x->token == t_double_quotes || x->token == t_word) && ft_strchr(x->content, '$') && x->expand_id != -1) || x->token == t_var)
+#define CAN_EXPAND(x) (((x->quoting == doubles || x->token == t_word) && ft_strchr(x->content, '$') && x->expand_id != -1) || x->token == t_var) // yeah maybe its not right anymore
 
 #define SAME_ID(x, y) (x && x->id == y->id)
 #define IS_WILDCARD(x, y) (SAME_ID(x, y) && x->token == t_wildcard)

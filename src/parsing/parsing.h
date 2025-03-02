@@ -1,9 +1,8 @@
 #include "minishell.h"
 
-#define WORD_END "\t\n\v\f\r\"' <>|&()*;\\"
-#define MINI_WORD_END "\t\n\v\f\r "
+#define WORD_END "\"'\\<>|&()*;"
 #define ESCAPED	"\""
-#define CAN_REDIR(x) (x == t_word || x == t_wildcard || x == t_double_quotes || x == t_single_quotes)
+#define CAN_REDIR(x) (x == t_word || x == t_wildcard)
 
 #define BUILTIN(s, type)					\
 	{										\
@@ -29,6 +28,8 @@
 			str += len;										\
 			Parser *new = ft_calloc(1, sizeof(Parser));		\
 			new->content = until(&str, end);				\
+			new->quoting = ADAPTED_QUOTING();				\
+			new->escaped = escape;							\
 			new->token = type;								\
 			new->id = id;									\
 			if (!new->content)								\
@@ -38,6 +39,19 @@
 		}													\
 	}
 
+#define PARSE_LEN(len, type, e)							\
+	{													\
+		Parser *new = ft_calloc(1, sizeof(Parser));		\
+		new->content = ft_substr(str, 0, 1);			\
+		str += len;										\
+		new->quoting = ADAPTED_QUOTING();				\
+		new->escaped = e;								\
+		new->token = type;								\
+		new->id = id;									\
+		ADD_TOKEN(head, curr, new);						\
+		continue;										\
+	}													\
+
 #define PARSE_TOKEN_NESTED(start, end, type)				\
 	{														\
 		int len = ft_strlen(start);							\
@@ -45,6 +59,8 @@
 			str += len;										\
 			Parser *new = ft_calloc(1, sizeof(Parser));		\
 			new->content = until_nested(&str, start, end);	\
+			new->quoting = ADAPTED_QUOTING();				\
+			new->escaped = escape;							\
 			new->token = type;								\
 			new->id = id;									\
 			if (!new->content)								\
@@ -61,6 +77,8 @@
 			str += len;										\
 			Parser *new = ft_calloc(1, sizeof(Parser));		\
 			new->content = until_escaped(&str, end);		\
+			new->quoting = ADAPTED_QUOTING();				\
+			new->escaped = escape;							\
 			new->token = type;								\
 			new->id = id;									\
 			if (!new->content)								\
@@ -76,6 +94,8 @@
 		if (!ft_strncmp(str, op, ft_strlen(op))) {			\
 			Parser *new = ft_calloc(1, sizeof(Parser));		\
 			new->content = operator(&str, op);				\
+			new->quoting = ADAPTED_QUOTING();				\
+			new->escaped = escape;							\
 			new->token = type;								\
 			id++;											\
 			new->id = id;									\
@@ -93,6 +113,8 @@
 			&& !ft_strncmp(str+len, op, l)) {				\
 			Parser *new = ft_calloc(1, sizeof(Parser));		\
 			new->content = until(&str, op);					\
+			new->quoting = ADAPTED_QUOTING();				\
+			new->escaped = escape;							\
 			new->token = type;								\
 			if (next_arg)									\
 				id++;										\
@@ -111,6 +133,8 @@
 		if (!ft_strncmp(str, op, l)) {						\
 			Parser *new = ft_calloc(1, sizeof(Parser));		\
 			new->content = ft_substr(str, 1, len);			\
+			new->quoting = ADAPTED_QUOTING();				\
+			new->escaped = escape;							\
 			str += len+l;									\
 			new->token = type;								\
 			if (next_arg)									\
@@ -129,6 +153,8 @@
 		if (!ft_strncmp(str, ch, ft_strlen(ch))) {			\
 			Parser *new = ft_calloc(1, sizeof(Parser));		\
 			new->content = operator(&str, ch);				\
+			new->quoting = ADAPTED_QUOTING();				\
+			new->escaped = escape;							\
 			new->token = type;								\
 			new->id = id;									\
 			ADD_TOKEN(head, curr, new);						\
@@ -136,17 +162,33 @@
 		}													\
 	}
 
-#define PARSE_WORD(word_end)							\
+#define PARSE_WORD()									\
 	{													\
-		char *content = parse_word(&str, word_end);		\
+		char *content = parse_word(&str, WORD_END,		\
+			double_quotes | single_quotes | escape);	\
 		if (!content)									\
 			continue;									\
 		Parser *new = ft_calloc(1, sizeof(Parser));		\
 		new->content = content;							\
+		new->quoting = ADAPTED_QUOTING();				\
+		new->escaped = escape;							\
 		new->token = t_word;							\
 		new->id = id;									\
 		ADD_TOKEN(head, curr, new);						\
 		continue;										\
+	}
+
+#define PARSE_MINI()										\
+	{														\
+		char *content = parse_word(&str, "", none);			\
+		if (!content)										\
+			continue;										\
+		Parser *new = ft_calloc(1, sizeof(Parser));			\
+		new->content = content;								\
+		new->token = t_word;								\
+		new->id = id;										\
+		ADD_TOKEN(head, curr, new);							\
+		continue;											\
 	}
 
 #define ADD_COMMAND(head, new, last)		\
@@ -184,6 +226,33 @@
 			data = data->next;								\
 			continue;										\
 		}													\
+	}
+
+#define ADAPTED_QUOTING()			\
+	(								\
+		double_quotes ? doubles : 	\
+		single_quotes ? singles :	\
+						none		\
+	)
+
+#define CHECK_QUOTING()								\
+	{												\
+		if (*str == '"') {							\
+			if (!single_quotes)						\
+				double_quotes = !double_quotes;		\
+			str++;									\
+			continue;								\
+		}											\
+		if (*str == '\'') {							\
+			if (!double_quotes)						\
+				single_quotes = !single_quotes;		\
+			str++;									\
+			continue;								\
+		}											\
+		if (*str == '\\') {							\
+			escape = true;							\
+			str++;									\
+		}											\
 	}
 
 void	check_redir_errors(Command *cmd, Parser **data);
