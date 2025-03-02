@@ -9,43 +9,6 @@ bool skip_whitespace(char **str) {
 	return res;
 }
 
-char *until_escaped(char **str, char *sep) {
-	int i = 0;
-	bool escape = false;
-	int seplen = ft_strlen(sep);
-	char *res = ft_strdup("");
-	char buff[B_SIZE] = {};
-	char *s = *str;
-
-	while (*s) {
-		if (!escape && !ft_strncmp(s, sep, seplen))
-			break;
-		if (*s == '\\' && !ft_strncmp(s+1, sep, seplen))
-			escape = true;
-		else {
-			escape = false;
-			buff[i] = *s;
-			i++;
-		}
-
-		if (i+1 == B_SIZE) {
-			res = clean_join(res, buff);
-			bzero(buff, B_SIZE);
-			i = 0;
-		}
-		s++;
-	}
-	res = clean_join(res, buff);
-	if (!*s) {
-		free(res);
-		return NULL;
-	}
-
-	*str = s + ft_strlen(sep);
-
-	return res;
-}
-
 char *until_nested(char **str, char *start, char *sep) {
 	char *end = *str;
 	int nested = 1;
@@ -158,8 +121,8 @@ Parser *tokenize(char *str) {
 			PARSE_OPERATOR("<<", t_heredoc);
 			PARSE_OPERATOR(">", t_to);
 			PARSE_OPERATOR("<", t_from);
-			PARSE_OPERATOR_BPARAMETER(">&", 1, t_to_fd, true);
-			PARSE_OPERATOR_BPARAMETER("<&", 1, t_from_fd, true);
+			PARSE_OPERATOR_PARAMETER(">&", 1, t_to_fd, true);
+			PARSE_OPERATOR_PARAMETER("<&", 1, t_from_fd, true);
 			PARSE_OPERATOR("&&", t_and);
 			PARSE_OPERATOR("||", t_or);
 			PARSE_OPERATOR("|", t_pipe);

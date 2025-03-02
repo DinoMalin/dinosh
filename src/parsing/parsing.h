@@ -70,24 +70,6 @@
 		}													\
 	}
 
-#define PARSE_ESCAPED_TOKEN(start, end, type)				\
-	{														\
-		int len = ft_strlen(start);							\
-		if (!ft_strncmp(str, start, len)) {					\
-			str += len;										\
-			Parser *new = ft_calloc(1, sizeof(Parser));		\
-			new->content = until_escaped(&str, end);		\
-			new->quoting = ADAPTED_QUOTING();				\
-			new->escaped = escape;							\
-			new->token = type;								\
-			new->id = id;									\
-			if (!new->content)								\
-				new->error = unclosed_token;				\
-			ADD_TOKEN(head, curr, new);						\
-			continue;										\
-		}													\
-	}
-
 // A character that does not belong to the same arg
 #define PARSE_OPERATOR(op, type)							\
 	{														\
@@ -105,8 +87,7 @@
 		}													\
 	}
 
-// will check only X character before start
-#define PARSE_OPERATOR_BPARAMETER(op, len, type, next_arg)	\
+#define PARSE_OPERATOR_PARAMETER(op, len, type, next_arg)	\
 	{														\
 		int l = ft_strlen(op);								\
 		if (ft_strlen(str) >= (size_t)len+l					\
@@ -115,27 +96,6 @@
 			new->content = until(&str, op);					\
 			new->quoting = ADAPTED_QUOTING();				\
 			new->escaped = escape;							\
-			new->token = type;								\
-			if (next_arg)									\
-				id++;										\
-			new->id = id;									\
-			if (next_arg)									\
-				id++;										\
-			ADD_TOKEN(head, curr, new);						\
-			continue;										\
-		}													\
-	}
-
-// will check only X character after start
-#define PARSE_OPERATOR_APARAMETER(op, len, type, next_arg)	\
-	{														\
-		int l = ft_strlen(op);								\
-		if (!ft_strncmp(str, op, l)) {						\
-			Parser *new = ft_calloc(1, sizeof(Parser));		\
-			new->content = ft_substr(str, 1, len);			\
-			new->quoting = ADAPTED_QUOTING();				\
-			new->escaped = escape;							\
-			str += len+l;									\
 			new->token = type;								\
 			if (next_arg)									\
 				id++;										\
