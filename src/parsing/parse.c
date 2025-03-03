@@ -5,6 +5,8 @@ void add_arg(Command *cmd, Parser *new) {
 	cpy->content = ft_strdup(new->content);
 	cpy->token = new->token;
 	cpy->id = new->id;
+	cpy->quoting = new->quoting;
+	cpy->escaped = new->escaped;
 
 	if (cmd->args) {
 		Parser *last = cmd->args;

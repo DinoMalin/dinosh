@@ -119,8 +119,12 @@ void parameter(Env *env, Command *cmd, Parser *el, int max) {
 			cmd->error = bad_substitution;
 		return ;
 	}
-	free(el->content);
-	el->content = ft_strdup("");
-	add_tokenized_args(el, value, max);
-	free(value);
+
+	if (el->quoting == doubles) {
+		free(el->content);
+		el->content = value;
+	} else {
+		add_tokenized_args(el, value, max);
+		free(value);
+	}
 }

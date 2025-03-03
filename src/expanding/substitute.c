@@ -52,7 +52,8 @@ char *substitute(Context *ctx, Parser *el) {
 		res = clean_join(res, buff);
 	}
 
-	if (res[ft_strlen(res-1)] == '\n') {
+	int len = ft_strlen(res);
+	if (len && res[len-1] == '\n') {
 		char *tmp = res;
 		res = ft_substr(res, 0, ft_strlen(res)-1); // remove the last \n
 		free(tmp);
@@ -62,10 +63,13 @@ char *substitute(Context *ctx, Parser *el) {
 
 void control_substitution(Context *ctx, Command *cmd, Parser *el, int max) {
 	char *res = substitute(ctx, el);
-	if (res) {
-		free(el->content);
-		el->content = ft_strdup("");
+	if (res && el->quoting == doubles) {
 		add_tokenized_args(el, res, max);
-	} else
+		free(res);
+	} else if (res) {
+		free(el->content);
+		el->content = res;
+	} else {
 		cmd->error = bad_substitution;
+	}
 }
