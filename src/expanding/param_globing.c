@@ -43,6 +43,11 @@ static bool is_in_bracket(char c, char *bracket) {
 }
 
 static bool its_a_match(char *str, char *pattern) {
+	if (!*str) {
+		while (*pattern == '*')
+			pattern++;
+	}
+
 	while (*str && *pattern) {
 		char glob = *pattern;
 		char *end = NULL;
@@ -103,42 +108,51 @@ bool test_prefix(char *str, char *pattern, int index) {
 				break;									\
 			}											\
 		}												\
-		res = ft_substr(str, 0, i);						\
+		if (its_a_match("", pattern+1))					\
+			res = ft_substr(str, 0, ft_strlen(str));	\
+		else											\
+			res = ft_substr(str, 0, i);					\
 	}
 
-#define SMALLEST_SUFFIX()							\
-	{												\
-		int i = 0;									\
-		for (; str[i]; i++) {						\
-			if (its_a_match(str+i, pattern)) {		\
-				break;								\
-			}										\
-		}											\
-		for (; str[i]; i++) {						\
-			if (!its_a_match(str+i, pattern)) {		\
-				break;								\
-			}										\
-		}											\
-		if (i != 0)									\
-			i--;									\
-		res = ft_substr(str, 0, i);					\
-	}
-
-#define LARGEST_PREFIX()								\
+#define SMALLEST_SUFFIX()								\
 	{													\
 		int i = 0;										\
 		for (; str[i]; i++) {							\
-			if (test_prefix(str, pattern+1, i)) {		\
-				i++;									\
+			if (its_a_match(str+i, pattern)) {			\
 				break;									\
 			}											\
 		}												\
 		for (; str[i]; i++) {							\
-			if (!test_prefix(str, pattern+1, i)) {		\
+			if (!its_a_match(str+i, pattern)) {			\
 				break;									\
 			}											\
 		}												\
-		res = ft_substr(str+i, 0, ft_strlen(str+i));	\
+		if (i != 0)										\
+			i--;										\
+		if (its_a_match("", pattern))					\
+			res = ft_substr(str, 0, ft_strlen(str));	\
+		else											\
+			res = ft_substr(str, 0, i);					\
+	}
+
+#define LARGEST_PREFIX()									\
+	{														\
+		int i = 0;											\
+		for (; str[i]; i++) {								\
+			if (test_prefix(str, pattern+1, i)) {			\
+				i++;										\
+				break;										\
+			}												\
+		}													\
+		for (; str[i]; i++) {								\
+			if (!test_prefix(str, pattern+1, i)) {			\
+				break;										\
+			}												\
+		}													\
+		if (its_a_match("", pattern+1))						\
+			res = ft_substr(str, 0, ft_strlen(str));		\
+		else												\
+			res = ft_substr(str+i, 0, ft_strlen(str+i));	\
 	}
 
 #define SMALLEST_PREFIX()									\
@@ -150,7 +164,10 @@ bool test_prefix(char *str, char *pattern, int index) {
 				break;										\
 			}												\
 		}													\
-		res = ft_substr(str+i, 0, ft_strlen(str+i));		\
+		if (its_a_match("", pattern))						\
+			res = ft_substr(str, 0, ft_strlen(str));		\
+		else												\
+			res = ft_substr(str+i, 0, ft_strlen(str+i));	\
 	}
 
 char *resolve_globing(char *str, char *pattern, bool suffix) {
