@@ -9,6 +9,21 @@ bool skip_whitespace(char **str) {
 	return res;
 }
 
+int get_variable_size(char *str) {
+	ADD_SPECIAL_VAR("?");
+
+	int size = 0;
+	for (; str[size]; size++) {
+		if (!(str[size] >= 'a' && str[size] <= 'z')
+		 && !(str[size] >= 'A' && str[size] <= 'Z')
+		 && !(str[size] >= '0' && str[size] <= '9' && size != 0)
+		 && !(str[size] == '_')) {
+			break;
+		}
+	}
+	return size;
+}
+
 char *until_nested(char **str, char *start, char *sep) {
 	char *end = *str;
 	int nested = 1;
@@ -109,6 +124,7 @@ Parser *tokenize(char *str) {
 			PARSE_TOKEN("${", "}", t_var);
 			PARSE_TOKEN("$((", "))", t_arithmetic);
 			PARSE_TOKEN_NESTED("$(", ")", t_control_substitution);
+			PARSE_VARIABLE(t_wordvar);
 		}
 		if (!single_quotes && !double_quotes) {
 			PARSE_TOKEN("(", ")", t_subshell);

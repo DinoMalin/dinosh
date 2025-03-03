@@ -24,32 +24,16 @@ int max_id(Parser *head) {
 void expand(Context *ctx, Command *cmd) {
 	Parser *curr = cmd->args;
 	while (curr) {
-		bool can_expand = false;
-		Parser *node = curr;
-		while (node && node->id == curr->id) {
-			if (CAN_EXPAND(node)
-				|| node->token == t_wildcard
-				|| node->token == t_arithmetic
-				|| node->token == t_tilde
-				|| node->token == t_control_substitution
-			) {
-				can_expand = true;
-			}
-			node = node->next;
-		}
-		if (!can_expand) {
-			merge_one_node(curr);
-			curr->expand_id = -1;
-		}
-		curr = node;
-	}
-
-	curr = cmd->args;
-	while (curr) {
+		if (curr->token == t_wordvar)
+			var(ctx->env, curr, max_id(cmd->args));
 		if (curr->token == t_var)
-			expand_parameter(ctx->env, cmd, curr, max_id(cmd->args));
-		else if (CAN_EXPAND(curr))
-			expand_vars(ctx->env, curr, max_id(cmd->args));
+			parameter(ctx->env, cmd, curr, max_id(cmd->args));
+		if (curr->token == t_arithmetic)
+			arithmetic(ctx->env, curr);
+		if (curr->token == t_tilde)
+			tilde(curr);
+		if (curr->token == t_control_substitution)
+			control_substitution(ctx, cmd, curr, max_id(cmd->args));
 		curr = curr->next;
 	}
 
@@ -61,16 +45,5 @@ void expand(Context *ctx, Command *cmd) {
 		int id = curr->id;
 		while (curr && curr->id == id)
 			curr = curr->next;
-	}
-
-	curr = cmd->args;
-	while (curr) {
-		if (curr->token == t_arithmetic)
-			arithmetic(ctx->env, curr);
-		if (curr->token == t_tilde)
-			tilde(curr);
-		if (curr->token == t_control_substitution)
-			control_substitution(ctx, cmd, curr, max_id(cmd->args));
-		curr = curr->next;
 	}
 }

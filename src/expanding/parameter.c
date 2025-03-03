@@ -112,7 +112,7 @@ char *get_value(Env *env, Command *cmd, char *str) {
 	return ft_getenv_alloc(env, str);
 }
 
-void expand_parameter(Env *env, Command *cmd, Parser *el, int max) {
+void parameter(Env *env, Command *cmd, Parser *el, int max) {
 	char *value = get_value(env, cmd, el->content);
 	if (!value) {
 		if (!cmd->error)

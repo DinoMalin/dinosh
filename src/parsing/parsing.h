@@ -10,6 +10,13 @@
 			return type;					\
 	}
 
+#define ADD_SPECIAL_VAR(var)				\
+	{										\
+		int len = ft_strlen(var);			\
+		if (!ft_strncmp(var, str, len))		\
+			return len;						\
+	}
+
 #define ADD_TOKEN(head, curr, new)	\
 	{								\
 		if (!head) {				\
@@ -29,7 +36,6 @@
 			Parser *new = ft_calloc(1, sizeof(Parser));		\
 			new->content = until(&str, end);				\
 			new->quoting = ADAPTED_QUOTING();				\
-			new->escaped = escape;							\
 			new->token = type;								\
 			new->id = id;									\
 			if (!new->content)								\
@@ -50,7 +56,22 @@
 		new->id = id;									\
 		ADD_TOKEN(head, curr, new);						\
 		continue;										\
-	}													\
+	}
+
+#define PARSE_VARIABLE(type)								\
+	{														\
+		if (!ft_strncmp(str, "$", 1)) {						\
+			int len = get_variable_size(str+1);				\
+			Parser *new = ft_calloc(1, sizeof(Parser));		\
+			new->content = ft_substr(str, 1, len);			\
+			str += len+1;									\
+			new->quoting = ADAPTED_QUOTING();				\
+			new->token = type;								\
+			new->id = id;									\
+			ADD_TOKEN(head, curr, new);						\
+			continue;										\
+		}													\
+	}
 
 #define PARSE_TOKEN_NESTED(start, end, type)				\
 	{														\
@@ -60,7 +81,6 @@
 			Parser *new = ft_calloc(1, sizeof(Parser));		\
 			new->content = until_nested(&str, start, end);	\
 			new->quoting = ADAPTED_QUOTING();				\
-			new->escaped = escape;							\
 			new->token = type;								\
 			new->id = id;									\
 			if (!new->content)								\
@@ -77,7 +97,6 @@
 			Parser *new = ft_calloc(1, sizeof(Parser));		\
 			new->content = operator(&str, op);				\
 			new->quoting = ADAPTED_QUOTING();				\
-			new->escaped = escape;							\
 			new->token = type;								\
 			id++;											\
 			new->id = id;									\
@@ -95,7 +114,6 @@
 			Parser *new = ft_calloc(1, sizeof(Parser));		\
 			new->content = until(&str, op);					\
 			new->quoting = ADAPTED_QUOTING();				\
-			new->escaped = escape;							\
 			new->token = type;								\
 			if (next_arg)									\
 				id++;										\
@@ -114,7 +132,6 @@
 			Parser *new = ft_calloc(1, sizeof(Parser));		\
 			new->content = operator(&str, ch);				\
 			new->quoting = ADAPTED_QUOTING();				\
-			new->escaped = escape;							\
 			new->token = type;								\
 			new->id = id;									\
 			ADD_TOKEN(head, curr, new);						\
@@ -131,7 +148,6 @@
 		Parser *new = ft_calloc(1, sizeof(Parser));		\
 		new->content = content;							\
 		new->quoting = ADAPTED_QUOTING();				\
-		new->escaped = escape;							\
 		new->token = t_word;							\
 		new->id = id;									\
 		ADD_TOKEN(head, curr, new);						\

@@ -30,6 +30,7 @@ typedef enum {
 	t_from,
 	t_heredoc,
 	t_var,
+	t_wordvar,
 	t_subshell,
 	t_and,
 	t_or,
