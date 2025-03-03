@@ -116,6 +116,8 @@ Parser *tokenize(char *str) {
 
 		CHECK_QUOTING();
 		if (escape) {
+			if (!*(str))
+				break;
 			escape = false;
 			PARSE_LEN(1, t_word, true);
 		}
@@ -151,6 +153,8 @@ Parser *tokenize(char *str) {
 	}
 
 	if (double_quotes || single_quotes || escape == 1) {
+		if (!head)
+			head = ft_calloc(1, sizeof(Parser));
 		head->error = unclosed_token;
 		head->quoting = ADAPTED_QUOTING();
 		head->escaped = escape;
