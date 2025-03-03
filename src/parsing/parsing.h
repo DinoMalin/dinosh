@@ -1,6 +1,8 @@
 #include "minishell.h"
 
-#define WORD_END "\"'\\<>|&()*;"
+#define WORD_END "\"'\\<>|&()*;$"
+#define DOUBLE_END "\"$"
+#define SINGLE_END "\'"
 #define ESCAPED	"\""
 #define CAN_REDIR(x) (x == t_word || x == t_wildcard)
 
@@ -142,7 +144,7 @@
 #define PARSE_WORD()									\
 	{													\
 		char *content = parse_word(&str, WORD_END,		\
-			double_quotes | single_quotes | escape);	\
+							 ADAPTED_QUOTING());		\
 		if (!content)									\
 			continue;									\
 		Parser *new = ft_calloc(1, sizeof(Parser));		\

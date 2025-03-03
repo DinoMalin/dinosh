@@ -71,10 +71,14 @@ char *operator(char **str, char *op) {
 	return (ft_strdup(op));
 }
 
-char *parse_word(char **str, char *word_end, int quoting) {
+char *parse_word(char **str, char *word_end, Quotes quoting) {
 	char *end = *str;
-	while (*end && !ft_strchr(word_end, *end)) {
-		if (!quoting && ft_isspace(*end))
+	while (*end) {
+		if (quoting == doubles && ft_strchr(DOUBLE_END, *end))
+			break;
+		if (quoting == singles && ft_strchr(SINGLE_END, *end))
+			break;
+		if (quoting == none && (ft_strchr(word_end, *end) || ft_isspace(*end)))
 			break;
 		end++;
 	}
