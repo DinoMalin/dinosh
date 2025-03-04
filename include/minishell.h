@@ -126,6 +126,7 @@ typedef enum {
 	PROCESS_SUBSTITUTION_TO,
 	PROCESS_SUBSTITUTION_FROM,
 	CONDITION,
+	UNALIAS
 } Type;
 
 typedef struct {
@@ -182,6 +183,12 @@ typedef struct Env {
 	int			durability;
 } Env;
 
+typedef struct Alias {
+	char			*name;
+	char			*value;
+	struct Alias	*next;
+} Alias;
+
 typedef enum {
 	DONE,
 	RUNNING,
@@ -212,6 +219,7 @@ typedef struct Garbage {
 typedef struct {
 	char	*input;
 	Env		*env;
+	Alias	*alias;
 	bool	exit;
 	int		code;
 	Job		*jobs;
@@ -266,6 +274,8 @@ void	free_jobs(Job *job);
 void	free_garbage(Context *ctx);
 void	free_one_hash(Hash *hash);
 void	free_hash(Context *ctx);
+void	free_alias(Alias *alias);
+void	unalias_all(Context *ctx);
 
 /* ====== UTILS ====== */
 char	*clean_join(char *origin, const char *to_join);
