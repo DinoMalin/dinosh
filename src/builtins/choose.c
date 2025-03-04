@@ -15,4 +15,5 @@ void builtin(Command *cmd, Context *ctx) {
 	BUILTIN(BG, bg);
 	BUILTIN(HASH, hash);
 	BUILTIN(TEST, test);
+	BUILTIN(UNALIAS, unalias);
 }
