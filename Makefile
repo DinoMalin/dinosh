@@ -21,6 +21,7 @@ FILES	= main/errors main/utils main/signals main/autocomplete				\
 		builtins/set builtins/jobs builtins/unset							\
 		builtins/env builtins/exit builtins/fg								\
 		builtins/bg builtins/hash builtins/test								\
+		builtins/unalias													\
 		env/utils env/accessors												\
 		jobs/jobs															\
 		expanding/vars expanding/file_globing expanding/parameter			\
