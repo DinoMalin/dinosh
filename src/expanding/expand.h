@@ -1,5 +1,7 @@
 #include "minishell.h"
 #include <dirent.h>
+#include <stdbool.h>
+#include <ctype.h>
 
 #define ERROR_VALUE 2147483648
 #define SAME_ID(x, y) (x && x->id == y->id)

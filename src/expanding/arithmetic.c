@@ -12,9 +12,6 @@ void free_arit(t_arit *content)
 	}
 }
 
-#include <stdbool.h>
-#include <ctype.h>
-
 bool is_only_digit(char *str)
 {
 	int i = 0;
@@ -60,7 +57,7 @@ bool is_op(char *str)
 {
 	for (int i = 0; str[i] != '\0'; i++)
 	{
-		if (str[i] != '+' && str[i] != '-' && str[i] != '/' && str[i] != '=' && str[i] != '%')
+		if (str[i] != '+' && str[i] != '-' && str[i] != '/' && str[i] != '=' && str[i] != '%' && str[i] != '*')
 			return(false);
 	}
 	return(true);
@@ -95,20 +92,29 @@ char *assign_op(char *str)
 	int sign = 1;
 
 	if ((str[0] == '/' || str[0] == '%') && str[1] != '\0') {
-		dprintf(2, " syntax error: operand expected (error token is \"%s\")", str);
+		dprintf(2, "dinosh: syntax error: 1operand expected (error token is \"%s\")", str);
 		return NULL;
 	}
 		else if (str[0] == '=' && (str[1] != '\0' && str[1] != '=')) {
-		dprintf(2, " syntax error: operand expected (error token is \"%s\")", str);
+		dprintf(2, "dinosh: syntax error: 2operand expected (error token is \"%s\")", str);
 		return NULL;
 	}
-	else if (str[0] == '=' && str[1] == '=') 
+	else if (str[0] == '*' && str[1] != '\0') {
+		dprintf(2, "dinosh: syntax error: 3operand expected (error token is \"%s\")", str);
+		return NULL;
+	} else if (str[0] == '=' && str[1] == '=') 
 		return(ft_strdup("=="));
-	else if  (str[0] == '=' && str[1] == '\0')
+	else if (str[0] == '=' && str[1] == '\0')
 		return(ft_strdup("="));
+	else if (str[0] == '*' && str[1] == '\0')
+		return(ft_strdup("*"));
+	else if (str[0] == '/' && str[1] == '\0')
+		return(ft_strdup("/"));
+	else if (str[0] == '%' && str[1] == '\0')
+		return(ft_strdup("%"));
 	for (int j = 0; str[j]; j++) {
 		if (str[j] != '+' && str[j] != '-') {
-			dprintf(2, " syntax error: operand expected (error token is \"%s\")", str);
+			dprintf(2, "dinosh: syntax error: 4operand expected (error token is \"%s\")", str);
 			return NULL;
 		}
 		if (str[j] == '-')
@@ -137,14 +143,14 @@ char **tokenize_arithmetic(char *str)
 		}
 
 		if (str[i] == '+' || str[i] == '-' || str[i] == '/' || 
-			str[i] == '%' || str[i] == '=') {
+			str[i] == '%' || str[i] == '=' || str[i] =='*') {
 			if (buff_idx > 0) {
 				buffer[buff_idx] = '\0';
 				tokens[token_count++] = ft_strdup(buffer);
 			}
 			buff_idx = 0;
 			while (str[i] && (str[i] == '+' || str[i] == '-' || str[i] == '/' || 
-							str[i] == '%' || str[i] == '=')) {
+							str[i] == '%' || str[i] == '=' || str[i] == '*')) {
 				buffer[buff_idx++] = str[i++];
 			}
 			buffer[buff_idx] = '\0';
@@ -152,7 +158,7 @@ char **tokenize_arithmetic(char *str)
             buff_idx = 0;
 		} else {
 			while (str[i] && !isspace(str[i]) && str[i] != '+' && str[i] != '-' && str[i] != '/' && 
-				str[i] != '%' && str[i] != '=') {
+				str[i] != '%' && str[i] != '=' && str[i] != '*') {
 				buffer[buff_idx++] = str[i++];
 			}
             if (buff_idx > 0) {
@@ -166,13 +172,13 @@ char **tokenize_arithmetic(char *str)
 	tokens[token_count] = NULL;
 	return tokens;
 }
+
 t_arit *pre_parse(char *str, Env *env)
 {
 	int len = 0;
 	int i = 0;
-	char **split = tokenize_arithmetic(str);
-	if (!split) {
-		t_arit *result = malloc(sizeof(t_arit *));
+	if (str[0] == '\0') {
+		t_arit *result = malloc(sizeof(t_arit));
 		result->value = ft_strdup("0");
 		result->baseVal = ft_strdup("0");
 		result->isEnv = false;
@@ -180,6 +186,7 @@ t_arit *pre_parse(char *str, Env *env)
 		result->next = NULL;
 		return result;
 	}
+	char **split = tokenize_arithmetic(str);
 
 	for(int i = 0; split[i]; i++)
 	len++;
@@ -194,8 +201,8 @@ t_arit *pre_parse(char *str, Env *env)
 			prev->next = new_node;
 		prev = new_node;
 	}
+	
 	t_arit *result = head;
-
 	for(i = 0; split[i] != NULL ; i++) {
 		if (is_only_digit(split[i])) {
 			result->value = ft_strdup(split[i]);
@@ -212,6 +219,7 @@ t_arit *pre_parse(char *str, Env *env)
 			result->value = assign_op(split[i]);
 			if (!result->value) {
 				free_av(split);
+				free_arit(head);
 				return NULL;
 			}
 			result->baseVal = ft_strdup(split[i]);
@@ -248,7 +256,7 @@ long do_assign(t_arit *var1, t_arit *var2, Env *env, char *fullStr)
 		}
 	} else {
 		dprintf(2,  "dinosh: %s: attempted assignment to non-variable (error token is \"%s\")", fullStr, var1->value);
-		return -1;
+		return ERROR_VALUE;
 	}
 	return resVal;
 }
@@ -320,7 +328,7 @@ long do_div(t_arit *var1, t_arit *var2, Env *env, char *fullStr)
 	}
 	else
 		tmp = ft_atoi_base(var2->value);
-	if (resVal == 0) {
+	if (tmp == 0) {
 		dprintf(2, "dinosh: %s: division by 0 (error token is \"0\")", fullStr);
 		return ERROR_VALUE;
 	}
@@ -349,7 +357,7 @@ long do_mod(t_arit *var1, t_arit *var2, Env *env, char *fullStr)
 	}
 	else
 		tmp = ft_atoi_base(var2->value);
-	if (resVal == 0) {
+	if (tmp == 0) {
 		dprintf(2, "dinosh: %s: division by 0 (error token is \"0\")", fullStr);
 		return ERROR_VALUE;
 	}
@@ -357,13 +365,39 @@ long do_mod(t_arit *var1, t_arit *var2, Env *env, char *fullStr)
 	return resVal;
 }
 
+long do_mul(t_arit *var1, t_arit *var2, Env *env)
+{
+	int tmp = 0;
+	int resVal = 0;
+	if (var1->isOp || var2->isOp)
+		return ERROR_VALUE;
+	if (var1->isEnv) {
+		char *val = val_in_env(env, var1->value);
+		resVal = ft_atoi_base(val);
+		free(val);
+	}
+	else
+		resVal = ft_atoi_base(var1->value);
+
+	if (var2->isEnv) {
+		char *val = val_in_env(env, var1->value);
+		tmp = ft_atoi_base(val);
+		free(val);
+	}
+	else
+		tmp = ft_atoi_base(var2->value);
+	resVal *= tmp;
+	return resVal;
+}
+
 char *do_op(t_arit *content, Env *env, char *fullStr) {
 	long tmp = 0;
 	t_arit *head = content;
+	t_arit *assign = NULL;
 
     if (!content->next) {
         if (content->isOp) {
-            dprintf(2, "dinosh: %s: syntax error: operand expected (error token is \"%s\")", 
+            dprintf(2, "dinosh: %s: syntax error: operand0 expected (error token is \"%s\")", 
                     fullStr, content->value);
             return NULL;
         } else if (content->isEnv) {
@@ -373,7 +407,6 @@ char *do_op(t_arit *content, Env *env, char *fullStr) {
         }
     }
 	
-	content->prev = content;
 	while (content && content->next)
 	{
 		if (!content->isOp && content->next && content->next->isOp && content->next->next) {
@@ -385,15 +418,26 @@ char *do_op(t_arit *content, Env *env, char *fullStr) {
 				return NULL;
 			}
 			if (!strcmp(op->value, "=")) {
-				tmp = do_assign(content, operand2, env, fullStr);
-			} else if (!strcmp(op->value, "+")) {
-				tmp = do_add(content, operand2, env);
-			} else if (!strcmp(op->value, "-")) {
-				tmp = do_minus(content, operand2, env);
-			} else if (!strcmp(op->value, "/")) {
-				tmp = do_div(content, operand2, env, fullStr);
-			} else if (!strcmp(op->value, "%")) {
-				tmp = do_mod(content, operand2, env, fullStr);
+				if (!assign)
+					assign = content;
+				else {
+					dprintf(2, "dinosh: %s: attempted assignment to non-variable (error token is \"%s\")", fullStr, content->next->value);
+					return NULL;
+				}
+				content = content->next;
+				continue;
+			} else {
+				if (!strcmp(op->value, "+")) {
+					tmp = do_add(content, operand2, env);
+				} else if (!strcmp(op->value, "-")) {
+					tmp = do_minus(content, operand2, env);
+				} else if (!strcmp(op->value, "/")) {
+					tmp = do_div(content, operand2, env, fullStr);
+				} else if (!strcmp(op->value, "%")) {
+					tmp = do_mod(content, operand2, env, fullStr);
+				} else if (!strcmp(op->value, "*")) {
+					tmp = do_mul(content, operand2, env);
+				}
 			}
 			
 			if (tmp == ERROR_VALUE)
@@ -410,22 +454,39 @@ char *do_op(t_arit *content, Env *env, char *fullStr) {
                 content->next = NULL;
                 free_arit(op);
             }
-			} else {
-				content = content->next;
-			}
+        } else {
+			content = content->next;	
 		}
+	}
+	if (assign) {
+		t_arit *operand2 = assign->next->next;
+		if (operand2->isOp) {
+            dprintf(2, "dinosh: %s: syntax error in expression (error token is \"=\")", 
+                    fullStr);
+            return NULL;
+        }
+        tmp = do_assign(assign, operand2, env, fullStr);
+        if (tmp == ERROR_VALUE)
+            return NULL;
+
+        free(assign->value);
+        assign->value = ft_itoa(tmp);
+        assign->isEnv = false;
+        assign->isOp = false;
+        assign->next = NULL;
+
+        free_arit(operand2);
+	}
 	return ft_strdup(head->value);
 }
 
 void arithmetic(Env *env, Parser *el) {
 	char *s = el->content;
 	t_arit *content = pre_parse(el->content, env);
-	if (!content) {
-		el->content = ft_strdup("");
-		return ;
-	}
 	t_arit *tmp = content;
 	el->content = do_op(tmp, env, s);
+	if (!el->content)
+		el->content = ft_strdup("");
 	free_arit(content);
 	free(s);
 }

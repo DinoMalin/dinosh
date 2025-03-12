@@ -1,0 +1,642 @@
+[
+ {
+  "directory": "/home/tle-dref/42/better_minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-g",
+   "-Iinclude",
+   "-c",
+   "src/main/errors.c",
+   "-o",
+   "obj/main/errors.o"
+  ],
+  "file": "src/main/errors.c"
+ },
+ {
+  "directory": "/home/tle-dref/42/better_minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-g",
+   "-Iinclude",
+   "-c",
+   "src/main/utils.c",
+   "-o",
+   "obj/main/utils.o"
+  ],
+  "file": "src/main/utils.c"
+ },
+ {
+  "directory": "/home/tle-dref/42/better_minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-g",
+   "-Iinclude",
+   "-c",
+   "src/main/signals.c",
+   "-o",
+   "obj/main/signals.o"
+  ],
+  "file": "src/main/signals.c"
+ },
+ {
+  "directory": "/home/tle-dref/42/better_minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-g",
+   "-Iinclude",
+   "-c",
+   "src/utils/memory.c",
+   "-o",
+   "obj/utils/memory.o"
+  ],
+  "file": "src/utils/memory.c"
+ },
+ {
+  "directory": "/home/tle-dref/42/better_minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-g",
+   "-Iinclude",
+   "-c",
+   "src/utils/join.c",
+   "-o",
+   "obj/utils/join.o"
+  ],
+  "file": "src/utils/join.c"
+ },
+ {
+  "directory": "/home/tle-dref/42/better_minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-g",
+   "-Iinclude",
+   "-c",
+   "src/utils/utils.c",
+   "-o",
+   "obj/utils/utils.o"
+  ],
+  "file": "src/utils/utils.c"
+ },
+ {
+  "directory": "/home/tle-dref/42/better_minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-g",
+   "-Iinclude",
+   "-c",
+   "src/parsing/tokenize.c",
+   "-o",
+   "obj/parsing/tokenize.o"
+  ],
+  "file": "src/parsing/tokenize.c"
+ },
+ {
+  "directory": "/home/tle-dref/42/better_minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-g",
+   "-Iinclude",
+   "-c",
+   "src/parsing/parse.c",
+   "-o",
+   "obj/parsing/parse.o"
+  ],
+  "file": "src/parsing/parse.c"
+ },
+ {
+  "directory": "/home/tle-dref/42/better_minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-g",
+   "-Iinclude",
+   "-c",
+   "src/parsing/check.c",
+   "-o",
+   "obj/parsing/check.o"
+  ],
+  "file": "src/parsing/check.c"
+ },
+ {
+  "directory": "/home/tle-dref/42/better_minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-g",
+   "-Iinclude",
+   "-c",
+   "src/parsing/merge.c",
+   "-o",
+   "obj/parsing/merge.o"
+  ],
+  "file": "src/parsing/merge.c"
+ },
+ {
+  "directory": "/home/tle-dref/42/better_minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-g",
+   "-Iinclude",
+   "-c",
+   "src/builtins/choose.c",
+   "-o",
+   "obj/builtins/choose.o"
+  ],
+  "file": "src/builtins/choose.c"
+ },
+ {
+  "directory": "/home/tle-dref/42/better_minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-g",
+   "-Iinclude",
+   "-c",
+   "src/builtins/echo.c",
+   "-o",
+   "obj/builtins/echo.o"
+  ],
+  "file": "src/builtins/echo.c"
+ },
+ {
+  "directory": "/home/tle-dref/42/better_minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-g",
+   "-Iinclude",
+   "-c",
+   "src/builtins/cd.c",
+   "-o",
+   "obj/builtins/cd.o"
+  ],
+  "file": "src/builtins/cd.c"
+ },
+ {
+  "directory": "/home/tle-dref/42/better_minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-g",
+   "-Iinclude",
+   "-c",
+   "src/builtins/type.c",
+   "-o",
+   "obj/builtins/type.o"
+  ],
+  "file": "src/builtins/type.c"
+ },
+ {
+  "directory": "/home/tle-dref/42/better_minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-g",
+   "-Iinclude",
+   "-c",
+   "src/builtins/pwd.c",
+   "-o",
+   "obj/builtins/pwd.o"
+  ],
+  "file": "src/builtins/pwd.c"
+ },
+ {
+  "directory": "/home/tle-dref/42/better_minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-g",
+   "-Iinclude",
+   "-c",
+   "src/builtins/export.c",
+   "-o",
+   "obj/builtins/export.o"
+  ],
+  "file": "src/builtins/export.c"
+ },
+ {
+  "directory": "/home/tle-dref/42/better_minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-g",
+   "-Iinclude",
+   "-c",
+   "src/builtins/set.c",
+   "-o",
+   "obj/builtins/set.o"
+  ],
+  "file": "src/builtins/set.c"
+ },
+ {
+  "directory": "/home/tle-dref/42/better_minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-g",
+   "-Iinclude",
+   "-c",
+   "src/builtins/jobs.c",
+   "-o",
+   "obj/builtins/jobs.o"
+  ],
+  "file": "src/builtins/jobs.c"
+ },
+ {
+  "directory": "/home/tle-dref/42/better_minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-g",
+   "-Iinclude",
+   "-c",
+   "src/builtins/unset.c",
+   "-o",
+   "obj/builtins/unset.o"
+  ],
+  "file": "src/builtins/unset.c"
+ },
+ {
+  "directory": "/home/tle-dref/42/better_minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-g",
+   "-Iinclude",
+   "-c",
+   "src/builtins/env.c",
+   "-o",
+   "obj/builtins/env.o"
+  ],
+  "file": "src/builtins/env.c"
+ },
+ {
+  "directory": "/home/tle-dref/42/better_minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-g",
+   "-Iinclude",
+   "-c",
+   "src/builtins/exit.c",
+   "-o",
+   "obj/builtins/exit.o"
+  ],
+  "file": "src/builtins/exit.c"
+ },
+ {
+  "directory": "/home/tle-dref/42/better_minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-g",
+   "-Iinclude",
+   "-c",
+   "src/builtins/fg.c",
+   "-o",
+   "obj/builtins/fg.o"
+  ],
+  "file": "src/builtins/fg.c"
+ },
+ {
+  "directory": "/home/tle-dref/42/better_minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-g",
+   "-Iinclude",
+   "-c",
+   "src/builtins/bg.c",
+   "-o",
+   "obj/builtins/bg.o"
+  ],
+  "file": "src/builtins/bg.c"
+ },
+ {
+  "directory": "/home/tle-dref/42/better_minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-g",
+   "-Iinclude",
+   "-c",
+   "src/env/utils.c",
+   "-o",
+   "obj/env/utils.o"
+  ],
+  "file": "src/env/utils.c"
+ },
+ {
+  "directory": "/home/tle-dref/42/better_minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-g",
+   "-Iinclude",
+   "-c",
+   "src/env/accessors.c",
+   "-o",
+   "obj/env/accessors.o"
+  ],
+  "file": "src/env/accessors.c"
+ },
+ {
+  "directory": "/home/tle-dref/42/better_minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-g",
+   "-Iinclude",
+   "-c",
+   "src/jobs/jobs.c",
+   "-o",
+   "obj/jobs/jobs.o"
+  ],
+  "file": "src/jobs/jobs.c"
+ },
+ {
+  "directory": "/home/tle-dref/42/better_minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-g",
+   "-Iinclude",
+   "-c",
+   "src/expanding/vars.c",
+   "-o",
+   "obj/expanding/vars.o"
+  ],
+  "file": "src/expanding/vars.c"
+ },
+ {
+  "directory": "/home/tle-dref/42/better_minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-g",
+   "-Iinclude",
+   "-c",
+   "src/expanding/wildcard.c",
+   "-o",
+   "obj/expanding/wildcard.o"
+  ],
+  "file": "src/expanding/wildcard.c"
+ },
+ {
+  "directory": "/home/tle-dref/42/better_minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-g",
+   "-Iinclude",
+   "-c",
+   "src/expanding/parameter.c",
+   "-o",
+   "obj/expanding/parameter.o"
+  ],
+  "file": "src/expanding/parameter.c"
+ },
+ {
+  "directory": "/home/tle-dref/42/better_minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-g",
+   "-Iinclude",
+   "-c",
+   "src/expanding/arithmetic.c",
+   "-o",
+   "obj/expanding/arithmetic.o"
+  ],
+  "file": "src/expanding/arithmetic.c"
+ },
+ {
+  "directory": "/home/tle-dref/42/better_minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-g",
+   "-Iinclude",
+   "-c",
+   "src/expanding/expand.c",
+   "-o",
+   "obj/expanding/expand.o"
+  ],
+  "file": "src/expanding/expand.c"
+ },
+ {
+  "directory": "/home/tle-dref/42/better_minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-g",
+   "-Iinclude",
+   "-c",
+   "src/expanding/tilde.c",
+   "-o",
+   "obj/expanding/tilde.o"
+  ],
+  "file": "src/expanding/tilde.c"
+ },
+ {
+  "directory": "/home/tle-dref/42/better_minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-g",
+   "-Iinclude",
+   "-c",
+   "src/expanding/param_globing.c",
+   "-o",
+   "obj/expanding/param_globing.o"
+  ],
+  "file": "src/expanding/param_globing.c"
+ },
+ {
+  "directory": "/home/tle-dref/42/better_minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-g",
+   "-Iinclude",
+   "-c",
+   "src/expanding/utils.c",
+   "-o",
+   "obj/expanding/utils.o"
+  ],
+  "file": "src/expanding/utils.c"
+ },
+ {
+  "directory": "/home/tle-dref/42/better_minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-g",
+   "-Iinclude",
+   "-c",
+   "src/expanding/substitute.c",
+   "-o",
+   "obj/expanding/substitute.o"
+  ],
+  "file": "src/expanding/substitute.c"
+ },
+ {
+  "directory": "/home/tle-dref/42/better_minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-g",
+   "-Iinclude",
+   "-c",
+   "src/executing/fork.c",
+   "-o",
+   "obj/executing/fork.o"
+  ],
+  "file": "src/executing/fork.c"
+ },
+ {
+  "directory": "/home/tle-dref/42/better_minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-g",
+   "-Iinclude",
+   "-c",
+   "src/executing/path.c",
+   "-o",
+   "obj/executing/path.o"
+  ],
+  "file": "src/executing/path.c"
+ },
+ {
+  "directory": "/home/tle-dref/42/better_minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-g",
+   "-Iinclude",
+   "-c",
+   "src/executing/redirect.c",
+   "-o",
+   "obj/executing/redirect.o"
+  ],
+  "file": "src/executing/redirect.c"
+ },
+ {
+  "directory": "/home/tle-dref/42/better_minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-g",
+   "-Iinclude",
+   "-c",
+   "src/executing/init.c",
+   "-o",
+   "obj/executing/init.o"
+  ],
+  "file": "src/executing/init.c"
+ },
+ {
+  "directory": "/home/tle-dref/42/better_minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-g",
+   "-Iinclude",
+   "-c",
+   "src/main/main.c",
+   "-o",
+   "obj/main/main.o"
+  ],
+  "file": "src/main/main.c"
+ }
+]
