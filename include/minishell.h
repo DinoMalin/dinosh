@@ -43,6 +43,8 @@ typedef enum {
 	t_arithmetic,
 	t_tilde,
 	t_control_substitution,
+	t_process_substitution_to,
+	t_process_substitution_from,
 	t_unknown,
 	t_unexpected,
 	t_missing_parameter,

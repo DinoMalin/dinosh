@@ -135,6 +135,8 @@ Parser *tokenize(char *str) {
 		if (!single_quotes && !double_quotes) {
 			PARSE_TOKEN("(", ")", t_subshell);
 			PARSE_TOKEN("{", "}", t_control_group);
+			PARSE_TOKEN(">(", ")", t_process_substitution_to);
+			PARSE_TOKEN("<(", ")", t_process_substitution_from);
 			PARSE_OPERATOR("\\\0", t_unexpected);
 			PARSE_OPERATOR(";", t_semicolon);
 			PARSE_OPERATOR(">&", t_missing_parameter);
