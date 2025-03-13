@@ -15,6 +15,8 @@ char get_token(Parser *data) {
 		return '\'';
 	if (data->escaped)
 		return '\\';
+	if (data->token == t_control_group)
+		return '{';
 	return '(';
 }
 
