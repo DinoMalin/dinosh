@@ -1,0 +1,1107 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-g",
+      "-Iinclude",
+      "-c",
+      "-o",
+      "obj/expanding/vars.o",
+      "src/expanding/vars.c"
+    ],
+    "directory": "/home/dinomalin/Documents/dinosh",
+    "file": "/home/dinomalin/Documents/dinosh/src/expanding/vars.c",
+    "output": "/home/dinomalin/Documents/dinosh/obj/expanding/vars.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-g",
+      "-Iinclude",
+      "-c",
+      "-o",
+      "obj/expanding/wildcard.o",
+      "src/expanding/wildcard.c"
+    ],
+    "directory": "/home/dinomalin/Documents/dinosh",
+    "file": "/home/dinomalin/Documents/dinosh/src/expanding/wildcard.c",
+    "output": "/home/dinomalin/Documents/dinosh/obj/expanding/wildcard.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-g",
+      "-Iinclude",
+      "-c",
+      "-o",
+      "obj/expanding/parameter.o",
+      "src/expanding/parameter.c"
+    ],
+    "directory": "/home/dinomalin/Documents/dinosh",
+    "file": "/home/dinomalin/Documents/dinosh/src/expanding/parameter.c",
+    "output": "/home/dinomalin/Documents/dinosh/obj/expanding/parameter.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-g",
+      "-Iinclude",
+      "-c",
+      "-o",
+      "obj/expanding/arithmetic.o",
+      "src/expanding/arithmetic.c"
+    ],
+    "directory": "/home/dinomalin/Documents/dinosh",
+    "file": "/home/dinomalin/Documents/dinosh/src/expanding/arithmetic.c",
+    "output": "/home/dinomalin/Documents/dinosh/obj/expanding/arithmetic.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-g",
+      "-Iinclude",
+      "-c",
+      "-o",
+      "obj/expanding/expand.o",
+      "src/expanding/expand.c"
+    ],
+    "directory": "/home/dinomalin/Documents/dinosh",
+    "file": "/home/dinomalin/Documents/dinosh/src/expanding/expand.c",
+    "output": "/home/dinomalin/Documents/dinosh/obj/expanding/expand.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-g",
+      "-Iinclude",
+      "-c",
+      "-o",
+      "obj/expanding/tilde.o",
+      "src/expanding/tilde.c"
+    ],
+    "directory": "/home/dinomalin/Documents/dinosh",
+    "file": "/home/dinomalin/Documents/dinosh/src/expanding/tilde.c",
+    "output": "/home/dinomalin/Documents/dinosh/obj/expanding/tilde.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-g",
+      "-Iinclude",
+      "-c",
+      "-o",
+      "obj/expanding/param_globing.o",
+      "src/expanding/param_globing.c"
+    ],
+    "directory": "/home/dinomalin/Documents/dinosh",
+    "file": "/home/dinomalin/Documents/dinosh/src/expanding/param_globing.c",
+    "output": "/home/dinomalin/Documents/dinosh/obj/expanding/param_globing.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-g",
+      "-Iinclude",
+      "-c",
+      "-o",
+      "obj/expanding/utils.o",
+      "src/expanding/utils.c"
+    ],
+    "directory": "/home/dinomalin/Documents/dinosh",
+    "file": "/home/dinomalin/Documents/dinosh/src/expanding/utils.c",
+    "output": "/home/dinomalin/Documents/dinosh/obj/expanding/utils.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-g",
+      "-Iinclude",
+      "-c",
+      "-o",
+      "obj/expanding/substitute.o",
+      "src/expanding/substitute.c"
+    ],
+    "directory": "/home/dinomalin/Documents/dinosh",
+    "file": "/home/dinomalin/Documents/dinosh/src/expanding/substitute.c",
+    "output": "/home/dinomalin/Documents/dinosh/obj/expanding/substitute.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-g",
+      "-Iinclude",
+      "-c",
+      "-o",
+      "obj/executing/fork.o",
+      "src/executing/fork.c"
+    ],
+    "directory": "/home/dinomalin/Documents/dinosh",
+    "file": "/home/dinomalin/Documents/dinosh/src/executing/fork.c",
+    "output": "/home/dinomalin/Documents/dinosh/obj/executing/fork.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-g",
+      "-Iinclude",
+      "-c",
+      "-o",
+      "obj/executing/path.o",
+      "src/executing/path.c"
+    ],
+    "directory": "/home/dinomalin/Documents/dinosh",
+    "file": "/home/dinomalin/Documents/dinosh/src/executing/path.c",
+    "output": "/home/dinomalin/Documents/dinosh/obj/executing/path.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-g",
+      "-Iinclude",
+      "-c",
+      "-o",
+      "obj/executing/redirect.o",
+      "src/executing/redirect.c"
+    ],
+    "directory": "/home/dinomalin/Documents/dinosh",
+    "file": "/home/dinomalin/Documents/dinosh/src/executing/redirect.c",
+    "output": "/home/dinomalin/Documents/dinosh/obj/executing/redirect.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-g",
+      "-Iinclude",
+      "-c",
+      "-o",
+      "obj/executing/init.o",
+      "src/executing/init.c"
+    ],
+    "directory": "/home/dinomalin/Documents/dinosh",
+    "file": "/home/dinomalin/Documents/dinosh/src/executing/init.c",
+    "output": "/home/dinomalin/Documents/dinosh/obj/executing/init.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-g",
+      "-Iinclude",
+      "-c",
+      "-o",
+      "obj/main/main.o",
+      "src/main/main.c"
+    ],
+    "directory": "/home/dinomalin/Documents/dinosh",
+    "file": "/home/dinomalin/Documents/dinosh/src/main/main.c",
+    "output": "/home/dinomalin/Documents/dinosh/obj/main/main.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Iinclude",
+      "-g",
+      "-c",
+      "-o",
+      "obj/is/ft_isdigit.o",
+      "src/is/ft_isdigit.c"
+    ],
+    "directory": "/home/dinomalin/Documents/dinosh/lib",
+    "file": "/home/dinomalin/Documents/dinosh/lib/src/is/ft_isdigit.c",
+    "output": "/home/dinomalin/Documents/dinosh/lib/obj/is/ft_isdigit.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Iinclude",
+      "-g",
+      "-c",
+      "-o",
+      "obj/is/ft_isalnum.o",
+      "src/is/ft_isalnum.c"
+    ],
+    "directory": "/home/dinomalin/Documents/dinosh/lib",
+    "file": "/home/dinomalin/Documents/dinosh/lib/src/is/ft_isalnum.c",
+    "output": "/home/dinomalin/Documents/dinosh/lib/obj/is/ft_isalnum.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Iinclude",
+      "-g",
+      "-c",
+      "-o",
+      "obj/is/ft_isalpha.o",
+      "src/is/ft_isalpha.c"
+    ],
+    "directory": "/home/dinomalin/Documents/dinosh/lib",
+    "file": "/home/dinomalin/Documents/dinosh/lib/src/is/ft_isalpha.c",
+    "output": "/home/dinomalin/Documents/dinosh/lib/obj/is/ft_isalpha.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Iinclude",
+      "-g",
+      "-c",
+      "-o",
+      "obj/is/ft_isascii.o",
+      "src/is/ft_isascii.c"
+    ],
+    "directory": "/home/dinomalin/Documents/dinosh/lib",
+    "file": "/home/dinomalin/Documents/dinosh/lib/src/is/ft_isascii.c",
+    "output": "/home/dinomalin/Documents/dinosh/lib/obj/is/ft_isascii.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Iinclude",
+      "-g",
+      "-c",
+      "-o",
+      "obj/is/ft_isprint.o",
+      "src/is/ft_isprint.c"
+    ],
+    "directory": "/home/dinomalin/Documents/dinosh/lib",
+    "file": "/home/dinomalin/Documents/dinosh/lib/src/is/ft_isprint.c",
+    "output": "/home/dinomalin/Documents/dinosh/lib/obj/is/ft_isprint.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Iinclude",
+      "-g",
+      "-c",
+      "-o",
+      "obj/mem/ft_memset.o",
+      "src/mem/ft_memset.c"
+    ],
+    "directory": "/home/dinomalin/Documents/dinosh/lib",
+    "file": "/home/dinomalin/Documents/dinosh/lib/src/mem/ft_memset.c",
+    "output": "/home/dinomalin/Documents/dinosh/lib/obj/mem/ft_memset.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Iinclude",
+      "-g",
+      "-c",
+      "-o",
+      "obj/mem/ft_bzero.o",
+      "src/mem/ft_bzero.c"
+    ],
+    "directory": "/home/dinomalin/Documents/dinosh/lib",
+    "file": "/home/dinomalin/Documents/dinosh/lib/src/mem/ft_bzero.c",
+    "output": "/home/dinomalin/Documents/dinosh/lib/obj/mem/ft_bzero.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Iinclude",
+      "-g",
+      "-c",
+      "-o",
+      "obj/mem/ft_memcpy.o",
+      "src/mem/ft_memcpy.c"
+    ],
+    "directory": "/home/dinomalin/Documents/dinosh/lib",
+    "file": "/home/dinomalin/Documents/dinosh/lib/src/mem/ft_memcpy.c",
+    "output": "/home/dinomalin/Documents/dinosh/lib/obj/mem/ft_memcpy.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Iinclude",
+      "-g",
+      "-c",
+      "-o",
+      "obj/mem/ft_memmove.o",
+      "src/mem/ft_memmove.c"
+    ],
+    "directory": "/home/dinomalin/Documents/dinosh/lib",
+    "file": "/home/dinomalin/Documents/dinosh/lib/src/mem/ft_memmove.c",
+    "output": "/home/dinomalin/Documents/dinosh/lib/obj/mem/ft_memmove.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Iinclude",
+      "-g",
+      "-c",
+      "-o",
+      "obj/mem/ft_memchr.o",
+      "src/mem/ft_memchr.c"
+    ],
+    "directory": "/home/dinomalin/Documents/dinosh/lib",
+    "file": "/home/dinomalin/Documents/dinosh/lib/src/mem/ft_memchr.c",
+    "output": "/home/dinomalin/Documents/dinosh/lib/obj/mem/ft_memchr.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Iinclude",
+      "-g",
+      "-c",
+      "-o",
+      "obj/mem/ft_memcmp.o",
+      "src/mem/ft_memcmp.c"
+    ],
+    "directory": "/home/dinomalin/Documents/dinosh/lib",
+    "file": "/home/dinomalin/Documents/dinosh/lib/src/mem/ft_memcmp.c",
+    "output": "/home/dinomalin/Documents/dinosh/lib/obj/mem/ft_memcmp.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Iinclude",
+      "-g",
+      "-c",
+      "-o",
+      "obj/mem/ft_calloc.o",
+      "src/mem/ft_calloc.c"
+    ],
+    "directory": "/home/dinomalin/Documents/dinosh/lib",
+    "file": "/home/dinomalin/Documents/dinosh/lib/src/mem/ft_calloc.c",
+    "output": "/home/dinomalin/Documents/dinosh/lib/obj/mem/ft_calloc.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Iinclude",
+      "-g",
+      "-c",
+      "-o",
+      "obj/str/ft_strlen.o",
+      "src/str/ft_strlen.c"
+    ],
+    "directory": "/home/dinomalin/Documents/dinosh/lib",
+    "file": "/home/dinomalin/Documents/dinosh/lib/src/str/ft_strlen.c",
+    "output": "/home/dinomalin/Documents/dinosh/lib/obj/str/ft_strlen.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Iinclude",
+      "-g",
+      "-c",
+      "-o",
+      "obj/str/ft_strlcpy.o",
+      "src/str/ft_strlcpy.c"
+    ],
+    "directory": "/home/dinomalin/Documents/dinosh/lib",
+    "file": "/home/dinomalin/Documents/dinosh/lib/src/str/ft_strlcpy.c",
+    "output": "/home/dinomalin/Documents/dinosh/lib/obj/str/ft_strlcpy.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Iinclude",
+      "-g",
+      "-c",
+      "-o",
+      "obj/str/ft_strlcat.o",
+      "src/str/ft_strlcat.c"
+    ],
+    "directory": "/home/dinomalin/Documents/dinosh/lib",
+    "file": "/home/dinomalin/Documents/dinosh/lib/src/str/ft_strlcat.c",
+    "output": "/home/dinomalin/Documents/dinosh/lib/obj/str/ft_strlcat.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Iinclude",
+      "-g",
+      "-c",
+      "-o",
+      "obj/str/ft_toupper.o",
+      "src/str/ft_toupper.c"
+    ],
+    "directory": "/home/dinomalin/Documents/dinosh/lib",
+    "file": "/home/dinomalin/Documents/dinosh/lib/src/str/ft_toupper.c",
+    "output": "/home/dinomalin/Documents/dinosh/lib/obj/str/ft_toupper.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Iinclude",
+      "-g",
+      "-c",
+      "-o",
+      "obj/str/ft_tolower.o",
+      "src/str/ft_tolower.c"
+    ],
+    "directory": "/home/dinomalin/Documents/dinosh/lib",
+    "file": "/home/dinomalin/Documents/dinosh/lib/src/str/ft_tolower.c",
+    "output": "/home/dinomalin/Documents/dinosh/lib/obj/str/ft_tolower.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Iinclude",
+      "-g",
+      "-c",
+      "-o",
+      "obj/str/ft_strchr.o",
+      "src/str/ft_strchr.c"
+    ],
+    "directory": "/home/dinomalin/Documents/dinosh/lib",
+    "file": "/home/dinomalin/Documents/dinosh/lib/src/str/ft_strchr.c",
+    "output": "/home/dinomalin/Documents/dinosh/lib/obj/str/ft_strchr.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Iinclude",
+      "-g",
+      "-c",
+      "-o",
+      "obj/str/ft_strrchr.o",
+      "src/str/ft_strrchr.c"
+    ],
+    "directory": "/home/dinomalin/Documents/dinosh/lib",
+    "file": "/home/dinomalin/Documents/dinosh/lib/src/str/ft_strrchr.c",
+    "output": "/home/dinomalin/Documents/dinosh/lib/obj/str/ft_strrchr.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Iinclude",
+      "-g",
+      "-c",
+      "-o",
+      "obj/str/ft_strncmp.o",
+      "src/str/ft_strncmp.c"
+    ],
+    "directory": "/home/dinomalin/Documents/dinosh/lib",
+    "file": "/home/dinomalin/Documents/dinosh/lib/src/str/ft_strncmp.c",
+    "output": "/home/dinomalin/Documents/dinosh/lib/obj/str/ft_strncmp.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Iinclude",
+      "-g",
+      "-c",
+      "-o",
+      "obj/str/ft_strnstr.o",
+      "src/str/ft_strnstr.c"
+    ],
+    "directory": "/home/dinomalin/Documents/dinosh/lib",
+    "file": "/home/dinomalin/Documents/dinosh/lib/src/str/ft_strnstr.c",
+    "output": "/home/dinomalin/Documents/dinosh/lib/obj/str/ft_strnstr.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Iinclude",
+      "-g",
+      "-c",
+      "-o",
+      "obj/str/ft_atoi.o",
+      "src/str/ft_atoi.c"
+    ],
+    "directory": "/home/dinomalin/Documents/dinosh/lib",
+    "file": "/home/dinomalin/Documents/dinosh/lib/src/str/ft_atoi.c",
+    "output": "/home/dinomalin/Documents/dinosh/lib/obj/str/ft_atoi.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Iinclude",
+      "-g",
+      "-c",
+      "-o",
+      "obj/str/ft_strdup.o",
+      "src/str/ft_strdup.c"
+    ],
+    "directory": "/home/dinomalin/Documents/dinosh/lib",
+    "file": "/home/dinomalin/Documents/dinosh/lib/src/str/ft_strdup.c",
+    "output": "/home/dinomalin/Documents/dinosh/lib/obj/str/ft_strdup.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Iinclude",
+      "-g",
+      "-c",
+      "-o",
+      "obj/str/ft_strcmp.o",
+      "src/str/ft_strcmp.c"
+    ],
+    "directory": "/home/dinomalin/Documents/dinosh/lib",
+    "file": "/home/dinomalin/Documents/dinosh/lib/src/str/ft_strcmp.c",
+    "output": "/home/dinomalin/Documents/dinosh/lib/obj/str/ft_strcmp.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Iinclude",
+      "-g",
+      "-c",
+      "-o",
+      "obj/str/ft_substr.o",
+      "src/str/ft_substr.c"
+    ],
+    "directory": "/home/dinomalin/Documents/dinosh/lib",
+    "file": "/home/dinomalin/Documents/dinosh/lib/src/str/ft_substr.c",
+    "output": "/home/dinomalin/Documents/dinosh/lib/obj/str/ft_substr.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Iinclude",
+      "-g",
+      "-c",
+      "-o",
+      "obj/str/ft_strjoin.o",
+      "src/str/ft_strjoin.c"
+    ],
+    "directory": "/home/dinomalin/Documents/dinosh/lib",
+    "file": "/home/dinomalin/Documents/dinosh/lib/src/str/ft_strjoin.c",
+    "output": "/home/dinomalin/Documents/dinosh/lib/obj/str/ft_strjoin.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Iinclude",
+      "-g",
+      "-c",
+      "-o",
+      "obj/str/ft_strjoin_free.o",
+      "src/str/ft_strjoin_free.c"
+    ],
+    "directory": "/home/dinomalin/Documents/dinosh/lib",
+    "file": "/home/dinomalin/Documents/dinosh/lib/src/str/ft_strjoin_free.c",
+    "output": "/home/dinomalin/Documents/dinosh/lib/obj/str/ft_strjoin_free.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Iinclude",
+      "-g",
+      "-c",
+      "-o",
+      "obj/str/ft_strtrim.o",
+      "src/str/ft_strtrim.c"
+    ],
+    "directory": "/home/dinomalin/Documents/dinosh/lib",
+    "file": "/home/dinomalin/Documents/dinosh/lib/src/str/ft_strtrim.c",
+    "output": "/home/dinomalin/Documents/dinosh/lib/obj/str/ft_strtrim.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Iinclude",
+      "-g",
+      "-c",
+      "-o",
+      "obj/str/ft_split.o",
+      "src/str/ft_split.c"
+    ],
+    "directory": "/home/dinomalin/Documents/dinosh/lib",
+    "file": "/home/dinomalin/Documents/dinosh/lib/src/str/ft_split.c",
+    "output": "/home/dinomalin/Documents/dinosh/lib/obj/str/ft_split.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Iinclude",
+      "-g",
+      "-c",
+      "-o",
+      "obj/str/ft_itoa.o",
+      "src/str/ft_itoa.c"
+    ],
+    "directory": "/home/dinomalin/Documents/dinosh/lib",
+    "file": "/home/dinomalin/Documents/dinosh/lib/src/str/ft_itoa.c",
+    "output": "/home/dinomalin/Documents/dinosh/lib/obj/str/ft_itoa.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Iinclude",
+      "-g",
+      "-c",
+      "-o",
+      "obj/str/ft_strmapi.o",
+      "src/str/ft_strmapi.c"
+    ],
+    "directory": "/home/dinomalin/Documents/dinosh/lib",
+    "file": "/home/dinomalin/Documents/dinosh/lib/src/str/ft_strmapi.c",
+    "output": "/home/dinomalin/Documents/dinosh/lib/obj/str/ft_strmapi.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Iinclude",
+      "-g",
+      "-c",
+      "-o",
+      "obj/str/ft_striteri.o",
+      "src/str/ft_striteri.c"
+    ],
+    "directory": "/home/dinomalin/Documents/dinosh/lib",
+    "file": "/home/dinomalin/Documents/dinosh/lib/src/str/ft_striteri.c",
+    "output": "/home/dinomalin/Documents/dinosh/lib/obj/str/ft_striteri.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Iinclude",
+      "-g",
+      "-c",
+      "-o",
+      "obj/put/ft_putchar_fd.o",
+      "src/put/ft_putchar_fd.c"
+    ],
+    "directory": "/home/dinomalin/Documents/dinosh/lib",
+    "file": "/home/dinomalin/Documents/dinosh/lib/src/put/ft_putchar_fd.c",
+    "output": "/home/dinomalin/Documents/dinosh/lib/obj/put/ft_putchar_fd.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Iinclude",
+      "-g",
+      "-c",
+      "-o",
+      "obj/put/ft_putstr_fd.o",
+      "src/put/ft_putstr_fd.c"
+    ],
+    "directory": "/home/dinomalin/Documents/dinosh/lib",
+    "file": "/home/dinomalin/Documents/dinosh/lib/src/put/ft_putstr_fd.c",
+    "output": "/home/dinomalin/Documents/dinosh/lib/obj/put/ft_putstr_fd.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Iinclude",
+      "-g",
+      "-c",
+      "-o",
+      "obj/put/ft_putendl_fd.o",
+      "src/put/ft_putendl_fd.c"
+    ],
+    "directory": "/home/dinomalin/Documents/dinosh/lib",
+    "file": "/home/dinomalin/Documents/dinosh/lib/src/put/ft_putendl_fd.c",
+    "output": "/home/dinomalin/Documents/dinosh/lib/obj/put/ft_putendl_fd.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Iinclude",
+      "-g",
+      "-c",
+      "-o",
+      "obj/put/ft_putnbr_fd.o",
+      "src/put/ft_putnbr_fd.c"
+    ],
+    "directory": "/home/dinomalin/Documents/dinosh/lib",
+    "file": "/home/dinomalin/Documents/dinosh/lib/src/put/ft_putnbr_fd.c",
+    "output": "/home/dinomalin/Documents/dinosh/lib/obj/put/ft_putnbr_fd.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Iinclude",
+      "-g",
+      "-c",
+      "-o",
+      "obj/put/ft_puthexa_fd.o",
+      "src/put/ft_puthexa_fd.c"
+    ],
+    "directory": "/home/dinomalin/Documents/dinosh/lib",
+    "file": "/home/dinomalin/Documents/dinosh/lib/src/put/ft_puthexa_fd.c",
+    "output": "/home/dinomalin/Documents/dinosh/lib/obj/put/ft_puthexa_fd.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Iinclude",
+      "-g",
+      "-c",
+      "-o",
+      "obj/put/ft_putunbr_fd.o",
+      "src/put/ft_putunbr_fd.c"
+    ],
+    "directory": "/home/dinomalin/Documents/dinosh/lib",
+    "file": "/home/dinomalin/Documents/dinosh/lib/src/put/ft_putunbr_fd.c",
+    "output": "/home/dinomalin/Documents/dinosh/lib/obj/put/ft_putunbr_fd.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Iinclude",
+      "-g",
+      "-c",
+      "-o",
+      "obj/lst/ft_lstnew.o",
+      "src/lst/ft_lstnew.c"
+    ],
+    "directory": "/home/dinomalin/Documents/dinosh/lib",
+    "file": "/home/dinomalin/Documents/dinosh/lib/src/lst/ft_lstnew.c",
+    "output": "/home/dinomalin/Documents/dinosh/lib/obj/lst/ft_lstnew.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Iinclude",
+      "-g",
+      "-c",
+      "-o",
+      "obj/lst/ft_lstadd_back.o",
+      "src/lst/ft_lstadd_back.c"
+    ],
+    "directory": "/home/dinomalin/Documents/dinosh/lib",
+    "file": "/home/dinomalin/Documents/dinosh/lib/src/lst/ft_lstadd_back.c",
+    "output": "/home/dinomalin/Documents/dinosh/lib/obj/lst/ft_lstadd_back.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Iinclude",
+      "-g",
+      "-c",
+      "-o",
+      "obj/lst/ft_lstadd_front.o",
+      "src/lst/ft_lstadd_front.c"
+    ],
+    "directory": "/home/dinomalin/Documents/dinosh/lib",
+    "file": "/home/dinomalin/Documents/dinosh/lib/src/lst/ft_lstadd_front.c",
+    "output": "/home/dinomalin/Documents/dinosh/lib/obj/lst/ft_lstadd_front.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Iinclude",
+      "-g",
+      "-c",
+      "-o",
+      "obj/lst/ft_lstclear.o",
+      "src/lst/ft_lstclear.c"
+    ],
+    "directory": "/home/dinomalin/Documents/dinosh/lib",
+    "file": "/home/dinomalin/Documents/dinosh/lib/src/lst/ft_lstclear.c",
+    "output": "/home/dinomalin/Documents/dinosh/lib/obj/lst/ft_lstclear.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Iinclude",
+      "-g",
+      "-c",
+      "-o",
+      "obj/lst/ft_lstdelone.o",
+      "src/lst/ft_lstdelone.c"
+    ],
+    "directory": "/home/dinomalin/Documents/dinosh/lib",
+    "file": "/home/dinomalin/Documents/dinosh/lib/src/lst/ft_lstdelone.c",
+    "output": "/home/dinomalin/Documents/dinosh/lib/obj/lst/ft_lstdelone.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Iinclude",
+      "-g",
+      "-c",
+      "-o",
+      "obj/lst/ft_lstiter.o",
+      "src/lst/ft_lstiter.c"
+    ],
+    "directory": "/home/dinomalin/Documents/dinosh/lib",
+    "file": "/home/dinomalin/Documents/dinosh/lib/src/lst/ft_lstiter.c",
+    "output": "/home/dinomalin/Documents/dinosh/lib/obj/lst/ft_lstiter.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Iinclude",
+      "-g",
+      "-c",
+      "-o",
+      "obj/lst/ft_lstmap.o",
+      "src/lst/ft_lstmap.c"
+    ],
+    "directory": "/home/dinomalin/Documents/dinosh/lib",
+    "file": "/home/dinomalin/Documents/dinosh/lib/src/lst/ft_lstmap.c",
+    "output": "/home/dinomalin/Documents/dinosh/lib/obj/lst/ft_lstmap.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Iinclude",
+      "-g",
+      "-c",
+      "-o",
+      "obj/lst/ft_lstsize.o",
+      "src/lst/ft_lstsize.c"
+    ],
+    "directory": "/home/dinomalin/Documents/dinosh/lib",
+    "file": "/home/dinomalin/Documents/dinosh/lib/src/lst/ft_lstsize.c",
+    "output": "/home/dinomalin/Documents/dinosh/lib/obj/lst/ft_lstsize.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Iinclude",
+      "-g",
+      "-c",
+      "-o",
+      "obj/lst/ft_lstlast.o",
+      "src/lst/ft_lstlast.c"
+    ],
+    "directory": "/home/dinomalin/Documents/dinosh/lib",
+    "file": "/home/dinomalin/Documents/dinosh/lib/src/lst/ft_lstlast.c",
+    "output": "/home/dinomalin/Documents/dinosh/lib/obj/lst/ft_lstlast.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Iinclude",
+      "-g",
+      "-c",
+      "-o",
+      "obj/printf/ft_printf.o",
+      "src/printf/ft_printf.c"
+    ],
+    "directory": "/home/dinomalin/Documents/dinosh/lib",
+    "file": "/home/dinomalin/Documents/dinosh/lib/src/printf/ft_printf.c",
+    "output": "/home/dinomalin/Documents/dinosh/lib/obj/printf/ft_printf.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Iinclude",
+      "-g",
+      "-c",
+      "-o",
+      "obj/printf/ft_fprintf.o",
+      "src/printf/ft_fprintf.c"
+    ],
+    "directory": "/home/dinomalin/Documents/dinosh/lib",
+    "file": "/home/dinomalin/Documents/dinosh/lib/src/printf/ft_fprintf.c",
+    "output": "/home/dinomalin/Documents/dinosh/lib/obj/printf/ft_fprintf.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Iinclude",
+      "-g",
+      "-c",
+      "-o",
+      "obj/get_next_line/get_next_line_utils.o",
+      "src/get_next_line/get_next_line_utils.c"
+    ],
+    "directory": "/home/dinomalin/Documents/dinosh/lib",
+    "file": "/home/dinomalin/Documents/dinosh/lib/src/get_next_line/get_next_line_utils.c",
+    "output": "/home/dinomalin/Documents/dinosh/lib/obj/get_next_line/get_next_line_utils.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Iinclude",
+      "-g",
+      "-c",
+      "-o",
+      "obj/get_next_line/get_next_line.o",
+      "src/get_next_line/get_next_line.c"
+    ],
+    "directory": "/home/dinomalin/Documents/dinosh/lib",
+    "file": "/home/dinomalin/Documents/dinosh/lib/src/get_next_line/get_next_line.c",
+    "output": "/home/dinomalin/Documents/dinosh/lib/obj/get_next_line/get_next_line.o"
+  }
+]
