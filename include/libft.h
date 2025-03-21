@@ -21,7 +21,7 @@
 # define FALSE 0
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1
+#  define BUFFER_SIZE 1024
 # endif
 
 typedef struct s_list

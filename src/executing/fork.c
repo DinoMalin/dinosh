@@ -107,8 +107,8 @@ void execute(Command *head, Context *ctx) {
 	Command *curr = head;
 	Command *wait = head;
 	Pipes pipes = {
-		.curr = {-1, -1},
-		.prev = {-1, -1}
+		.curr = (int[]){-1, -1},
+		.prev = (int[]){-1, -1}
 	};
 
 	fill_heredoc(head);
