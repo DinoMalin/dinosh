@@ -129,8 +129,8 @@ typedef enum {
 } Transmission;
 
 typedef struct {
-	int prev[2];
-	int curr[2];
+	int *prev;
+	int *curr;
 } Pipes;
 
 /* === Executing linked list ===*/
