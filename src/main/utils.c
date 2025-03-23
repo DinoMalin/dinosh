@@ -58,4 +58,5 @@ void handle_input(Context *ctx) {
 
 	execute(cmd, ctx);
 	free_cmds(cmd, true);
+	free_garbage(ctx);
 }

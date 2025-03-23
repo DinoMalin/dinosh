@@ -64,3 +64,17 @@ char *get_random_file_name() {
 
 	return ft_strjoin("/tmp/", buff);
 }
+
+void add_garbage(Context *ctx, int fd, pid_t pid) {
+	Garbage *new = ft_calloc(1, sizeof(Garbage));
+	new->fd = fd;
+	new->pid = pid;
+
+	if (!ctx->garbage) {
+		ctx->garbage = new;
+	} else {
+		Garbage *curr = ctx->garbage;
+		for (; curr->next; curr = curr->next) {}
+		curr->next = new;
+	}
+}

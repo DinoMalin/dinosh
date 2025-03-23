@@ -46,6 +46,25 @@ void free_cmds(Command *list, bool skip_background) {
 	}
 }
 
+void free_garbage(Context *ctx) {
+	// first close all fds then wait pids,
+	// because if we do it in the order then pipes will hang.
+	Garbage *curr = ctx->garbage;
+	while (curr) {
+		if (curr->fd != -1)
+			close(curr->fd);
+		curr = curr->next;
+	}
+
+	while (ctx->garbage) {
+		Garbage *next = ctx->garbage->next;
+		if (ctx->garbage->fd == -1)
+			waitpid(ctx->garbage->pid, NULL, WUNTRACED);
+		free(ctx->garbage);
+		ctx->garbage = next;
+	}
+}
+
 void free_job(Job *job) {
 	free_cmd(job->cmd);
 	free(job);

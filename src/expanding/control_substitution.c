@@ -25,7 +25,7 @@
 		}													\
 	}
 
-bool fork_process(Context *ctx, Parser *el, int *pipe_fd) {
+static bool fork_process(Context *ctx, Parser *el, int *pipe_fd) {
 	Pipes pipes = {.prev = (int[]){-1, -1}};
 	pipes.curr = pipe_fd;
 

@@ -14,11 +14,18 @@
 #define IS_REDIR(x) (x == t_append || x == t_heredoc || x == t_to || x == t_from || x == t_to_fd || x == t_from_fd)
 
 #define ERROR(format, ...) dprintf(2, "dinosh: "format"\n", ##__VA_ARGS__)
+#define LOG(format, ...)dprintf(2, "LOG: "format"\n", ##__VA_ARGS__)
 
 #define SETPGRP(fd, gpid)								\
 	{													\
 		if (tcsetpgrp(fd, gpid) == -1)					\
 			perror("dinosh: failed to tcsetpgrp");		\
+	}
+
+#define PRINTPGRP(fd, gpid, f)											\
+	{																	\
+		if (tcsetpgrp(fd, gpid) == -1)									\
+			perror(f);		\
 	}
 
 typedef enum {
@@ -43,6 +50,8 @@ typedef enum {
 	t_arithmetic,
 	t_tilde,
 	t_control_substitution,
+	t_process_substitution_to,
+	t_process_substitution_from,
 	t_unknown,
 	t_unexpected,
 	t_missing_parameter,
@@ -109,7 +118,9 @@ typedef enum {
 	JOBS,
 	FG,
 	BG,
-	CONTROL_SUBSTITUTION
+	CONTROL_SUBSTITUTION,
+	PROCESS_SUBSTITUTION_TO,
+	PROCESS_SUBSTITUTION_FROM
 } Type;
 
 typedef struct {
@@ -181,6 +192,12 @@ typedef struct Job {
 	struct Job	*next;
 } Job;
 
+typedef struct Garbage {
+	int				fd;
+	pid_t			pid;
+	struct Garbage	*next;
+} Garbage;
+
 typedef struct {
 	char	*input;
 	Env		*env;
@@ -190,6 +207,7 @@ typedef struct {
 	pid_t	gpid;
 	char	*access;
 	bool	interactive;
+	Garbage	*garbage;
 } Context;
 
 /* ====== MINISHELL ====== */
@@ -226,6 +244,7 @@ void	free_list(Parser *list);
 void	free_job(Job *job);
 void	free_env(Env *env);
 void	free_jobs(Job *job);
+void	free_garbage(Context *ctx);
 
 /* ====== UTILS ====== */
 char	*clean_join(char *origin, const char *to_join);
@@ -243,6 +262,7 @@ char	*get_random_file_name();
 char	*resolve_globing(char *str, char *pattern, bool suffix);
 void	add_tokenized_args(Parser *el, char *value, int max);
 void	fork_routine(Command *head, Command *cmd, Context *ctx, Pipes *pipes);
+void	add_garbage(Context *ctx, int fd, pid_t pid);
 
 /* ====== JOBS ====== */
 void	add_job(Context *ctx, Command *cmd, State state);

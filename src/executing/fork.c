@@ -21,11 +21,18 @@ void fork_routine(Command *head, Command *cmd, Context *ctx, Pipes *pipes) {
 
 	if (IS_BUILTIN(cmd->type))
 		builtin(cmd, ctx);
-	else if (cmd->type == SUBSHELL || cmd->type == CONTROL_SUBSTITUTION) {
-		char *flags = (ctx->interactive && cmd->to != BACKGROUND) ?
-							"-c" :
-							"-c --non-interactive";
-		char *av[4] = {ctx->access, flags, cmd->av[0], NULL};
+	else if (  cmd->type == SUBSHELL
+			|| cmd->type == CONTROL_SUBSTITUTION
+			|| cmd->type == PROCESS_SUBSTITUTION_TO
+			|| cmd->type == PROCESS_SUBSTITUTION_FROM) {
+		char *interactivity = ((ctx->interactive
+					&& cmd->to != BACKGROUND
+					&& cmd->type != PROCESS_SUBSTITUTION_TO
+					&& cmd->type != PROCESS_SUBSTITUTION_FROM
+					)) ? "" : "--non-interactive";
+		
+
+		char *av[] = {ctx->access, interactivity, "-c", cmd->av[0], NULL};
 		char **envp = get_envp(ctx->env);
 		execve(ctx->access, av, envp);
 		free_av(envp);
@@ -78,11 +85,11 @@ void wait_everything(Command *head, Command *until, Context *ctx) {
 			signal(SIGTTIN, SIG_IGN);
 
 			if (ctx->interactive)
-				SETPGRP(0, head->pid);
+				PRINTPGRP(0, head->pid, head->av[0]);
 			if (waitpid(head->pid, &status, WUNTRACED) == -1)
 				perror("dinosh: wait");
 			if (ctx->interactive)
-				SETPGRP(0, ctx->gpid);
+				PRINTPGRP(0, ctx->gpid, head->av[0]);
 
 			signal(SIGTTOU, SIG_DFL);
 			signal(SIGTTIN, SIG_DFL);
@@ -91,7 +98,7 @@ void wait_everything(Command *head, Command *until, Context *ctx) {
 				ctx->code = WEXITSTATUS(status);
 			} else if (WIFSIGNALED(status)) {
 				if (status == SIGQUIT_STATUS)
-					printf("Quit%s\n", WCOREDUMP(status) ? " (core dumped)" : "");
+					dprintf(2, "Quit%s\n", WCOREDUMP(status) ? " (core dumped)" : "");
 			} else if (WIFSTOPPED(status)) {
 				add_job(ctx, head, STOPPED);
 				head->to = BACKGROUND;

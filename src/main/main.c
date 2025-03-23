@@ -101,7 +101,8 @@ int main(int ac, char **av, char **envp) {
 		.exit = false,
 		.gpid = getpgrp(),
 		.access = ft_strdup(av[0]),
-		.interactive = check_interactive(ac, av)
+		.interactive = check_interactive(ac, av),
+		.garbage = NULL
 	};
 	init_basic_vars(&ctx);
 

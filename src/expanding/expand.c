@@ -34,6 +34,9 @@ void expand(Context *ctx, Command *cmd) {
 			tilde(curr);
 		if (curr->token == t_control_substitution)
 			control_substitution(ctx, cmd, curr, max_id(cmd->args));
+		if (curr->token == t_process_substitution_to
+			|| curr->token == t_process_substitution_from)
+			process_substitution(ctx, cmd, curr);
 		curr = curr->next;
 	}
 

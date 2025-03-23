@@ -18,4 +18,5 @@ void	var(Env *env, Parser *el, int max);
 void	arithmetic(Env *env, Parser *el);
 void	tilde(Parser *el);
 void	control_substitution(Context *ctx, Command *cmd, Parser *el, int max);
+void	process_substitution(Context *ctx, Command *cmd, Parser *el);
 Parser	*expand_wildcard(Parser *el, int max);
