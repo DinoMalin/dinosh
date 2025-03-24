@@ -10,6 +10,7 @@ void exit_fork(Command *head, Context *ctx) {
 }
 
 void fork_routine(Command *head, Command *cmd, Context *ctx, Pipes *pipes) {
+	signal(SIGQUIT, sig_handler);
 	redirect_pipe(cmd, pipes);
 	redirect(cmd);
 
@@ -85,6 +86,9 @@ void wait_everything(Command *head, Command *until, Context *ctx) {
 
 			if (WIFEXITED(status)) {
 				ctx->code = WEXITSTATUS(status);
+			} else if (WIFSIGNALED(status)) {
+				if (status == SIGQUIT_STATUS)
+					printf("Quit%s\n", WCOREDUMP(status) ? " (core dumped)" : "");
 			} else if (WIFSTOPPED(status)) {
 				add_job(ctx, head, STOPPED);
 				head->to = BACKGROUND;

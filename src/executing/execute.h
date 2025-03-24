@@ -9,6 +9,8 @@
 #define xclose(x) {if (x != -1) close(x);}
 #define IS_AMBIGUOUS(x) (x->next->expand_id == x->expand_id && x->expand_id != -1)
 
+#define SIGQUIT_STATUS 131
+
 #define UPDATE_VAR_DURABILITY(env)					\
 	{												\
 		Env *var = env;								\
