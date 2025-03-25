@@ -80,7 +80,7 @@ typedef struct Parser {
 	Error			error;
 	int				id;
 	int				expand_id;
-	Quotes			quoting;		
+	Quotes			quoting;
 	bool			escaped;
 } Parser;
 

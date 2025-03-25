@@ -2,19 +2,25 @@
 
 extern int g_signal;
 
+bool check_interactive(int ac, char **av) {
+	for (int i = 0; i < ac; i++) {
+		if (!ft_strcmp(av[i], "--non-interactive"))
+			return false;
+	}
+	return true;
+}
+
 void config(int ac, char **av, Context *ctx) {
 	bool default_config = true;
 
 	for (int i = 0; i < ac; i++) {
-		if (!ft_strcmp(av[i], "--rcfile") && i < ac - 1) {
+		if (!ft_strcmp(av[i], "--rcfile") && i < ac - 1)
 			default_config = !read_file(av[i + 1], ctx);
-		}
 	}
 
 	if (default_config) {
 		modify_env(&ctx->env, "PROMPT", "dinosh> ", INTERN, -1);
 	}
-	ctx->interactive = true;
 }
 
 bool run_av(int ac, char **av, Context *ctx) {
@@ -43,7 +49,7 @@ bool run_script(int ac, char **av, Context *ctx) {
 	for (int i = 1; i < ac; i++) {
 		if (!ft_strcmp(av[i], "--rcfile")) {
 			i++;
-		} else {
+		} else if (ft_strcmp(av[i], "--non-interactive")) {
 			read_file(av[i], ctx);
 			return true;
 		}
@@ -94,7 +100,8 @@ int main(int ac, char **av, char **envp) {
 		.env = create_env(envp),
 		.exit = false,
 		.gpid = getpgrp(),
-		.access = ft_strdup(av[0])
+		.access = ft_strdup(av[0]),
+		.interactive = check_interactive(ac, av)
 	};
 	init_basic_vars(&ctx);
 

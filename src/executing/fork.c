@@ -22,7 +22,10 @@ void fork_routine(Command *head, Command *cmd, Context *ctx, Pipes *pipes) {
 	if (IS_BUILTIN(cmd->type))
 		builtin(cmd, ctx);
 	else if (cmd->type == SUBSHELL || cmd->type == CONTROL_SUBSTITUTION) {
-		char *av[4] = {ctx->access, "-c", cmd->av[0], NULL};
+		char *flags = (ctx->interactive && cmd->to != BACKGROUND) ?
+							"-c" :
+							"-c --non-interactive";
+		char *av[4] = {ctx->access, flags, cmd->av[0], NULL};
 		char **envp = get_envp(ctx->env);
 		execve(ctx->access, av, envp);
 		free_av(envp);
