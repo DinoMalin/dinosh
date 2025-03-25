@@ -45,12 +45,6 @@ bool fork_process(Context *ctx, Parser *el, int *pipe_fd) {
 
 	int status = 0;
 	WAIT(status);
-	if (status != 0) {
-		close(pipe_fd[1]);
-		close(pipe_fd[0]);
-		return false;
-	}
-
 	return true;
 }
 
