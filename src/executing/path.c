@@ -1,12 +1,8 @@
 #include "execute.h"
 
 char *find_path(Env *env, char *cmd) {
-	if (access(cmd, X_OK) == 0)
+	if (access(cmd, X_OK) == 0 && ft_strchr(cmd, '/'))
 		return ft_strdup(cmd);
-	if (!ft_strncmp(cmd, "./", 1) || !ft_strncmp(cmd, "../", 2)) {
-		ERROR("%s: No such file or directory", cmd);
-		return NULL;
-	}
 
 	char *path = ft_getenv(env, "PATH");
 	if (!path)
