@@ -27,12 +27,16 @@ static bool is_in_bracket(char c, char *bracket) {
 	if (*bracket == '!')
 		res = false;
 	while (*bracket) {
-		if (*bracket == '\\') {
-			if (*bracket == c)
-				return res;
+		if (*bracket == '\\' && *(bracket+1)) {
 			bracket++;
-		} else if (*(bracket+1) == '-' && *(bracket+2)) {
-			if (c >= *bracket && c <= *(bracket+2))
+		}
+		if (*(bracket+1) == '-' && *(bracket+2)) {
+			char interval_start = *bracket;
+			char interval_end = *(bracket+2);
+			if (interval_end == '\\' && (*bracket +3))
+				interval_end = *(bracket+3);
+
+			if (c >= interval_start && c <= interval_end)
 				return res;
 			bracket = bracket+2;
 		} else if (*bracket == c)
