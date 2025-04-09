@@ -158,16 +158,20 @@ bool test_prefix(char *str, char *pattern, int index) {
 #define SMALLEST_PREFIX()									\
 	{														\
 		int i = 0;											\
+		bool found = false;									\
 		for (; str[i]; i++) {								\
 			if (test_prefix(str, pattern, i)) {				\
 				i++;										\
+				found = true;								\
 				break;										\
 			}												\
 		}													\
 		if (its_a_match("", pattern))						\
 			res = ft_substr(str, 0, ft_strlen(str));		\
-		else												\
+		else if (found)										\
 			res = ft_substr(str+i, 0, ft_strlen(str+i));	\
+		else												\
+			res = ft_strdup(str);							\
 	}
 
 char *resolve_globing(char *str, char *pattern, bool suffix) {
