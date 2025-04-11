@@ -22,7 +22,7 @@ FILES	= main/errors main/utils main/signals								\
 		builtins/bg															\
 		env/utils env/accessors												\
 		jobs/jobs															\
-		expanding/vars expanding/wildcard expanding/parameter				\
+		expanding/vars expanding/file_globing expanding/parameter			\
 		expanding/arithmetic expanding/expand expanding/tilde				\
 		expanding/param_globing expanding/utils								\
 		expanding/control_substitution expanding/process_substitution		\

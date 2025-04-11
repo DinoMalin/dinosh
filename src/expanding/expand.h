@@ -19,4 +19,5 @@ void	arithmetic(Env *env, Parser *el);
 void	tilde(Parser *el);
 void	control_substitution(Context *ctx, Command *cmd, Parser *el, int max);
 void	process_substitution(Context *ctx, Command *cmd, Parser *el);
-Parser	*expand_wildcard(Parser *el, int max);
+bool	its_a_match(char *str, char *pattern);
+int		max_id(Parser *head);

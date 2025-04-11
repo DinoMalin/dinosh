@@ -221,6 +221,7 @@ void	expand(Context *ctx, Command *cmd);
 void	execute(Command *cmd, Context *ctx);
 bool	read_file(char *file, Context *ctx);
 void	builtin(Command *cmd, Context *ctx);
+void	wildcards(Parser *el);
 
 /* ====== SIGNALS ====== */
 void	sig_handler(int sig);

@@ -4,7 +4,7 @@
 #define DOUBLE_END "\"$"
 #define SINGLE_END "\'"
 #define ESCAPED	"\""
-#define CAN_REDIR(x) (x == t_word || x == t_wildcard)
+#define CAN_REDIR(x) (x == t_word || x == t_wildcard || x == t_wordvar) // need to be more complete
 
 #define BUILTIN(s, type)					\
 	{										\

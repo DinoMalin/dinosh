@@ -1,42 +1,5 @@
 #include "expand.h"
 
-static bool its_a_match(Parser *head, char *str) {
-	int i = 0;
-	Parser *curr = head;
-
-	while (SAME_ID(curr, head) && *str) {
-		if (curr->token == t_wildcard) {
-			while (IS_WILDCARD(curr, head)) {
-				curr = curr->next;
-			}
-			if (!SAME_ID(curr, head))
-				return true;
-			while (SAME_ID(curr, head) && *str && curr->content[i] != *str) {
-				str++;
-			}
-
-			char *next_try = str;
-            while (*next_try) {
-                if (its_a_match(curr, next_try))
-                    return true;
-                next_try++;
-            }
-            return false;
-		}
-
-		if (curr->content[i] != *str)
-			return false;
-		str++;
-		INCREMENT_CONTENT(curr, i);
-	}
-
-	while (SAME_ID(curr, head) && curr->token == t_wildcard) {
-		curr = curr->next;
-	}
-
-	return !SAME_ID(curr, head) && !*str;
-}
-
 char **get_entries(Parser *head) {
 	DIR *dir = opendir(".");
 	struct dirent *entry = NULL;
@@ -52,7 +15,7 @@ char **get_entries(Parser *head) {
 	}
 
 	while ((entry = readdir(dir))) {
-		if (its_a_match(head, entry->d_name)) {
+		if (its_a_match(entry->d_name, head->content)) {
 			if (head && head->content[0] != '.' && entry->d_name[0] == '.')
 				continue;
 			res = clean_strsjoin(res, ft_strdup(entry->d_name));
@@ -84,16 +47,6 @@ Parser *expand_wildcard(Parser *el, int max) {
 		el->content = entries[0];
 		el->expand_id = max + 1;
 
-		// erase the args with the same id
-		Parser *del = el->next;
-		while (SAME_ID(del, el)) {
-			Parser *next = del->next;
-			free_node(del);
-			del = next;
-		}
-		el->next = del;
-
-		// place the new args
 		Parser *next = el->next;
 		for (int i = 1; entries[i]; i++) {
 			Parser *new = ft_calloc(1, sizeof(Parser));
@@ -113,3 +66,22 @@ Parser *expand_wildcard(Parser *el, int max) {
 	return el;
 }
 
+bool this_node_has_wildcard(Parser *node) {
+	char tools[] = {'*', '[', '?', '\0'};
+	for (int i = 0; tools[i]; i++) {
+		if (ft_strchr(node->content, tools[i]))
+			return true;
+	}
+	return false;
+}
+
+void wildcards(Parser *el) {
+	Parser *curr = el;
+
+
+	while (curr) {
+		if (this_node_has_wildcard(curr))
+			curr = expand_wildcard(curr, max_id(el));
+		curr = curr->next;
+	}
+}

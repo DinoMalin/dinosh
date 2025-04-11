@@ -1,16 +1,5 @@
 #include "expand.h"
 
-bool this_id_has_wildcard(Parser *head) {
-	Parser *curr = head;
-	while (curr && curr->id == head->id) {
-		if (curr->token == t_wildcard)
-			return true;
-		curr = curr->next;
-	}
-	
-	return false;
-}
-
 int max_id(Parser *head) {
 	int max = 0;
 	while (head) {
@@ -38,15 +27,5 @@ void expand(Context *ctx, Command *cmd) {
 			|| curr->token == t_process_substitution_from)
 			process_substitution(ctx, cmd, curr);
 		curr = curr->next;
-	}
-
-	curr = cmd->args;
-	while (curr) {
-		if (this_id_has_wildcard(curr))
-			curr = expand_wildcard(curr, max_id(cmd->args));
-
-		int id = curr->id;
-		while (curr && curr->id == id)
-			curr = curr->next;
 	}
 }

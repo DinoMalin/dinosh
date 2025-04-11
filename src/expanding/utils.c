@@ -18,6 +18,7 @@ void add_tokenized_args(Parser *el, char *value, int max) {
 	Parser *next = args->next;
 	free(el->content);
 	el->content = ft_strdup(args->content);
+	el->expand_id = max+1;
 	free_node(args);
 	args = next;
 

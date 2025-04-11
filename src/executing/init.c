@@ -49,8 +49,8 @@ void init_redirs(Command *cmd) {
 		if (IS_REDIR(curr->token)) {
 			Parser *file = curr->next;
 			if (file->next && IS_AMBIGUOUS(file)) {
-				ERROR("ambiguous redirect");
 				cmd->error = ambiguous_redirect;
+				return;
 			}
 			if (curr->token == t_to_fd || curr->token == t_from_fd) {
 				Parser *next = file->next;
@@ -143,13 +143,15 @@ bool init_command(Context *ctx, Command *cmd) {
 		return false;
 	}
 
+	merge(cmd->args);
+	wildcards(cmd->args);
+
 	init_redirs(cmd);
 	if (command_error(cmd)) {
 		cmd->pid = 0;
 		return false;
 	}
 
-	merge(cmd->args);
 	if (cmd->type != SUBSHELL && cmd->type != CONTROL_GROUP)
 		add_command(ctx, cmd);
 	if (command_error(cmd)) {

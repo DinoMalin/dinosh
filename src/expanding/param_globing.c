@@ -46,7 +46,7 @@ static bool is_in_bracket(char c, char *bracket) {
 	return !res;
 }
 
-static bool its_a_match(char *str, char *pattern) {
+bool its_a_match(char *str, char *pattern) {
 	if (!*str) {
 		while (*pattern == '*')
 			pattern++;
