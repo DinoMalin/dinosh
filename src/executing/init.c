@@ -136,6 +136,14 @@ bool add_command(Context *ctx, Command *cmd) {
 	return true;
 }
 
+void set_wildcards(Parser *head) {
+	while (head) {
+		if (head->token == t_wildcard && !head->escaped)
+			head->glob = true;
+		head = head->next;
+	}
+}
+
 bool init_command(Context *ctx, Command *cmd) {
 	expand(ctx, cmd);
 	if (command_error(cmd)) {
@@ -143,8 +151,10 @@ bool init_command(Context *ctx, Command *cmd) {
 		return false;
 	}
 
+	set_wildcards(cmd->args);
+	reescape(cmd->args);
 	merge(cmd->args);
-	wildcards(cmd->args);
+	globing(cmd->args);
 
 	init_redirs(cmd);
 	if (command_error(cmd)) {

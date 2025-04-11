@@ -38,7 +38,7 @@ void sort_entries(char **entries) {
 	}
 }
 
-Parser *expand_wildcard(Parser *el, int max) {
+Parser *expand_globing(Parser *el, int max) {
 	char **entries = get_entries(el);
 	sort_entries(entries);
 
@@ -66,7 +66,7 @@ Parser *expand_wildcard(Parser *el, int max) {
 	return el;
 }
 
-bool this_node_has_wildcard(Parser *node) {
+bool this_node_has_globing(Parser *node) {
 	char tools[] = {'*', '[', '?', '\0'};
 	for (int i = 0; tools[i]; i++) {
 		if (ft_strchr(node->content, tools[i]))
@@ -75,13 +75,13 @@ bool this_node_has_wildcard(Parser *node) {
 	return false;
 }
 
-void wildcards(Parser *el) {
+void globing(Parser *el) {
 	Parser *curr = el;
 
 
 	while (curr) {
-		if (this_node_has_wildcard(curr))
-			curr = expand_wildcard(curr, max_id(el));
+		if (curr->glob)
+			curr = expand_globing(curr, max_id(el));
 		curr = curr->next;
 	}
 }

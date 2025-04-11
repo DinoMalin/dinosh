@@ -24,7 +24,7 @@ FILES	= main/errors main/utils main/signals								\
 		jobs/jobs															\
 		expanding/vars expanding/file_globing expanding/parameter			\
 		expanding/arithmetic expanding/expand expanding/tilde				\
-		expanding/param_globing expanding/utils								\
+		expanding/param_globing expanding/utils expanding/escape			\
 		expanding/control_substitution expanding/process_substitution		\
 		executing/fork executing/path executing/redirect executing/init		\
 

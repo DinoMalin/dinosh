@@ -6,6 +6,9 @@ void merge_one_node(Parser *head) {
 	while (merge && merge->id == head->id) {
 		Parser *next = merge->next;
 
+		if (merge->glob)
+			head->glob = true;
+
 		head->content = clean_join(head->content, merge->content);
 		head->next = next;
 		free_node(merge);

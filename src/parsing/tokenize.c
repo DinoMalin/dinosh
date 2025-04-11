@@ -123,7 +123,11 @@ Parser *tokenize(char *str) {
 			if (!*(str))
 				break;
 			escape = false;
-			PARSE_LEN(1, t_word, true);
+			if (!IS_WILDCARD(*str)) {
+				PARSE_LEN(1, t_word, true);
+			} else {
+				PARSE_LEN(1, t_wildcard, true);
+			}
 		}
 
 		if (!single_quotes) {
@@ -154,10 +158,10 @@ Parser *tokenize(char *str) {
 			PARSE_OPERATOR("}", t_unexpected);
 			PARSE_OPERATOR("&", t_bg);
 
-			PARSE_CHARACTER("*", t_wildcard); // ill have to handle the escape
+			PARSE_CHARACTER("*", t_wildcard);
 			PARSE_CHARACTER("[", t_wildcard);
-			PARSE_CHARACTER("]", t_wildcard);
 			PARSE_CHARACTER("?", t_wildcard);
+			PARSE_CHARACTER("!", t_wildcard);
 
 			PARSE_CHARACTER("~", t_tilde);
 		}

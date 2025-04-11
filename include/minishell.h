@@ -91,6 +91,7 @@ typedef struct Parser {
 	int				expand_id;
 	Quotes			quoting;
 	bool			escaped;
+	bool			glob;
 } Parser;
 
 typedef enum {
@@ -221,7 +222,8 @@ void	expand(Context *ctx, Command *cmd);
 void	execute(Command *cmd, Context *ctx);
 bool	read_file(char *file, Context *ctx);
 void	builtin(Command *cmd, Context *ctx);
-void	wildcards(Parser *el);
+void	globing(Parser *el);
+void	reescape(Parser *head);
 
 /* ====== SIGNALS ====== */
 void	sig_handler(int sig);
@@ -254,7 +256,6 @@ t_redir	*clean_redirjoin(t_redir *origin, t_redir to_join);
 void	handle_input(Context *ctx);
 void	update_code_var(Context *ctx);
 void	init_basic_vars(Context *ctx);
-bool	this_id_has_wildcard(Parser *head);
 void	read_token(Parser *head);
 bool	is_number(char *str);
 bool	var_is_valid(char *name);
