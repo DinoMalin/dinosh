@@ -6,6 +6,7 @@ void exit_fork(Command *head, Context *ctx) {
 	free(ctx->access);
 	free_env(ctx->env);
 	free_jobs(ctx->jobs);
+	free_garbage(ctx);
 	exit(ctx->code);
 }
 

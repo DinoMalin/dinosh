@@ -1,1 +1,1 @@
---leak-check=yes --suppressions=supp.supp
+--leak-check=full --suppressions=supp.supp --show-leak-kinds=all

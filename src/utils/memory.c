@@ -48,7 +48,7 @@ void free_cmds(Command *list, bool skip_background) {
 
 void free_garbage(Context *ctx) {
 	// first close all fds then wait pids,
-	// because if we do it in the order then pipes will hang.
+	// because if we do it in the reverse order then pipes will hang.
 	Garbage *curr = ctx->garbage;
 	while (curr) {
 		if (curr->fd != -1)
