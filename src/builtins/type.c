@@ -11,9 +11,9 @@ void type(Command *cmd, Context *ctx) {
 			continue;
 		}
 
-		char *path = find_path(ctx->env, cmd->av[i]);
+		char *path = find_path(ctx, cmd->av[i]);
 		if (!path)
-			BUILTIN_VERROR("%s: not found\n", cmd->av[i]);
+			BUILTIN_VERROR("%s: not found", cmd->av[i]);
 
 		ft_putstr_fd(cmd->av[i], 1);
 		ft_putstr_fd(" is ", 1);

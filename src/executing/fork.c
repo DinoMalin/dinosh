@@ -7,6 +7,7 @@ void exit_fork(Command *head, Context *ctx) {
 	free_env(ctx->env);
 	free_jobs(ctx->jobs);
 	free_garbage(ctx);
+	free_hash(ctx);
 	exit(ctx->code);
 }
 
@@ -39,11 +40,12 @@ void fork_routine(Command *head, Command *cmd, Context *ctx, Pipes *pipes) {
 		free_av(envp);
 	} else if (cmd->type == BASIC) {
 		if (cmd->av[0]) {
-			char *path = find_path(ctx->env, cmd->av[0]);
+			char *path = find_path(ctx, cmd->av[0]);
 
-			if (!path)
+			if (!path) {
+				ERROR("%s: command not found", cmd->av[0]);
 				ctx->code = 127;
-			else {
+			} else {
 				char **envp = get_envp(ctx->env);
 				execve(path, cmd->av, get_envp(ctx->env));
 				free_av(envp);

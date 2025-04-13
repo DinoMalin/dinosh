@@ -92,11 +92,24 @@ void free_node(Parser *node) {
 	free(node->content);
 	free(node);
 }
-
 void free_list(Parser *list) {
 	while (list) {
 		Parser *next = list->next;
 		free_node(list);
 		list = next;
 	}
+}
+
+void free_one_hash(Hash *hash) {
+	free(hash->key);
+	free(hash->value);
+	hash->key = NULL;
+	hash->value = NULL;
+}
+void free_hash(Context *ctx) {
+	for (int i = 0; i < ctx->hash_len; i++) {
+		if (ctx->hash[i].value)
+			free_one_hash(ctx->hash+i);
+	}
+	free(ctx->hash);
 }

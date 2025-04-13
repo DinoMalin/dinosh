@@ -1,6 +1,6 @@
 #include "execute.h"
 
-char *find_path(Env *env, char *cmd) {
+char *get_path(Env *env, char *cmd) {
 	if (access(cmd, X_OK) == 0 && ft_strchr(cmd, '/'))
 		return ft_strdup(cmd);
 
@@ -21,6 +21,13 @@ char *find_path(Env *env, char *cmd) {
 	}
 	free_av(paths);
 
-	ERROR("%s: command not found", cmd);
 	return NULL;
+}
+
+char *find_path(Context *ctx, char *cmd) {
+	Hash *hash = get_hash(ctx, cmd);
+	if (hash)
+		return hash->value;
+
+	return get_path(ctx->env, cmd);
 }

@@ -114,6 +114,7 @@ int main(int ac, char **av, char **envp) {
 	free_env(ctx.env);
 	free_jobs(ctx.jobs);
 	free(ctx.access);
+	free_hash(&ctx);
 	rl_clear_history();
 	return ctx.code;
 }

@@ -119,6 +119,7 @@ typedef enum {
 	JOBS,
 	FG,
 	BG,
+	HASH,
 	CONTROL_SUBSTITUTION,
 	PROCESS_SUBSTITUTION_TO,
 	PROCESS_SUBSTITUTION_FROM
@@ -194,6 +195,11 @@ typedef struct Job {
 	struct Job	*next;
 } Job;
 
+typedef struct Hash {
+	char		*key;
+	char		*value;
+} Hash;
+
 typedef struct Garbage {
 	int				fd;
 	pid_t			pid;
@@ -210,6 +216,8 @@ typedef struct {
 	char	*access;
 	bool	interactive;
 	Garbage	*garbage;
+	Hash	*hash;
+	int		hash_len;
 } Context;
 
 /* ====== MINISHELL ====== */
@@ -249,6 +257,8 @@ void	free_job(Job *job);
 void	free_env(Env *env);
 void	free_jobs(Job *job);
 void	free_garbage(Context *ctx);
+void	free_one_hash(Hash *hash);
+void	free_hash(Context *ctx);
 
 /* ====== UTILS ====== */
 char	*clean_join(char *origin, const char *to_join);
@@ -260,7 +270,9 @@ void	init_basic_vars(Context *ctx);
 void	read_token(Parser *head);
 bool	is_number(char *str);
 bool	var_is_valid(char *name);
-char	*find_path(Env *env, char *cmd);
+char	*find_path(Context *ctx, char *cmd);
+char	*get_path(Env *env, char *cmd);
+Hash	*get_hash(Context *ctx, char *key);
 char	*get_random_file_name();
 char	*resolve_globing(char *str, char *pattern, bool suffix);
 void	add_tokenized_args(Parser *el, char *value, int max);
