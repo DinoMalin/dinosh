@@ -32,7 +32,6 @@ void fork_routine(Command *head, Command *cmd, Context *ctx, Pipes *pipes) {
 					&& cmd->type != PROCESS_SUBSTITUTION_TO
 					&& cmd->type != PROCESS_SUBSTITUTION_FROM
 					)) ? "" : "--non-interactive";
-		
 
 		char *av[] = {ctx->access, interactivity, "-c", cmd->av[0], NULL};
 		char **envp = get_envp(ctx->env);

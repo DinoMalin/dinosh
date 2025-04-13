@@ -103,7 +103,7 @@ void hash(Command *cmd, Context *ctx) {
 			DISPLAY_HASH((*hash));
 	} else if (!ft_strcmp(cmd->av[1], "add")) {
 		if (!add_hash(ctx, cmd->av[2]))
-			BUILTIN_VERROR("hash: no such command: %s", cmd->av[2]);
+			BUILTIN_ERROR("hash: no such command: %s", cmd->av[2]);
 	} else if (!ft_strcmp(cmd->av[1], "remove")) {
 		Hash *hash = get_hash(ctx, cmd->av[2]);
 		if (hash)

@@ -8,18 +8,11 @@
 		}							\
 	}
 
-#define BUILTIN_ERROR(msg)					\
+#define BUILTIN_ERROR(format, ...)			\
 	{										\
-		ERROR(msg);							\
+		ERROR(format, ##__VA_ARGS__);			\
 		cmd->exit_code = 1;					\
 		return;								\
-	}
-
-#define BUILTIN_VERROR(...)							\
-	{												\
-		ERROR(__VA_ARGS__);							\
-		cmd->exit_code = 1;							\
-		return;										\
 	}
 
 #define BUILTIN_PERROR(msg)				\
