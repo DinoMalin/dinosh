@@ -60,12 +60,19 @@ static char *substitute(Context *ctx, Parser *el) {
 }
 
 void process_substitution(Context *ctx, Command *cmd, Parser *el) {
-	char *res = substitute(ctx, el);
-	if (!res) {
-		cmd->error = bad_substitution;
-		return;
-	}
+	#ifndef FUZZER
+		char *res = substitute(ctx, el);
+		if (!res) {
+			cmd->error = bad_substitution;
+			return;
+		}
 
-	free(el->content);
-	el->content = res;
+		free(el->content);
+		el->content = res;
+	#else
+		(void)ctx;
+		(void)cmd;
+		(void)el;
+		(void)substitute;
+	#endif
 }

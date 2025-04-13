@@ -20,7 +20,7 @@ int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
 	Command *cmd = parse(parsing_data);
 	free_list(parsing_data);
 	if (parse_error(cmd)) {
-		free_cmds(cmd, false);
+		free_cmds(cmd);
 		free(input);
 		return 0;
 	}
@@ -31,7 +31,7 @@ int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
 		curr = curr->next;
 	}
 
-	free_cmds(cmd, false);
+	free_cmds(cmd);
 	free_env(ctx.env);
 	free(input);
 	return 0;

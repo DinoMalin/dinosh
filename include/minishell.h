@@ -160,6 +160,7 @@ typedef struct Command {
 	char			*error_message;
 	char			*heredoc_file;
 	struct Command	*next;
+	bool			job;
 } Command;
 
 typedef enum {
@@ -241,7 +242,7 @@ void	set_extern(Env *env, char *target);
 /* ====== MEMORY ====== */
 void	free_av(char **av);
 void	free_cmd(Command *cmd);
-void	free_cmds(Command *list, bool skip_background);
+void	free_cmds(Command *list);
 void	free_node(Parser *node);
 void	free_list(Parser *list);
 void	free_job(Job *job);

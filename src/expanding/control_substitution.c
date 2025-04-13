@@ -73,14 +73,22 @@ static char *substitute(Context *ctx, Parser *el) {
 }
 
 void control_substitution(Context *ctx, Command *cmd, Parser *el, int max) {
-	char *res = substitute(ctx, el);
-	if (res && el->quoting == doubles) {
-		free(el->content);
-		el->content = res;
-	} else if (res) {
-		add_tokenized_args(el, res, max);
-		free(res);
-	} else {
-		cmd->error = bad_substitution;
-	}
+	#ifndef FUZZER
+		char *res = substitute(ctx, el);
+		if (res && el->quoting == doubles) {
+			free(el->content);
+			el->content = res;
+		} else if (res) {
+			add_tokenized_args(el, res, max);
+			free(res);
+		} else {
+			cmd->error = bad_substitution;
+		}
+	#else
+		(void)ctx;
+		(void)cmd;
+		(void)el;
+		(void)max;
+		(void)substitute;
+	#endif
 }

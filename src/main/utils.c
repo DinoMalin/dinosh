@@ -52,11 +52,11 @@ void handle_input(Context *ctx) {
 	if (parse_error(cmd)) {
 		ctx->code = 2;
 		update_code_var(ctx);
-		free_cmds(cmd, false);
+		free_cmds(cmd);
 		return;
 	}
 
 	execute(cmd, ctx);
-	free_cmds(cmd, true);
+	free_cmds(cmd);
 	free_garbage(ctx);
 }

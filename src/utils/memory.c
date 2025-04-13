@@ -37,10 +37,10 @@ void free_cmd(Command *cmd) {
 	free(cmd->error_message);
 	free(cmd);
 }
-void free_cmds(Command *list, bool skip_background) {
+void free_cmds(Command *list) {
 	while (list) {
 		Command *next = list->next;
-		if (!(skip_background && list->to == BACKGROUND))
+		if (!list->job)
 			free_cmd(list);
 		list = next;
 	}

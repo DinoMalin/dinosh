@@ -62,6 +62,7 @@ void add_job(Context *ctx, Command *cmd, State state) {
 	new->state = state;
 	new->pid = cmd->pid;
 	new->cmd = cmd;
+	cmd->job = true;
 
 	if (!ctx->jobs)
 		ctx->jobs = new;
