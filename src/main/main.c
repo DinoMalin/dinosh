@@ -1,6 +1,7 @@
 #include "minishell.h"
 
 extern int g_signal;
+Env *environ = NULL;
 
 bool check_interactive(int ac, char **av) {
 	for (int i = 0; i < ac; i++) {
@@ -89,15 +90,17 @@ void run_prompt(Context *ctx) {
 int main(int ac, char **av, char **envp) {
 	(void)ac;
 	(void)av;
+	rl_attempted_completion_function = completion;
 
 	signal(SIGINT, sig_handler);
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGTSTP, SIG_IGN);
 	rl_outstream = stderr;
 
+	environ = create_env(envp);
 	Context ctx = {
 		.input = NULL,
-		.env = create_env(envp),
+		.env = environ,
 		.exit = false,
 		.gpid = getpgrp(),
 		.access = ft_strdup(av[0]),

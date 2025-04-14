@@ -233,6 +233,7 @@ bool	read_file(char *file, Context *ctx);
 void	builtin(Command *cmd, Context *ctx);
 void	globing(Parser *el);
 void	reescape(Parser *head);
+char **completion(const char *text, int start, int end);
 
 /* ====== SIGNALS ====== */
 void	sig_handler(int sig);
