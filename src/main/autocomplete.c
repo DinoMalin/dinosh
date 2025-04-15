@@ -1,6 +1,9 @@
 #include "minishell.h"
 
 extern Env *environ;
+extern Hash	**hash_table;
+extern int	*hash_len;
+
 char *builtins[] = {
 	"echo",
 	"cd",
@@ -45,18 +48,31 @@ char *find_var(const char *text, int state) {
 }
 
 char *find_commands(const char *text, int state) {
-	static int len, i;
+	static int len, i, j;
 
 	if (!state) {
 		i = 0;
+		j = 0;
 		len = ft_strlen(text);
 	}
 
 	char *cmd = builtins[i];
-	while (builtins[i++]) {
-		if (!ft_strncmp(cmd, (char *)text, len))
+	if (!j) {
+		while (builtins[i++]) {
+			if (!ft_strncmp(cmd, (char *)text, len))
+				return ft_strdup(cmd);
+			cmd = builtins[i];
+		}
+	}
+
+	if (!*hash_len || j >= *hash_len)
+		return NULL;
+
+	cmd = (*hash_table)[j].key;
+	while (j++ < *hash_len) {
+		if (cmd && !ft_strncmp(cmd, (char *)text, len))
 			return ft_strdup(cmd);
-		cmd = builtins[i];
+		cmd = (*hash_table)[j].key;
 	}
 
 	return NULL;

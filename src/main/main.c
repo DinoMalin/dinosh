@@ -2,6 +2,8 @@
 
 extern int g_signal;
 Env *environ = NULL;
+Hash **hash_table = NULL;
+int *hash_len = NULL;
 
 bool check_interactive(int ac, char **av) {
 	for (int i = 0; i < ac; i++) {
@@ -107,6 +109,8 @@ int main(int ac, char **av, char **envp) {
 		.interactive = check_interactive(ac, av),
 		.garbage = NULL
 	};
+	hash_table = &(ctx.hash);
+	hash_len = &(ctx.hash_len);
 	init_basic_vars(&ctx);
 
 	if (!run_av(ac, av, &ctx) && !run_script(ac, av, &ctx)) {
