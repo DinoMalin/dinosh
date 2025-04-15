@@ -48,7 +48,40 @@ void analyze_command(Command *cmd, Parser **data, int *arg_index) {
 	(*arg_index)++;
 }
 
-Command *parse(Parser *data) {
+void add_max_id(Parser *data, int max) {
+	while(data) {
+		data->id += max;
+		data = data->next;
+	}
+}
+
+Parser *expand_alias(Parser *data, Alias *alias) {
+	if ((data->next && data->id == data->next->id)
+		|| data->quoting != none || data->escaped) {
+		return data;
+	}
+
+	char *alias_content = is_alias(data->content, alias);
+	if (!alias_content)
+		return data;
+
+	Parser *alias_data = tokenize(alias_content);
+	Parser* data_cpy = alias_data;
+	int max = max_id(data);
+	add_max_id(alias_data, max);
+	while(alias_data) {
+		if (!alias_data->next) {
+			alias_data->next = data->next;
+			free_node(data);
+			break;
+		}
+		alias_data = alias_data->next;
+	}
+	data_cpy = expand_alias(data_cpy, alias);
+	return data_cpy;
+}
+
+Command *parse(Parser *data, Alias *alias) {
 	int data_index = 0;
 	int arg_index = 0; // count the args w/o redirs
 	Error error = no_error;
@@ -56,6 +89,9 @@ Command *parse(Parser *data) {
 
 	Command *head = NULL;
 	Command *curr = NULL;
+
+	data = expand_alias(data, alias);
+	Parser *data_cpy = data;
 
 	while (data) {
 		if (data_index == 0 && !ft_strlen(data->content)) {
@@ -85,7 +121,8 @@ Command *parse(Parser *data) {
 		if (data)
 			data = data->next;
 	}
-	
+
+	free_list(data_cpy);
 	TREAT_ERRORS(head);
 	return head;
 }

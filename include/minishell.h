@@ -233,7 +233,7 @@ typedef struct {
 /* ====== MINISHELL ====== */
 Parser	*mini_tokenizer(char *str);
 Parser	*tokenize(char *str);
-Command	*parse(Parser *data);
+Command	*parse(Parser *data, Alias *alias);
 Type	get_builtin(char *name);
 void	merge_one_node(Parser *head);
 void	merge(Parser *head);
@@ -293,6 +293,8 @@ char	*resolve_globing(char *str, char *pattern, bool suffix);
 void	add_tokenized_args(Parser *el, char *value, int max);
 void	fork_routine(Command *head, Command *cmd, Context *ctx, Pipes *pipes);
 void	add_garbage(Context *ctx, int fd, pid_t pid);
+char	*is_alias(char *name, Alias *alias);
+int		max_id(Parser *head);
 
 /* ====== JOBS ====== */
 void	add_job(Context *ctx, Command *cmd, State state);
