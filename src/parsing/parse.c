@@ -48,7 +48,7 @@ void analyze_arg(Command *cmd, Parser **data, int *arg_index) {
 	(*arg_index)++;
 }
 
-Command *parse(Parser *data) {
+Command *parse(Parser *data, Alias *alias) {
 	int data_index = 0;
 	int arg_index = 0; // count the args w/o redirs
 	Error error = no_error;
@@ -56,6 +56,9 @@ Command *parse(Parser *data) {
 
 	Command *head = NULL;
 	Command *curr = NULL;
+
+	data = expand_alias(data, alias);
+	Parser *data_cpy = data;
 
 	while (data) {
 		if (data_index == 0 && !ft_strlen(data->content)) {
@@ -85,9 +88,10 @@ Command *parse(Parser *data) {
 		if (data)
 			data = data->next;
 	}
-	
+
 	if (curr)
 		analyze_command(curr);
+	free_list(data_cpy);
 	TREAT_ERRORS(head);
 	return head;
 }
