@@ -12,7 +12,8 @@ LFLAGS =	-Llib -lft -lreadline
 SRC_DIR = src/
 OBJ_DIR = obj/
 MAIN	= main/main
-FILES	= main/errors main/utils main/signals main/autocomplete \
+FILES	= main/errors main/utils main/signals main/autocomplete				\
+		main/vi_mode														\
 		utils/memory utils/join	utils/utils									\
 		parsing/tokenize parsing/parse parsing/check parsing/merge			\
 		builtins/choose builtins/echo builtins/cd							\

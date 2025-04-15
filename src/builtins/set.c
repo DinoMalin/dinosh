@@ -17,6 +17,20 @@ void set(Command *cmd, Context *ctx) {
 		return;
 	}
 
+	if (!ft_strcmp(cmd->av[1], "-o")) {
+		if (cmd->ac == 2)
+			BUILTIN_ERROR("set: missing parameter");
+
+		if (!ft_strcmp(cmd->av[2], "emacs"))
+			rl_variable_bind("editing-mode", "emacs");
+		else if (!ft_strcmp(cmd->av[2], "vi"))
+			rl_variable_bind("editing-mode", "vi");
+		else
+			BUILTIN_ERROR("set: no such option: %s", cmd->av[2]);
+
+		return;
+	}
+
 	int durability = -1;
 	for (int i = 0; cmd->av[i]; i++) {
 		if (!ft_strcmp(cmd->av[i], "-d")) {

@@ -1,4 +1,5 @@
 #include "minishell.h"
+#include <readline/readline.h>
 
 extern int g_signal;
 Env *environ = NULL;
@@ -93,11 +94,12 @@ int main(int ac, char **av, char **envp) {
 	(void)ac;
 	(void)av;
 	rl_attempted_completion_function = completion;
+	rl_outstream = stderr;
+	rl_bind_key_in_map('v', open_vim, vi_movement_keymap);
 
 	signal(SIGINT, sig_handler);
 	signal(SIGQUIT, SIG_IGN);
-	signal(SIGTSTP, SIG_IGN);
-	rl_outstream = stderr;
+	signal(SIGTSTP, SIG_IGN); //maybe more signals
 
 	environ = create_env(envp);
 	Context ctx = {

@@ -234,7 +234,8 @@ bool	read_file(char *file, Context *ctx);
 void	builtin(Command *cmd, Context *ctx);
 void	globing(Parser *el);
 void	reescape(Parser *head);
-char **completion(const char *text, int start, int end);
+char	**completion(const char *text, int start, int end);
+int		open_vim(int count, int key);
 
 /* ====== SIGNALS ====== */
 void	sig_handler(int sig);
