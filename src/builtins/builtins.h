@@ -37,3 +37,4 @@ void	jobs(Command *cmd, Context *ctx);
 void	fg(Command *cmd, Context *ctx);
 void	bg(Command *cmd, Context *ctx);
 void	hash(Command *cmd, Context *ctx);
+void	test(Command *cmd, Context *ctx);
