@@ -84,10 +84,10 @@ char *parse_word(char **str, char *word_end, Quotes quoting) {
 	}
 	char *res = ft_substr(*str, 0, end - *str);
 	*str = end;
-	if (!ft_strlen(res)) {
-		free(res);
-		return NULL;
-	}
+	if (!ft_strlen(res) && quoting == none) {
+ 		free(res);
+ 		return NULL;
+ 	}
 	return res;
 }
 

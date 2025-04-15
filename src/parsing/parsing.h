@@ -220,13 +220,11 @@
 			if (!single_quotes)						\
 				double_quotes = !double_quotes;		\
 			str++;									\
-			continue;								\
 		}											\
 		if (*str == '\'') {							\
 			if (!double_quotes)						\
 				single_quotes = !single_quotes;		\
 			str++;									\
-			continue;								\
 		}											\
 		if (*str == '\\') {							\
 			escape = true;							\
