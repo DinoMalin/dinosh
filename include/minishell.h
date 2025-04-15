@@ -274,6 +274,7 @@ bool	var_is_valid(char *name);
 char	*find_path(Context *ctx, char *cmd);
 char	*get_path(Env *env, char *cmd);
 Hash	*get_hash(Context *ctx, char *key);
+void	milk_path(Context *ctx);
 char	*get_random_file_name();
 char	*resolve_globing(char *str, char *pattern, bool suffix);
 void	add_tokenized_args(Parser *el, char *value, int max);

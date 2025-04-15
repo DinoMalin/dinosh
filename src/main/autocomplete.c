@@ -72,7 +72,8 @@ char *find_commands(const char *text, int state) {
 	while (j++ < *hash_len) {
 		if (cmd && !ft_strncmp(cmd, (char *)text, len))
 			return ft_strdup(cmd);
-		cmd = (*hash_table)[j].key;
+		if (j < *hash_len)
+			cmd = (*hash_table)[j].key;
 	}
 
 	return NULL;

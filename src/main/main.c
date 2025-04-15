@@ -112,6 +112,7 @@ int main(int ac, char **av, char **envp) {
 	hash_table = &(ctx.hash);
 	hash_len = &(ctx.hash_len);
 	init_basic_vars(&ctx);
+	milk_path(&ctx);
 
 	if (!run_av(ac, av, &ctx) && !run_script(ac, av, &ctx)) {
 		config(ac, av, &ctx);

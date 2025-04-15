@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include <dirent.h>
 #include "builtins.h"
 
 #define FNV_OFFSET 14695981039346656037UL
@@ -61,7 +62,8 @@ Hash *get_hash(Context *ctx, char *key) {
 	return ctx->hash+index;
 }
 
-bool add_hash(Context *ctx, char *key) {
+// if this function is given no path it finds it
+bool add_hash(Context *ctx, char *key, char *path) {
 	Hash *hash = get_hash(ctx, key);
 
 	if (hash) {
@@ -75,19 +77,46 @@ bool add_hash(Context *ctx, char *key) {
 
 		if (index >= ctx->hash_len) {
 			realloc_hash(ctx);
-			return add_hash(ctx, key);
+			return add_hash(ctx, key, path);
 		}
 
 		hash = ctx->hash+index;
 	}
 
-	char *path = get_path(ctx->env, key);
-	if (!path)
-		return false;
+	if (!path) {
+		path = get_path(ctx->env, key);
+		if (!path)
+			return false;
+	}
 
 	hash->key = ft_strdup(key);
 	hash->value = path;
 	return true;
+}
+
+void milk_path(Context *ctx) {
+	char *path = ft_getenv(ctx->env, "PATH");
+	char **paths = ft_split(path, ':');
+
+	for (int i = 0; paths[i]; i++) {
+		DIR *dir = opendir(paths[i]);
+		struct dirent *entry = NULL;
+
+		if (!dir) {
+			perror("dinosh: path milking");
+			return;
+		}
+
+		while ((entry = readdir(dir))) {
+			char *value = ft_strjoin(paths[i], "/");
+			value = clean_join(value, entry->d_name);
+			add_hash(ctx, entry->d_name, value);
+		}
+
+		closedir(dir);
+	}
+
+	free_av(paths);
 }
 
 void hash(Command *cmd, Context *ctx) {
@@ -102,7 +131,7 @@ void hash(Command *cmd, Context *ctx) {
 		if (hash)
 			DISPLAY_HASH((*hash));
 	} else if (!ft_strcmp(cmd->av[1], "add")) {
-		if (!add_hash(ctx, cmd->av[2]))
+		if (!add_hash(ctx, cmd->av[2], NULL))
 			BUILTIN_ERROR("hash: no such command: %s", cmd->av[2]);
 	} else if (!ft_strcmp(cmd->av[1], "remove")) {
 		Hash *hash = get_hash(ctx, cmd->av[2]);
