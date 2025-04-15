@@ -48,7 +48,74 @@ void analyze_command(Command *cmd, Parser **data, int *arg_index) {
 	(*arg_index)++;
 }
 
-Command *parse(Parser *data) {
+void add_max_id(Parser *data, int max) {
+	while(data) {
+		data->id += max + 1;
+		data = data->next;
+	}
+}
+
+int search_alias(Parser *data, Alias *alias) {
+	bool new_command = true;
+
+	while (data) {
+		if (new_command) {
+			new_command = false;
+			if ((!data->next || (data->id != data->next->id))
+			&& data->quoting == none && !data->escaped) {
+				if (is_alias(data->content, alias))
+					return data->id;
+			}
+		}
+		if (!new_command && (data->token == t_and || data->token == t_or
+		|| data->token == t_pipe || data->token == t_semicolon
+		|| data->token == t_bg)) {
+			new_command = true;
+		}
+		data = data->next;
+	}
+	return -1;
+}
+
+Parser *expand_alias(Parser *data, Alias *alias) {
+	Parser *head = data;
+
+	int alias_id = search_alias(data, alias);
+	if (alias_id == -1)
+		return data;
+
+	while (data->id != alias_id)
+		data = data->next;
+
+	char *alias_content = is_alias(data->content, alias);
+	Parser *alias_tokens = tokenize(alias_content);
+
+	int max = max_id(head);
+	add_max_id(alias_tokens, max);
+
+	Parser *last_alias_token = alias_tokens;
+	while (last_alias_token->next)
+		last_alias_token = last_alias_token->next;
+
+	last_alias_token->next = data->next;
+
+	if (head == data) {
+		free_node(data);
+		head = alias_tokens;
+	} else {
+		Parser *prev = head;
+		while (prev && prev->next != data)
+			prev = prev->next;
+
+		free_node(data);
+		prev->next = alias_tokens;
+	}
+
+	return expand_alias(head, alias);
+}
+
+
+Command *parse(Parser *data, Alias *alias) {
 	int data_index = 0;
 	int arg_index = 0; // count the args w/o redirs
 	Error error = no_error;
@@ -56,6 +123,9 @@ Command *parse(Parser *data) {
 
 	Command *head = NULL;
 	Command *curr = NULL;
+
+	data = expand_alias(data, alias);
+	Parser *data_cpy = data;
 
 	while (data) {
 		if (data_index == 0 && !ft_strlen(data->content)) {
@@ -85,7 +155,8 @@ Command *parse(Parser *data) {
 		if (data)
 			data = data->next;
 	}
-	
+
+	free_list(data_cpy);
 	TREAT_ERRORS(head);
 	return head;
 }

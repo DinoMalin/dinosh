@@ -3,6 +3,7 @@
 void exit_fork(Command *head, Context *ctx) {
 	if (head->type != CONTROL_SUBSTITUTION)
 		free_cmds(head);
+	unalias_all(ctx);
 	free(ctx->access);
 	free_env(ctx->env);
 	free_jobs(ctx->jobs);
