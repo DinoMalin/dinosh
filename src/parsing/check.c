@@ -15,6 +15,8 @@ Type get_builtin(char *name) {
 	BUILTIN("bg", BG);
 	BUILTIN("hash", HASH);
 	BUILTIN("test", TEST);
+	BUILTIN("alias", ALIAS);
+	BUILTIN("unalias", UNALIAS);
 	return BASIC;
 }
 

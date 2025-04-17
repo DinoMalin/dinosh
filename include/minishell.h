@@ -123,7 +123,9 @@ typedef enum {
 	TEST,
 	CONTROL_SUBSTITUTION,
 	PROCESS_SUBSTITUTION_TO,
-	PROCESS_SUBSTITUTION_FROM
+	PROCESS_SUBSTITUTION_FROM,
+	ALIAS,
+	UNALIAS
 } Type;
 
 typedef struct {
@@ -180,6 +182,12 @@ typedef struct Env {
 	int			durability;
 } Env;
 
+typedef struct Alias {
+	char			*name;
+	char			*value;
+	struct Alias	*next;
+} Alias;
+
 typedef enum {
 	DONE,
 	RUNNING,
@@ -210,6 +218,7 @@ typedef struct Garbage {
 typedef struct {
 	char	*input;
 	Env		*env;
+	Alias	*alias;
 	bool	exit;
 	int		code;
 	Job		*jobs;
@@ -224,7 +233,7 @@ typedef struct {
 /* ====== MINISHELL ====== */
 Parser	*mini_tokenizer(char *str);
 Parser	*tokenize(char *str);
-Command	*parse(Parser *data);
+Command	*parse(Parser *data, Alias *alias);
 Type	get_builtin(char *name);
 void	merge_one_node(Parser *head);
 void	merge(Parser *head);
@@ -262,6 +271,8 @@ void	free_jobs(Job *job);
 void	free_garbage(Context *ctx);
 void	free_one_hash(Hash *hash);
 void	free_hash(Context *ctx);
+void	free_alias(Alias *alias);
+void	unalias_all(Context *ctx);
 
 /* ====== UTILS ====== */
 char	*clean_join(char *origin, const char *to_join);
@@ -282,6 +293,8 @@ char	*resolve_globing(char *str, char *pattern, bool suffix);
 void	add_tokenized_args(Parser *el, char *value, int max);
 void	fork_routine(Command *head, Command *cmd, Context *ctx, Pipes *pipes);
 void	add_garbage(Context *ctx, int fd, pid_t pid);
+char	*is_alias(char *name, Alias *alias);
+int		max_id(Parser *head);
 
 /* ====== JOBS ====== */
 void	add_job(Context *ctx, Command *cmd, State state);

@@ -46,8 +46,7 @@ void handle_input(Context *ctx) {
 		return;
 	}
 
-	Command *cmd = parse(data);
-	free_list(data);
+	Command *cmd = parse(data, ctx->alias);
 
 	if (parse_error(cmd)) {
 		ctx->code = 2;
