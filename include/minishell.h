@@ -282,6 +282,7 @@ char	*resolve_globing(char *str, char *pattern, bool suffix);
 void	add_tokenized_args(Parser *el, char *value, int max);
 void	fork_routine(Command *head, Command *cmd, Context *ctx, Pipes *pipes);
 void	add_garbage(Context *ctx, int fd, pid_t pid);
+int		get_variable_size(char *str);
 
 /* ====== JOBS ====== */
 void	add_job(Context *ctx, Command *cmd, State state);

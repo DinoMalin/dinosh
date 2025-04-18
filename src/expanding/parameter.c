@@ -77,6 +77,10 @@ char *substitution(Env *env, Command *cmd, char *parameter, char *word) {
 	return NULL;
 }
 
+bool check_var(char *var) {
+	return (int)ft_strlen(var) == get_variable_size(var);
+}
+
 char *get_value(Env *env, Command *cmd, char *str) {
 	char *colon = ft_strchr(str, ':');
 	char *hashtag = ft_strchr(str, '#');
@@ -86,17 +90,27 @@ char *get_value(Env *env, Command *cmd, char *str) {
 		return NULL;
 
 	if (hashtag == str) {
+		if (!check_var(str+1))
+			return NULL;
 		char *var = ft_getenv(env, str+1);
 		int len = var ? ft_strlen(var) : 0;
 		return ft_itoa(len);
 	}
 	if (colon) {
 		char *parameter = ft_substr(str, 0, colon-str);
+		if (!check_var(parameter)) {
+			free(parameter);
+			return NULL;
+		}
 		char *word = ft_substr(colon+1, 0, ft_strlen(colon+1));
 		return substitution(env, cmd, parameter, word);
 	}
 	if (percent) {
 		char *parameter = ft_substr(str, 0, percent-str);
+		if (!check_var(parameter)) {
+			free(parameter);
+			return NULL;
+		}
 		char *var = ft_getenv_alloc(env, parameter);
 		char *word = ft_substr(percent+1, 0, ft_strlen(percent+1));
 		free(parameter);
@@ -104,6 +118,10 @@ char *get_value(Env *env, Command *cmd, char *str) {
 	}
 	if (hashtag) {
 		char *parameter = ft_substr(str, 0, hashtag-str);
+		if (!check_var(parameter)) {
+			free(parameter);
+			return NULL;
+		}
 		char *var = ft_getenv_alloc(env, parameter);
 		char *word = ft_substr(hashtag+1, 0, ft_strlen(hashtag+1));
 		free(parameter);
