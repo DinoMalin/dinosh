@@ -29,6 +29,10 @@ void init_basic_vars(Context *ctx) {
 	modify_env(&ctx->env, "CYAN", "\033[96;1m", INTERN, -1);
 	modify_env(&ctx->env, "WHITE", "\033[97;1m", INTERN, -1);
 	modify_env(&ctx->env, "RESET", "\033[0m", INTERN, -1);
+
+	char *pid = ft_itoa(getpid());
+	modify_env(&ctx->env, "!", pid, SPECIAL | INTERN, -1);
+	free(pid);
 	update_code_var(ctx);
 }
 

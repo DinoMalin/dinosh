@@ -11,6 +11,7 @@ bool skip_whitespace(char **str) {
 
 int get_variable_size(char *str) {
 	ADD_SPECIAL_VAR("?");
+	ADD_SPECIAL_VAR("!");
 
 	int size = 0;
 	for (; str[size]; size++) {
