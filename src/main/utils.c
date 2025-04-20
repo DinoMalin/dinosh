@@ -44,6 +44,9 @@ void update_code_var(Context *ctx) {
 
 void handle_input(Context *ctx) {
 	Parser *data = tokenize(ctx->input);
+	if (!data)
+		return;
+
 	if (token_error(data)) {
 		ctx->code = 2;
 		free_list(data);

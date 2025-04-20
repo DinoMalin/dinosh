@@ -203,7 +203,8 @@
 				curr->to = type;							\
 			from = type;									\
 			data = data->next;								\
-			analyze_command(curr);							\
+			if (curr)										\
+				analyze_command(curr);						\
 			continue;										\
 		}													\
 	}

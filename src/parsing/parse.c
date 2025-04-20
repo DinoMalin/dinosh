@@ -86,7 +86,8 @@ Command *parse(Parser *data) {
 			data = data->next;
 	}
 	
-	analyze_command(curr);
+	if (curr)
+		analyze_command(curr);
 	TREAT_ERRORS(head);
 	return head;
 }

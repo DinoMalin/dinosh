@@ -12,8 +12,7 @@ LFLAGS =	-Llib -lft -lreadline
 SRC_DIR = src/
 OBJ_DIR = obj/
 MAIN	= main/main
-FILES	= main/errors main/utils main/signals main/autocomplete				\
-		main/vi_mode														\
+FILES	= main/errors main/utils main/signals main/vi_mode					\
 		utils/memory utils/join	utils/utils									\
 		parsing/tokenize parsing/parse parsing/check parsing/merge			\
 		builtins/choose builtins/echo builtins/cd							\
@@ -31,7 +30,7 @@ FILES	= main/errors main/utils main/signals main/autocomplete				\
 		executing/fork executing/path executing/redirect executing/init		\
 
 FUZZER_FILES := $(FILES) utils/fuzzer
-FILES += $(MAIN)
+FILES += $(MAIN) main/autocomplete
 
 SRCS = $(addprefix $(SRC_DIR), $(addsuffix .c, $(FILES)))
 OBJS = $(addprefix $(OBJ_DIR), $(addsuffix .o, $(FILES)))
