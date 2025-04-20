@@ -123,7 +123,8 @@ typedef enum {
 	TEST,
 	CONTROL_SUBSTITUTION,
 	PROCESS_SUBSTITUTION_TO,
-	PROCESS_SUBSTITUTION_FROM
+	PROCESS_SUBSTITUTION_FROM,
+	CONDITION,
 } Type;
 
 typedef struct {
@@ -236,6 +237,7 @@ void	globing(Parser *el);
 void	reescape(Parser *head);
 char	**completion(const char *text, int start, int end);
 int		open_vim(int count, int key);
+void	expand_condition(Command *cmd);
 
 /* ====== SIGNALS ====== */
 void	sig_handler(int sig);

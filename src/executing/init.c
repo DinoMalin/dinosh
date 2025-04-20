@@ -162,6 +162,14 @@ bool init_command(Context *ctx, Command *cmd) {
 		return false;
 	}
 
+	if (cmd->type == CONDITION) {
+		expand_condition(cmd);
+		if (command_error(cmd)) {
+			cmd->pid = 0;
+			return false;
+		}
+	}
+
 	if (cmd->type != SUBSHELL && cmd->type != CONTROL_GROUP)
 		add_command(ctx, cmd);
 	if (command_error(cmd)) {

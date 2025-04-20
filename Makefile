@@ -27,6 +27,7 @@ FILES	= main/errors main/utils main/signals main/autocomplete				\
 		expanding/arithmetic expanding/expand expanding/tilde				\
 		expanding/param_globing expanding/utils expanding/escape			\
 		expanding/control_substitution expanding/process_substitution		\
+		expanding/condition													\
 		executing/fork executing/path executing/redirect executing/init		\
 
 FUZZER_FILES := $(FILES) utils/fuzzer

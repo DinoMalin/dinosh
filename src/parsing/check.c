@@ -25,6 +25,8 @@ void check_type(Command *cmd, Token token) {
 		cmd->type = SUBSHELL;
 	if (token == t_control_group)
 		cmd->type = CONTROL_GROUP;
+	if (!ft_strcmp(cmd->args->content, "["))
+		cmd->type = CONDITION;
 	Type builtin = get_builtin(name);
 	if (builtin)
 		cmd->type = builtin;
