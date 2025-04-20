@@ -30,7 +30,7 @@ Command *init_cmd(Transmission from) {
 }
 
 // fill the command properties, detect the errors
-void analyze_command(Command *cmd, Parser **data, int *arg_index) {
+void analyze_arg(Command *cmd, Parser **data, int *arg_index) {
 	if ((*data)->token == t_unknown)
 		cmd->error = unknown_token;
 	if ((*data)->token == t_missing_parameter)
@@ -78,14 +78,15 @@ Command *parse(Parser *data) {
 			ADD_COMMAND(head, new, curr);
 			curr = new;
 		}
-		if (data->token != t_pipe) {
-			analyze_command(curr, &data, &arg_index);
-			data_index++;
-		}
+
+		analyze_arg(curr, &data, &arg_index);
+		data_index++;
+
 		if (data)
 			data = data->next;
 	}
 	
+	analyze_command(curr);
 	TREAT_ERRORS(head);
 	return head;
 }

@@ -42,3 +42,28 @@ void check_redir_errors(Command *cmd, Parser **data) {
 		return;
 	}
 }
+
+bool command_got_one_arg(Command *cmd) {
+	Parser *args = cmd->args;
+	bool redir = false;
+	int n = 0;
+
+	while (args) {
+		if (IS_REDIR(args->token))
+			redir = true;
+		else if (!redir)
+			n++;
+		else
+			redir = false;
+		args = args->next;
+	}
+
+	return n == 1;
+}
+
+void analyze_command(Command *cmd) {
+	if (cmd->type == SUBSHELL && !command_got_one_arg(cmd))
+		cmd->error = unexpected_token;
+	if (cmd->type == CONTROL_GROUP && !command_got_one_arg(cmd))
+		cmd->error = unexpected_token;
+}

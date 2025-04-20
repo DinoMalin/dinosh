@@ -203,6 +203,7 @@
 				curr->to = type;							\
 			from = type;									\
 			data = data->next;								\
+			analyze_command(curr);							\
 			continue;										\
 		}													\
 	}
@@ -234,3 +235,4 @@
 
 void	check_redir_errors(Command *cmd, Parser **data);
 void	check_type(Command *cmd, Token token);
+void	analyze_command(Command *cmd);
