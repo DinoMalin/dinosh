@@ -81,6 +81,9 @@ void run_prompt(Context *ctx) {
 		if (!ctx->input)
 			break;
 		if (ft_strlen(ctx->input)) {
+			char *tmp = ctx->input;
+			ctx->input = expand_exclamation_mark(ctx->input);
+			free(tmp);
 			add_history(ctx->input);
 			handle_input(ctx);
 		}

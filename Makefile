@@ -15,6 +15,7 @@ MAIN	= main/main
 FILES	= main/errors main/utils main/signals main/vi_mode					\
 		utils/memory utils/join	utils/utils									\
 		parsing/tokenize parsing/parse parsing/check parsing/merge			\
+		parsing/history														\
 		builtins/choose builtins/echo builtins/cd							\
 		builtins/type builtins/pwd builtins/export							\
 		builtins/set builtins/jobs builtins/unset							\

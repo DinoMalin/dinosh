@@ -226,6 +226,7 @@ typedef struct {
 Parser	*mini_tokenizer(char *str);
 Parser	*tokenize(char *str);
 Command	*parse(Parser *data);
+char	*expand_exclamation_mark(char *input);
 Type	get_builtin(char *name);
 void	merge_one_node(Parser *head);
 void	merge(Parser *head);
