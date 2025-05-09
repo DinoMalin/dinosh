@@ -299,7 +299,7 @@ void	add_tokenized_args(Parser *el, char *value, int max);
 void	fork_routine(Command *head, Command *cmd, Context *ctx, Pipes *pipes);
 void	add_garbage(Context *ctx, int fd, pid_t pid);
 int		get_variable_size(char *str);
-char	*is_alias(char *name, Alias *alias);
+char	*get_alias(char *name, Alias *alias);
 int		max_id(Parser *head);
 Parser	*search_alias(Parser *data, Alias *alias);
 void	add_max_id(Parser *data, int max);

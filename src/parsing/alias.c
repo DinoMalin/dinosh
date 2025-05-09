@@ -17,7 +17,7 @@ Parser *search_alias(Parser *data, Alias *alias) {
 			new_command = false;
 			if ((!data->next || (data->id != data->next->id))
 			&& data->quoting == none && !data->escaped) {
-				if (is_alias(data->content, alias))
+				if (get_alias(data->content, alias))
 					return data;
 			}
 		}
@@ -40,7 +40,7 @@ Parser *expand_alias(Parser *data, Alias *alias) {
 	else
 		data = tmp;
 
-	char *alias_content = is_alias(data->content, alias);
+	char *alias_content = get_alias(data->content, alias);
 	Parser *alias_tokens = tokenize(alias_content);
 
 	int max = max_id(head);
