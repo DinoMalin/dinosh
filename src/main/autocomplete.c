@@ -18,6 +18,8 @@ char *builtins[] = {
 	"fg",
 	"bg",
 	"hash",
+	"unalias",
+	"alias",
 	NULL
 };
 
