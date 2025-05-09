@@ -8,7 +8,7 @@ Alias *create_alias(char *name, char *value, void *next) {
 	return new;
 }
 
-char *is_alias(char *name, Alias *alias) {
+char *get_alias(char *name, Alias *alias) {
 	while (alias) {
 		if (!ft_strcmp(name, alias->name))
 			return alias->value;
