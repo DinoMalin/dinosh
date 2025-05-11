@@ -8,16 +8,16 @@
 		bzero(buff, SIZE);				\
 	}
 
-#define CHECK_QUOTING()								\
-	{												\
-		if (*input == '\'' && !double_quotes)		\
-			single_quotes = true;					\
-		else if (*input == '"' && !single_quotes)	\
-			double_quotes = true;					\
-		else {										\
-			single_quotes = false;					\
-			double_quotes = false;					\
-		}											\
+#define CHECK_QUOTING()											\
+	{															\
+		if (*input == '\'' && !double_quotes && !escape)		\
+			single_quotes = true;								\
+		else if (*input == '"' && !single_quotes && !escape)	\
+			double_quotes = true;								\
+		else {													\
+			single_quotes = false;								\
+			double_quotes = false;								\
+		}														\
 	}
 
 #define ADD_TO_BUFFER()					\
@@ -42,22 +42,37 @@
 		return NULL;		\
 	}
 
+char *search_history(char *prefix) {
+	int len = ft_strlen(prefix);
+	for (int i = history_length; i >= history_base; i--) {
+		HIST_ENTRY *e = history_get(i);
+		if (e && !ft_strncmp(prefix, e->line, len)) {
+			return e->line;
+		}
+	}
+	return NULL;
+}
+
 char *expand_exclamation_mark(char *input) {
 	char *res = ft_strdup("");
 	bool single_quotes = false;
 	bool double_quotes = false;
+	bool escape = false;
 	bool expanded = false;
 
 	char buff[SIZE] = {};
 	int index = 0;
 
 	while (*input) {
+		if (escape)
+			escape = false;
 		if (*input == '\\') {
+			ADD_TO_BUFFER();
+			escape = true;
 			input++;
-			continue;
 		}
 
-		if (!single_quotes && *input == '!') {
+		if (!single_quotes && *input == '!' && !escape) {
 			char *tools = (input+1);
 			if (*tools == '!') {
 				expanded = true;
@@ -101,8 +116,27 @@ char *expand_exclamation_mark(char *input) {
 					input++;
 				}
 			} else {
-				ADD_TO_BUFFER();
-				input++;
+				MILK_BUFFER();
+				int end = 0;
+				char *str = (input+1);
+				while (str[end] && !ft_isspace(str[end]))
+					end++;
+
+				if (!end) {
+					ADD_TO_BUFFER();
+					MILK_BUFFER();
+				} else {
+					char *sub = ft_substr(str, 0, end);
+					char *line = search_history(sub);
+					free(sub);
+					if (!line) {
+						NO_RESULT();
+					}
+
+					res = clean_join(res, line);
+					input += end;
+					expanded = true;
+				}
 			}
 		} else {
 			ADD_TO_BUFFER();
