@@ -82,10 +82,17 @@ void run_prompt(Context *ctx) {
 			break;
 		if (ft_strlen(ctx->input)) {
 			char *tmp = ctx->input;
+
 			ctx->input = expand_exclamation_mark(ctx->input);
+			if (!ctx->input) {
+				Command err = {.error = event_not_found};
+				parse_error(&err);
+			} else {
+				add_history(ctx->input);
+				handle_input(ctx);
+			}
+
 			free(tmp);
-			add_history(ctx->input);
-			handle_input(ctx);
 		}
 
 		free(ctx->input);

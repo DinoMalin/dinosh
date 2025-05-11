@@ -14,7 +14,7 @@
 #define IS_REDIR(x) (x == t_append || x == t_heredoc || x == t_to || x == t_from || x == t_to_fd || x == t_from_fd)
 
 #define ERROR(format, ...) dprintf(2, "dinosh: "format"\n", ##__VA_ARGS__)
-#define LOG(format, ...)dprintf(2, "LOG: "format"\n", ##__VA_ARGS__)
+#define LOG(format, ...) dprintf(2, "LOG: "format"\n", ##__VA_ARGS__)
 
 #define SETPGRP(fd, gpid)								\
 	{													\
@@ -72,6 +72,7 @@ typedef enum {
 	numeric_argument,
 	missing_parameter,
 	bad_substitution,
+	event_not_found,
 	special
 } Error;
 	

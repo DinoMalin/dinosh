@@ -36,6 +36,12 @@
 		}											\
 	}
 
+#define NO_RESULT()			\
+	{						\
+		free(res);			\
+		return NULL;		\
+	}
+
 char *expand_exclamation_mark(char *input) {
 	char *res = ft_strdup("");
 	bool single_quotes = false;
@@ -59,8 +65,10 @@ char *expand_exclamation_mark(char *input) {
 				MILK_BUFFER();
 				if (l)
 					res = clean_join(res, l->line);
-				else
-					res = clean_join(res, "!!"); // should return an error
+				else {
+					NO_RESULT();
+				}
+
 				input++;
 			} else if (ft_isdigit(*tools)) {
 				int offset = ft_atoi(tools);
@@ -69,8 +77,9 @@ char *expand_exclamation_mark(char *input) {
 				MILK_BUFFER();
 				if (l)
 					res = clean_join(res, l->line);
-				else
-					res = clean_join(res, "!!"); // should return an error
+				else {
+					NO_RESULT();
+				}
 
 				input++;
 				while (*input && ft_isdigit(*(input+1))) {
@@ -83,8 +92,9 @@ char *expand_exclamation_mark(char *input) {
 				MILK_BUFFER();
 				if (l)
 					res = clean_join(res, l->line);
-				else
-					res = clean_join(res, "!!"); // should return an error
+				else {
+					NO_RESULT();
+				}
 
 				input += 2;
 				while (*input && ft_isdigit(*(input+1))) {

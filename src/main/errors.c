@@ -47,9 +47,9 @@ bool parse_error(Command *head) {
 		HANDLE_ERROR(start_pipe, "start pipe");
 		HANDLE_ERROR(unknown_token, "unknown token");
 		HANDLE_ERROR(empty_subshell, "empty subshell");
-		HANDLE_ERROR(empty_subshell, "empty subshell");
 		HANDLE_ERROR(empty_control_group, "empty control group");
-		HANDLE_ERROR(missing_parameter, "missing_parameter");
+		HANDLE_ERROR(missing_parameter, "missing parameter");
+		HANDLE_ERROR(event_not_found, "event not found");
 		head = head->next;
 	}
 	return false;
