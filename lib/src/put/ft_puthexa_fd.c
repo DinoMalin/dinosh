@@ -14,7 +14,7 @@
 
 int	ft_puthexa_fd(unsigned long n, int fd, int up)
 {
-	static char	hexa[16] = "0123456789abcdef";
+	static char	hexa[] = "0123456789abcdef";
 
 	if (n >= 16)
 		return (ft_puthexa_fd(n / 16, fd, up) + ft_puthexa_fd(n % 16, fd, up));
