@@ -104,6 +104,7 @@ void milk_path(Context *ctx) {
 
 		if (!dir) {
 			perror("dinosh: path milking");
+			free_av(paths);
 			return;
 		}
 
