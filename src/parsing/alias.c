@@ -1,5 +1,9 @@
 #include "minishell.h"
 
+#define IS_TRANSMISSION(x) (x == t_and || x == t_or	\
+		|| x == t_pipe || x == t_semicolon			\
+		|| x == t_bg)
+
 void add_max_id(Parser *data, int max) {
 	while(data) {
 		data->id += max + 1;
@@ -12,18 +16,20 @@ Parser *search_alias(Parser *data, Alias *alias) {
 	
 	while (data) {
 		if (new_command) {
-			if (IS_REDIR(data->token) && data->next->next)
+			if (IS_REDIR(data->token)
+				&& data->next && data->next->next) {
 				data = data->next->next;
+			}
+
 			new_command = false;
 			if ((!data->next || (data->id != data->next->id))
-			&& data->quoting == none && !data->escaped) {
+				&& data->quoting == none && !data->escaped
+				&& data->token == t_word) {
 				if (get_alias(data->content, alias))
 					return data;
 			}
 		}
-		if (!new_command && (data->token == t_and || data->token == t_or
-		|| data->token == t_pipe || data->token == t_semicolon
-		|| data->token == t_bg)) {
+		if (!new_command && IS_TRANSMISSION(data->token)) {
 			new_command = true;
 		}
 		data = data->next;
