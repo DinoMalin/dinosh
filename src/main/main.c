@@ -89,6 +89,7 @@ void run_prompt(Context *ctx) {
 				parse_error(&err);
 			} else {
 				add_history(ctx->input);
+				append_history(1, HISTORY_FILE);
 				handle_input(ctx);
 			}
 
@@ -128,6 +129,7 @@ int main(int ac, char **av, char **envp) {
 
 	if (!run_av(ac, av, &ctx) && !run_script(ac, av, &ctx)) {
 		config(ac, av, &ctx);
+		read_history(HISTORY_FILE);
 		run_prompt(&ctx);
 	}
 
