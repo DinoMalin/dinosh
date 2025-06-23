@@ -137,6 +137,7 @@ int main(int ac, char **av, char **envp) {
 	unalias_all(&ctx);
 	free_jobs(ctx.jobs);
 	free(ctx.access);
+	free(ctx.history_path);
 	free_hash(&ctx);
 	rl_clear_history();
 	return ctx.code;
