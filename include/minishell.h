@@ -128,7 +128,8 @@ typedef enum {
 	PROCESS_SUBSTITUTION_FROM,
 	CONDITION,
 	ALIAS,
-	UNALIAS
+	UNALIAS,
+	FC
 } Type;
 
 typedef struct {

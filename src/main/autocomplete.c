@@ -20,6 +20,7 @@ char *builtins[] = {
 	"hash",
 	"unalias",
 	"alias",
+	"fc",
 	NULL
 };
 

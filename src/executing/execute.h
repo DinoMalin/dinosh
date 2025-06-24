@@ -2,10 +2,11 @@
 
 #define IS_CHILD(x) (!x)
 #define IS_PIPED(x) (x->from == PIPE || x->to == PIPE)
-#define IS_BUILTIN(x) (	   x == ECHO	|| x == CD		|| x == PWD || x == EXPORT	\
-						|| x == UNSET	|| x == ENV		|| x == ENV || x == EXIT	\
-						|| x == SET		|| x == TYPE	|| x == FG	|| x == JOBS	\
-						|| x == BG		|| x == ALIAS	|| x == HASH	|| x == TEST|| x == UNALIAS)
+#define IS_BUILTIN(x) (	   x == ECHO	|| x == CD		|| x == PWD		|| x == EXPORT	\
+						|| x == UNSET	|| x == ENV		|| x == ENV		|| x == EXIT	\
+						|| x == SET		|| x == TYPE	|| x == FG		|| x == JOBS	\
+						|| x == BG		|| x == ALIAS	|| x == HASH	|| x == TEST \
+						|| x == UNALIAS	|| x == FC)
 #define xclose(x) {if (x != -1) close(x);}
 #define IS_AMBIGUOUS(x) (x->next->expand_id == x->expand_id && x->expand_id != -1)
 

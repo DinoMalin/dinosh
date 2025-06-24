@@ -17,4 +17,5 @@ void builtin(Command *cmd, Context *ctx) {
 	BUILTIN(TEST, test);
 	BUILTIN(ALIAS, alias);
 	BUILTIN(UNALIAS, unalias);
+	BUILTIN(FC, fc);
 }
