@@ -232,6 +232,7 @@ typedef struct {
 	Garbage	*garbage;
 	Hash	*hash;
 	int		hash_len;
+	char	*history_path;
 } Context;
 
 /* ====== MINISHELL ====== */
@@ -288,6 +289,7 @@ t_redir	*clean_redirjoin(t_redir *origin, t_redir to_join);
 void	handle_input(Context *ctx);
 void	update_code_var(Context *ctx);
 void	init_basic_vars(Context *ctx);
+void	init_history_path(Context *ctx);
 void	read_token(Parser *head);
 bool	is_number(char *str);
 bool	var_is_valid(char *name);

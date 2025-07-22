@@ -89,7 +89,7 @@ void run_prompt(Context *ctx) {
 				parse_error(&err);
 			} else {
 				add_history(ctx->input);
-				append_history(1, HISTORY_FILE);
+				append_history(1, ctx->history_path);
 				handle_input(ctx);
 			}
 
@@ -120,16 +120,18 @@ int main(int ac, char **av, char **envp) {
 		.gpid = getpgrp(),
 		.access = ft_strdup(av[0]),
 		.interactive = check_interactive(ac, av),
-		.garbage = NULL
+		.garbage = NULL,
+		.history_path = NULL
 	};
 	hash_table = &(ctx.hash);
 	hash_len = &(ctx.hash_len);
 	init_basic_vars(&ctx);
+	init_history_path(&ctx);
 	milk_path(&ctx);
 
 	if (!run_av(ac, av, &ctx) && !run_script(ac, av, &ctx)) {
 		config(ac, av, &ctx);
-		read_history(HISTORY_FILE);
+		read_history(ctx.history_path);
 		run_prompt(&ctx);
 	}
 

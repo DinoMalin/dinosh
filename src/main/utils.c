@@ -66,3 +66,17 @@ void handle_input(Context *ctx) {
 	free_cmds(cmd);
 	free_garbage(ctx);
 }
+
+void init_history_path(Context *ctx) {
+	char *home = ft_getenv(ctx->env, "HOME");
+	if (home) {
+		char *tmp = ft_strjoin(home, "/");
+		ctx->history_path = ft_strjoin(tmp, HISTORY_FILE);
+		free(tmp);
+	} else {
+		ERROR("HOME not set");
+		ctx->history_path = ft_strdup(HISTORY_FILE);
+	}
+
+	close(open(ctx->history_path, O_CREAT, 0644));
+}
