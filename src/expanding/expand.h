@@ -34,3 +34,5 @@ void	process_substitution(Context *ctx, Command *cmd, Parser *el);
 bool	its_a_match(char *str, char *pattern);
 int		max_id(Parser *head);
 int	ft_atoi_base(char *str);
+t_arit *pre_parse(char *str, Env *env);
+long do_op(t_arit *tokens, Env *env, char *fullStr);

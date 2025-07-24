@@ -37,7 +37,7 @@ bool is_only_digit(char *str)
 	}
 
 	for (; str[i] != '\0'; i++)	{
-		if (isdigit(str[i])) {
+		if (ft_isdigit(str[i])) {
 			if (str[i] - '0' >= base)
 				return false;
 		} else if (base == 16 && ((str[i] >= 'a' && str[i] <= 'f') || (str[i] >= 'A' && str[i] <= 'F')))
@@ -104,7 +104,6 @@ char *assign_op(char *str)
 		dprintf(2, "dinosh: syntax error: 3operand expected (error token is \"%s\")", str);
 		return NULL;
 	} 
-	// Comparison operators
 	else if (str[0] == '=' && str[1] == '=') 
 		return(ft_strdup("=="));
 	else if (str[0] == '!' && str[1] == '=')
@@ -117,12 +116,10 @@ char *assign_op(char *str)
 		return(ft_strdup("<"));
 	else if (str[0] == '>' && str[1] == '\0')
 		return(ft_strdup(">"));
-	// Logical operators
 	else if (str[0] == '&' && str[1] == '&')
 		return(ft_strdup("&&"));
 	else if (str[0] == '|' && str[1] == '|')
 		return(ft_strdup("||"));
-	// Arithmetic operators
 	else if (str[0] == '=' && str[1] == '\0')
 		return(ft_strdup("="));
 	else if (str[0] == '*' && str[1] == '\0')
@@ -165,26 +162,34 @@ char **tokenize_arithmetic(char *str)
 		if (str[i] == '+' || str[i] == '-' || str[i] == '/' || 
 			str[i] == '%' || str[i] == '=' || str[i] =='*' ||
 			str[i] == '!' || str[i] == '<' || str[i] == '>' ||
-			str[i] == '&' || str[i] == '|') {
+			str[i] == '&' || str[i] == '|' || str[i] == '(' || str[i] == ')') {
 			if (buff_idx > 0) {
 				buffer[buff_idx] = '\0';
 				tokens[token_count++] = ft_strdup(buffer);
 			}
 			buff_idx = 0;
-			while (str[i] && (str[i] == '+' || str[i] == '-' || str[i] == '/' || 
-							str[i] == '%' || str[i] == '=' || str[i] == '*' ||
-							str[i] == '!' || str[i] == '<' || str[i] == '>' ||
-							str[i] == '&' || str[i] == '|')) {
-				buffer[buff_idx++] = str[i++];
+			
+			if (str[i] == '(' || str[i] == ')') {
+				buffer[0] = str[i];
+				buffer[1] = '\0';
+				tokens[token_count++] = ft_strdup(buffer);
+				i++;
+			} else {
+				while (str[i] && (str[i] == '+' || str[i] == '-' || str[i] == '/' || 
+								str[i] == '%' || str[i] == '=' || str[i] == '*' ||
+								str[i] == '!' || str[i] == '<' || str[i] == '>' ||
+								str[i] == '&' || str[i] == '|')) {
+					buffer[buff_idx++] = str[i++];
+				}
+				buffer[buff_idx] = '\0';
+				tokens[token_count++] = ft_strdup(buffer);
 			}
-			buffer[buff_idx] = '\0';
-            tokens[token_count++] = ft_strdup(buffer);
             buff_idx = 0;
 		} else {
-			while (str[i] && !isspace(str[i]) && str[i] != '+' && str[i] != '-' && str[i] != '/' && 
+			while (str[i] && !ft_isspace(str[i]) && str[i] != '+' && str[i] != '-' && str[i] != '/' && 
 				str[i] != '%' && str[i] != '=' && str[i] != '*' &&
 				str[i] != '!' && str[i] != '<' && str[i] != '>' &&
-				str[i] != '&' && str[i] != '|') {
+				str[i] != '&' && str[i] != '|' && str[i] != '(' && str[i] != ')') {
 				buffer[buff_idx++] = str[i++];
 			}
             if (buff_idx > 0) {
@@ -197,6 +202,44 @@ char **tokenize_arithmetic(char *str)
 
 	tokens[token_count] = NULL;
 	return tokens;
+}
+
+int find_matching_paren(char **tokens, int start) {
+	int count = 1;
+	int i = start + 1;
+	
+	while (tokens[i] && count > 0) {
+		if (!ft_strcmp(tokens[i], "("))
+			count++;
+		else if (!ft_strcmp(tokens[i], ")"))
+			count--;
+		i++;
+	}
+	
+	if (count == 0)
+		return i - 1; 
+	return -1;
+}
+
+long evaluate_parentheses(char **tokens, int start, int end, Env *env, char *fullStr) {
+	char *sub_expr = malloc(1024);
+	sub_expr[0] = '\0';
+	
+	for (int i = start + 1; i < end; i++) {
+		if (i > start + 1)
+			ft_strlcat(sub_expr, " ", 1024);
+		ft_strlcat(sub_expr, tokens[i], 1024);
+	}
+	
+	t_arit *sub_tokens = pre_parse(sub_expr, env);
+	free(sub_expr);
+	
+	if (!sub_tokens)
+		return ERROR_VALUE;
+	
+	long result = do_op(sub_tokens, env, fullStr);
+	free_arit(sub_tokens);
+	return result;
 }
 
 t_arit *pre_parse(char *str, Env *env)
@@ -214,6 +257,47 @@ t_arit *pre_parse(char *str, Env *env)
 		return result;
 	}
 	char **split = tokenize_arithmetic(str);
+
+	bool found_parens = true;
+	while (found_parens) {
+		found_parens = false;
+		for (int i = 0; split[i]; i++) {
+			if (!ft_strcmp(split[i], "(")) {
+				int close_paren = find_matching_paren(split, i);
+				if (close_paren == -1) {
+					dprintf(2, "dinosh: %s: syntax error: unmatched '('", str);
+					free_av(split);
+					return NULL;
+				}
+				long paren_result = evaluate_parentheses(split, i, close_paren, env, str);
+				if (paren_result == ERROR_VALUE) {
+					free_av(split);
+					return NULL;
+				}
+				char *result_str = ft_itoa(paren_result);
+				free(split[i]);
+				split[i] = result_str;
+				
+				for (int j = i + 1; j <= close_paren; j++) {
+					free(split[j]);
+					split[j] = NULL;
+				}
+				
+				int write_pos = i + 1;
+				int read_pos = close_paren + 1;
+				while (split[read_pos]) {
+					split[write_pos] = split[read_pos];
+					split[read_pos] = NULL;
+					write_pos++;
+					read_pos++;
+				}
+				split[write_pos] = NULL;
+				
+				found_parens = true;
+				break;
+			}
+		}
+	}
 
 	for(int i = 0; split[i]; i++)
 	len++;
@@ -251,7 +335,6 @@ t_arit *pre_parse(char *str, Env *env)
 			return NULL;
 		}
 		else if (is_op(split[i])) {
-			// Check if this is the last token and it's an operator (syntax error)
 			if (split[i + 1] == NULL) {
 				dprintf(2, "dinosh: %s: syntax error: operand expected (error token is \"%s\")", str, split[i]);
 				free_av(split);
@@ -271,8 +354,13 @@ t_arit *pre_parse(char *str, Env *env)
 			prev_was_operand = false;
 			continue;
 		}
+		else if (!ft_strcmp(split[i], ")")) {
+			dprintf(2, "dinosh: %s: syntax error: unmatched ')'", str);
+			free_av(split);
+			free_arit(head);
+			return NULL;
+		}
 		else {
-			// Check for consecutive operands (missing operator) - variables count as operands too
 			if (prev_was_operand) {
 				dprintf(2, "dinosh: %s: syntax error: operator expected (error token is \"%s\")", str, split[i]);
 				free_av(split);
@@ -613,7 +701,6 @@ long do_logical_and(t_arit *var1, t_arit *var2, Env *env)
 	else
 		val1 = ft_atoi_base(var1->value);
 
-	// Short-circuit evaluation: if val1 is 0, return 0 without evaluating val2
 	if (val1 == 0)
 		return 0;
 
@@ -643,7 +730,6 @@ long do_logical_or(t_arit *var1, t_arit *var2, Env *env)
 	else
 		val1 = ft_atoi_base(var1->value);
 
-	// Short-circuit evaluation: if val1 is non-zero, return 1 without evaluating val2
 	if (val1 != 0)
 		return 1;
 
@@ -659,52 +745,52 @@ long do_logical_or(t_arit *var1, t_arit *var2, Env *env)
 }
 
 int get_precedence(char *op) {
-	if (!strcmp(op, "="))
+	if (!ft_strcmp(op, "="))
 		return 1;
-	if (!strcmp(op, "||"))
+	if (!ft_strcmp(op, "||"))
 		return 2;
-	if (!strcmp(op, "&&"))
+	if (!ft_strcmp(op, "&&"))
 		return 3;
-	if (!strcmp(op, "==") || !strcmp(op, "!="))
+	if (!ft_strcmp(op, "==") || !ft_strcmp(op, "!="))
 		return 4;
-	if (!strcmp(op, "<") || !strcmp(op, ">") || !strcmp(op, "<=") || !strcmp(op, ">="))
+	if (!ft_strcmp(op, "<") || !ft_strcmp(op, ">") || !ft_strcmp(op, "<=") || !ft_strcmp(op, ">="))
 		return 5;
-	if (!strcmp(op, "+") || !strcmp(op, "-"))
+	if (!ft_strcmp(op, "+") || !ft_strcmp(op, "-"))
 		return 6;
-	if (!strcmp(op, "*") || !strcmp(op, "/") || !strcmp(op, "%"))
+	if (!ft_strcmp(op, "*") || !ft_strcmp(op, "/") || !ft_strcmp(op, "%"))
 		return 7;
 	return 0;
 }
 
 long evaluate_operation(char *op, t_arit *var1, t_arit *var2, Env *env, char *fullStr)
 {
-	if (!strcmp(op, "="))
+	if (!ft_strcmp(op, "="))
 		return do_assign(var1, var2, env, fullStr);
-	else if (!strcmp(op, "+"))
+	else if (!ft_strcmp(op, "+"))
 		return do_add(var1, var2, env);
-	else if (!strcmp(op, "-"))
+	else if (!ft_strcmp(op, "-"))
 		return do_minus(var1, var2, env);
-	else if (!strcmp(op, "*"))
+	else if (!ft_strcmp(op, "*"))
 		return do_mul(var1, var2, env);
-	else if (!strcmp(op, "/"))
+	else if (!ft_strcmp(op, "/"))
 		return do_div(var1, var2, env, fullStr);
-	else if (!strcmp(op, "%"))
+	else if (!ft_strcmp(op, "%"))
 		return do_mod(var1, var2, env, fullStr);
-	else if (!strcmp(op, "=="))
+	else if (!ft_strcmp(op, "=="))
 		return do_equal(var1, var2, env);
-	else if (!strcmp(op, "!="))
+	else if (!ft_strcmp(op, "!="))
 		return do_not_equal(var1, var2, env);
-	else if (!strcmp(op, "<"))
+	else if (!ft_strcmp(op, "<"))
 		return do_less_than(var1, var2, env);
-	else if (!strcmp(op, ">"))
+	else if (!ft_strcmp(op, ">"))
 		return do_greater_than(var1, var2, env);
-	else if (!strcmp(op, "<="))
+	else if (!ft_strcmp(op, "<="))
 		return do_less_equal(var1, var2, env);
-	else if (!strcmp(op, ">="))
+	else if (!ft_strcmp(op, ">="))
 		return do_greater_equal(var1, var2, env);
-	else if (!strcmp(op, "&&"))
+	else if (!ft_strcmp(op, "&&"))
 		return do_logical_and(var1, var2, env);
-	else if (!strcmp(op, "||"))
+	else if (!ft_strcmp(op, "||"))
 		return do_logical_or(var1, var2, env);
 	
 	return ERROR_VALUE;
@@ -715,7 +801,6 @@ long do_op(t_arit *tokens, Env *env, char *fullStr)
 	if (!tokens)
 		return ERROR_VALUE;
 	
-	// Handle single operand
 	if (!tokens->next) {
 		if (tokens->isOp)
 			return ERROR_VALUE;
@@ -728,12 +813,10 @@ long do_op(t_arit *tokens, Env *env, char *fullStr)
 		return ft_atoi_base(tokens->value);
 	}
 	
-	// Multi-pass evaluation by precedence level (7 down to 1 for right associativity)
 	for (int precedence = 7; precedence >= 1; precedence--) {
 		t_arit *curr = tokens;
 		int found_op = 1;
 		
-		// Keep evaluating operators of this precedence level until none are found
 		while (found_op) {
 			found_op = 0;
 			curr = tokens;
@@ -748,14 +831,12 @@ long do_op(t_arit *tokens, Env *env, char *fullStr)
 					if (result == ERROR_VALUE)
 						return ERROR_VALUE;
 					
-					// Replace the three nodes with result
 					char *result_str = ft_itoa(result);
 					free(left->value);
 					left->value = result_str;
 					left->isEnv = false;
 					left->isOp = false;
 					
-					// Remove operator and right operand
 					left->next = right->next;
 					free(op->value);
 					if (op->baseVal)
@@ -767,14 +848,13 @@ long do_op(t_arit *tokens, Env *env, char *fullStr)
 					free(right);
 					
 					found_op = 1;
-					break; // Start over from the beginning for this precedence level
+					break;
 				}
 				curr = curr->next;
 			}
 		}
 	}
 	
-	// Should have only one token left
 	if (tokens && !tokens->next) {
 		if (tokens->isEnv) {
 			char *val = val_in_env(env, tokens->value);
@@ -792,8 +872,6 @@ void arithmetic(Env *env, Parser *el)
 {
 	t_arit *tokens = pre_parse(el->content, env);
 	if (!tokens) {
-		// Syntax error occurred, set content to empty string to prevent printing original expression
-		// The error message was already printed by pre_parse
 		free(el->content);
 		el->content = ft_strdup("");
 		return;
