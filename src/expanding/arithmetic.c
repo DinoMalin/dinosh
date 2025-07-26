@@ -244,7 +244,6 @@ long evaluate_parentheses(char **tokens, int start, int end, Env *env, char *ful
 
 t_arit *pre_parse(char *str, Env *env)
 {
-	int len = 0;
 	int i = 0;
 	(void)env;
 	if (str[0] == '\0') {
@@ -299,8 +298,6 @@ t_arit *pre_parse(char *str, Env *env)
 		}
 	}
 
-	for(int i = 0; split[i]; i++)
-	len++;
 	t_arit *head = NULL;
 	t_arit *prev = NULL;
 	for (int i = 0; split[i]; i++) {
