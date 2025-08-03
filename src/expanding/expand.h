@@ -3,7 +3,7 @@
 #include <stdbool.h>
 #include <ctype.h>
 
-#define ERROR_VALUE 2147483648
+#define ERROR_VALUE 9223372036854775808UL
 #define SAME_ID(x, y) (x && x->id == y->id)
 #define IS_WILDCARD(x, y) (SAME_ID(x, y) && x->token == t_wildcard)
 #define INCREMENT_CONTENT(curr, index)	\
@@ -24,6 +24,7 @@ typedef struct s_arit {
 	struct s_arit *prev;
 } t_arit;
 
+// Main functions
 char	*ft_getenv_alloc(Env *env, char *target);
 void	parameter(Env *env, Command *cmd, Parser *el, int max);
 void	var(Env *env, Parser *el, int max);
@@ -33,6 +34,44 @@ void	control_substitution(Context *ctx, Command *cmd, Parser *el, int max);
 void	process_substitution(Context *ctx, Command *cmd, Parser *el);
 bool	its_a_match(char *str, char *pattern);
 int		max_id(Parser *head);
-int	ft_atoi_base(char *str);
-t_arit *pre_parse(char *str, Env *env);
-long do_op(t_arit *tokens, Env *env, char *fullStr);
+
+// Arithmetic utility functions
+long	get_val(t_arit *var, Env *env);
+long	cmp_val(t_arit *var1, t_arit *var2, Env *env, int (*cmp)(long, long));
+int		equal_cmp(long a, long b);
+int		not_equal_cmp(long a, long b);
+int		less_than_cmp(long a, long b);
+int		greater_than_cmp(long a, long b);
+int		less_equal_cmp(long a, long b);
+int		greater_equal_cmp(long a, long b);
+void	free_arit(t_arit *content);
+
+// Arithmetic parsing functions
+bool	is_only_digit(char *str);
+bool	is_op(char *str);
+char	*var_in_env(Env *env, char *str);
+char	*val_in_env(Env *env, char *str);
+char	*assign_op(char *str);
+char	**tokenize_arithmetic(char *str);
+int		find_matching_paren(char **tokens, int start);
+long	evaluate_parentheses(char **tokens, int start, int end, Env *env, char *fullStr);
+t_arit	*pre_parse(char *str, Env *env);
+
+// Arithmetic operation functions
+long	do_assign(t_arit *var1, t_arit *var2, Env *env, char *fullStr);
+long	do_add(t_arit *var1, t_arit *var2, Env *env);
+long	do_minus(t_arit *var1, t_arit *var2, Env *env);
+long	do_div(t_arit *var1, t_arit *var2, Env *env, char *fullStr);
+long	do_mod(t_arit *var1, t_arit *var2, Env *env, char *fullStr);
+long	do_mul(t_arit *var1, t_arit *var2, Env *env);
+long	do_equal(t_arit *var1, t_arit *var2, Env *env);
+long	do_not_equal(t_arit *var1, t_arit *var2, Env *env);
+long	do_less_than(t_arit *var1, t_arit *var2, Env *env);
+long	do_greater_than(t_arit *var1, t_arit *var2, Env *env);
+long	do_less_equal(t_arit *var1, t_arit *var2, Env *env);
+long	do_greater_equal(t_arit *var1, t_arit *var2, Env *env);
+long	do_logical_and(t_arit *var1, t_arit *var2, Env *env);
+long	do_logical_or(t_arit *var1, t_arit *var2, Env *env);
+int		get_precedence(char *op);
+long	evaluate_operation(char *op, t_arit *var1, t_arit *var2, Env *env, char *fullStr);
+long	do_op(t_arit *tokens, Env *env, char *fullStr);
