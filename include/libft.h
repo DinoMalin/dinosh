@@ -234,7 +234,7 @@ int		ft_atoi(const char *str);
  Supports decimal (default), hexadecimal (0x prefix), binary (0b prefix),
  and octal (0 prefix) bases.
 */
-long	ft_atoi_base(char *str);
+long long	ft_atoi_base(char *str);
 
 /**
  @brief Duplicate a given string.
@@ -301,7 +301,7 @@ char	*ft_itoa(int nb);
  @return A new string allocated containing the digits that correspond to
  the long integer given.
 */
-char	*ft_ltoa(long nb);
+char	*ft_ltoa(long long nb);
 
 /**
  @brief Create a new string where each character from the old string is passed

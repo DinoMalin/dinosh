@@ -12,9 +12,9 @@
 
 #include "../include/libft.h"
 
-long	ft_atoi_base(char *str)
+long long	ft_atoi_base(char *str)
 {
-	long	result = 0;
+	long long	result = 0;
 	int		base = 10;
 	int		i = 0;
 	int		sign = 1;

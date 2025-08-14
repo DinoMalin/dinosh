@@ -26,8 +26,8 @@ t_arit *pre_parse(char *str, Env *env)
 					free_av(split);
 					return NULL;
 				}
-				long paren_result = evaluate_parentheses(split, i, close_paren, env, str);
-				if (paren_result == (long)ERROR_VALUE) {
+				long long paren_result = evaluate_parentheses(split, i, close_paren, env, str);
+				if (paren_result == (long long)ERROR_VALUE) {
 					free_av(split);
 					return NULL;
 				}
@@ -134,7 +134,7 @@ t_arit *pre_parse(char *str, Env *env)
 	return head;
 }
 
-long do_op(t_arit *tokens, Env *env, char *fullStr)
+long long do_op(t_arit *tokens, Env *env, char *fullStr)
 {
 	if (!tokens)
 		return ERROR_VALUE;
@@ -159,8 +159,8 @@ long do_op(t_arit *tokens, Env *env, char *fullStr)
 					t_arit *op = curr->next;
 					t_arit *right = curr->next->next;
 					
-					long result = evaluate_operation(op->value, left, right, env, fullStr);
-					if (result == (long)ERROR_VALUE)
+					long long result = evaluate_operation(op->value, left, right, env, fullStr);
+					if (result == (long long)ERROR_VALUE)
 						return ERROR_VALUE;
 					
 					char *result_str = ft_ltoa(result);
@@ -203,10 +203,10 @@ void arithmetic(Env *env, Parser *el)
 		return;
 	}
 	
-	long result = do_op(tokens, env, el->content);
+	long long result = do_op(tokens, env, el->content);
 	free_arit(tokens);
 	
-	if (result == (long)ERROR_VALUE) {
+	if (result == (long long)ERROR_VALUE) {
 		free(el->content);
 		el->content = ft_strdup("0");
 		return;
