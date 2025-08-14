@@ -12,7 +12,7 @@
 
 #include "../include/libft.h"
 
-static int	count_digits_long(long n)
+static int	count_digits_long(long long n)
 {
 	int	count;
 
@@ -32,11 +32,14 @@ static int	count_digits_long(long n)
 	return (count);
 }
 
-char	*ft_ltoa(long n)
+char	*ft_ltoa(long long n)
 {
 	char	*str;
 	int		len;
 	int		sign;
+
+	if (n == (long long)-9223372036854775808UL)
+		return ft_strdup("-9223372036854775808");
 
 	sign = 0;
 	if (n < 0)

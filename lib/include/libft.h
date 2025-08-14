@@ -228,13 +228,13 @@ char	*ft_strnstr(char *str, char *search, size_t size);
 int		ft_atoi(const char *str);
 
 /**
- @brief Transform a string into a long with support for different bases.
+ @brief Transform a string into a long long with support for different bases.
  @param str A string.
  @return A long integer corresponding to the digits of the string.
  Supports decimal (default), hexadecimal (0x prefix), binary (0b prefix),
  and octal (0 prefix) bases.
 */
-long	ft_atoi_base(char *str);
+long long	ft_atoi_base(char *str);
 
 /**
  @brief Duplicate a given string.
@@ -301,7 +301,7 @@ char	*ft_itoa(int nb);
  @return A new string allocated containing the digits that correspond to
  the long integer given.
 */
-char	*ft_ltoa(long nb);
+char	*ft_ltoa(long long nb);
 
 /**
  @brief Create a new string where each character from the old string is passed

@@ -1,33 +1,33 @@
 #include "expand.h"
 
-long get_val(t_arit *var, Env *env)
+long long get_val(t_arit *var, Env *env)
 {
 	if (var->isEnv) {
 		char *val = val_in_env(env, var->value);
-		long result = ft_atoi_base(val);
+		long long result = ft_atoi_base(val);
 		free(val);
 		return result;
 	}
 	return ft_atoi_base(var->value);
 }
 
-long cmp_val(t_arit *var1, t_arit *var2, Env *env, int (*cmp)(long, long))
+long long cmp_val(t_arit *var1, t_arit *var2, Env *env, int (*cmp)(long long, long long))
 {
 	if (var1->isOp || var2->isOp)
 		return ERROR_VALUE;
 	
-	long val1 = get_val(var1, env);
-	long val2 = get_val(var2, env);
+	long long val1 = get_val(var1, env);
+	long long val2 = get_val(var2, env);
 	
 	return cmp(val1, val2) ? 1 : 0;
 }
 
-int equal_cmp(long a, long b) { return a == b; }
-int not_equal_cmp(long a, long b) { return a != b; }
-int less_than_cmp(long a, long b) { return a < b; }
-int greater_than_cmp(long a, long b) { return a > b; }
-int less_equal_cmp(long a, long b) { return a <= b; }
-int greater_equal_cmp(long a, long b) { return a >= b; }
+int equal_cmp(long long a, long long b) { return a == b; }
+int not_equal_cmp(long long a, long long b) { return a != b; }
+int less_than_cmp(long long a, long long b) { return a < b; }
+int greater_than_cmp(long long a, long long b) { return a > b; }
+int less_equal_cmp(long long a, long long b) { return a <= b; }
+int greater_equal_cmp(long long a, long long b) { return a >= b; }
 
 void free_arit(t_arit *content)
 {

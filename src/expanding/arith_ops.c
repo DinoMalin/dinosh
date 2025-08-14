@@ -1,8 +1,8 @@
 #include "expand.h"
 
-long do_assign(t_arit *var1, t_arit *var2, Env *env, char *fullStr)
+long long do_assign(t_arit *var1, t_arit *var2, Env *env, char *fullStr)
 {
-	long resVal = 0;
+	long long resVal = 0;
 	if (var1->isOp || var2->isOp)
 		return ERROR_VALUE;
 	if (var1->isEnv) {
@@ -22,26 +22,26 @@ long do_assign(t_arit *var1, t_arit *var2, Env *env, char *fullStr)
 	return resVal;
 }
 
-long do_add(t_arit *var1, t_arit *var2, Env *env)
+long long do_add(t_arit *var1, t_arit *var2, Env *env)
 {
 	if (var1->isOp || var2->isOp)
 		return ERROR_VALUE;
 	return get_val(var1, env) + get_val(var2, env);
 }
 
-long do_minus(t_arit *var1, t_arit *var2, Env *env)
+long long do_minus(t_arit *var1, t_arit *var2, Env *env)
 {
 	if (var1->isOp || var2->isOp)
 		return ERROR_VALUE;
 	return get_val(var1, env) - get_val(var2, env);
 }
 
-long do_div(t_arit *var1, t_arit *var2, Env *env, char *fullStr)
+long long do_div(t_arit *var1, t_arit *var2, Env *env, char *fullStr)
 {
 	if (var1->isOp || var2->isOp)
 		return ERROR_VALUE;
 	
-	long div = get_val(var2, env);
+	long long div = get_val(var2, env);
 	if (div == 0) {
 		dprintf(2, "dinosh: %s: division by 0 (error token is \"0\")", fullStr);
 		return ERROR_VALUE;
@@ -49,12 +49,12 @@ long do_div(t_arit *var1, t_arit *var2, Env *env, char *fullStr)
 	return get_val(var1, env) / div;
 }
 
-long do_mod(t_arit *var1, t_arit *var2, Env *env, char *fullStr)
+long long do_mod(t_arit *var1, t_arit *var2, Env *env, char *fullStr)
 {
 	if (var1->isOp || var2->isOp)
 		return ERROR_VALUE;
 	
-	long div = get_val(var2, env);
+	long long div = get_val(var2, env);
 	if (div == 0) {
 		dprintf(2, "dinosh: %s: division by 0 (error token is \"0\")", fullStr);
 		return ERROR_VALUE;
@@ -62,66 +62,66 @@ long do_mod(t_arit *var1, t_arit *var2, Env *env, char *fullStr)
 	return get_val(var1, env) % div;
 }
 
-long do_mul(t_arit *var1, t_arit *var2, Env *env)
+long long do_mul(t_arit *var1, t_arit *var2, Env *env)
 {
 	if (var1->isOp || var2->isOp)
 		return ERROR_VALUE;
 	return get_val(var1, env) * get_val(var2, env);
 }
 
-long do_equal(t_arit *var1, t_arit *var2, Env *env)
+long long do_equal(t_arit *var1, t_arit *var2, Env *env)
 {
 	return cmp_val(var1, var2, env, equal_cmp);
 }
 
-long do_not_equal(t_arit *var1, t_arit *var2, Env *env)
+long long do_not_equal(t_arit *var1, t_arit *var2, Env *env)
 {
 	return cmp_val(var1, var2, env, not_equal_cmp);
 }
 
-long do_less_than(t_arit *var1, t_arit *var2, Env *env)
+long long do_less_than(t_arit *var1, t_arit *var2, Env *env)
 {
 	return cmp_val(var1, var2, env, less_than_cmp);
 }
 
-long do_greater_than(t_arit *var1, t_arit *var2, Env *env)
+long long do_greater_than(t_arit *var1, t_arit *var2, Env *env)
 {
 	return cmp_val(var1, var2, env, greater_than_cmp);
 }
 
-long do_less_equal(t_arit *var1, t_arit *var2, Env *env)
+long long do_less_equal(t_arit *var1, t_arit *var2, Env *env)
 {
 	return cmp_val(var1, var2, env, less_equal_cmp);
 }
 
-long do_greater_equal(t_arit *var1, t_arit *var2, Env *env)
+long long do_greater_equal(t_arit *var1, t_arit *var2, Env *env)
 {
 	return cmp_val(var1, var2, env, greater_equal_cmp);
 }
 
-long do_logical_and(t_arit *var1, t_arit *var2, Env *env)
+long long do_logical_and(t_arit *var1, t_arit *var2, Env *env)
 {
 	if (var1->isOp || var2->isOp)
 		return ERROR_VALUE;
 	
-	long val1 = get_val(var1, env);
+	long long val1 = get_val(var1, env);
 	if (val1 == 0)
 		return 0;
 	
-	long val2 = get_val(var2, env);
+	long long val2 = get_val(var2, env);
 	return (val1 && val2) ? 1 : 0;
 }
 
-long do_logical_or(t_arit *var1, t_arit *var2, Env *env)
+long long do_logical_or(t_arit *var1, t_arit *var2, Env *env)
 {
 	if (var1->isOp || var2->isOp)
 		return ERROR_VALUE;
 	
-	long val1 = get_val(var1, env);
+	long long val1 = get_val(var1, env);
 	if (val1 != 0)
 		return 1;
 	
-	long val2 = get_val(var2, env);
+	long long val2 = get_val(var2, env);
 	return (val1 || val2) ? 1 : 0;
 }
 
@@ -143,7 +143,7 @@ int get_precedence(char *op) {
 	return 0;
 }
 
-long evaluate_operation(char *op, t_arit *var1, t_arit *var2, Env *env, char *fullStr)
+long long evaluate_operation(char *op, t_arit *var1, t_arit *var2, Env *env, char *fullStr)
 {
 	if (!ft_strcmp(op, "="))
 		return do_assign(var1, var2, env, fullStr);

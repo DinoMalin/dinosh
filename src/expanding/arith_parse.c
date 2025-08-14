@@ -208,7 +208,7 @@ int find_matching_paren(char **tokens, int start) {
 	return -1;
 }
 
-long evaluate_parentheses(char **tokens, int start, int end, Env *env, char *fullStr) {
+long long evaluate_parentheses(char **tokens, int start, int end, Env *env, char *fullStr) {
 	char *sub_expr = malloc(1024);
 	sub_expr[0] = '\0';
 	
@@ -224,7 +224,7 @@ long evaluate_parentheses(char **tokens, int start, int end, Env *env, char *ful
 	if (!sub_tokens)
 		return ERROR_VALUE;
 	
-	long result = do_op(sub_tokens, env, fullStr);
+	long long result = do_op(sub_tokens, env, fullStr);
 	free_arit(sub_tokens);
 	return result;
 }
