@@ -90,9 +90,7 @@ void parse_fc_range(Command *cmd, FcOptions *opts, int *arg_index) {
 					break;
 				}
 			}
-			opts->end = opts->start;
 			(*arg_index)++;
-			return;
 		}
 	}
 
@@ -105,6 +103,16 @@ void parse_fc_range(Command *cmd, FcOptions *opts, int *arg_index) {
 				opts->end = history_base + history_length + num;
 			} else {
 				opts->end = history_base + num - 1;
+			}
+			(*arg_index)++;
+		} else if (ft_isalpha(arg[0])) {
+			// Find command starting with this string for the end range
+			for (int i = history_base + history_length - 1; i >= history_base; i--) {
+				HIST_ENTRY *entry = history_get(i);
+				if (entry && !ft_strncmp(entry->line, arg, ft_strlen(arg))) {
+					opts->end = i;
+					break;
+				}
 			}
 			(*arg_index)++;
 		}
@@ -325,11 +333,6 @@ void fc_edit(Context *ctx, FcOptions *opts) {
 
 // Substitute in last command
 void fc_substitute(Context *ctx, FcOptions *opts) {
-	if (!opts->old_string || !opts->new_string) {
-		ERROR("fc: usage: fc -s old=new [command]");
-		return;
-	}
-
 	// Use the command specified by opts->start (which defaults to last command)
 	int index = opts->start;
 
@@ -340,31 +343,42 @@ void fc_substitute(Context *ctx, FcOptions *opts) {
 	}
 
 	char *new_command;
-	// Perform substitution
-	char *old_pos = ft_strnstr(entry->line, opts->old_string, ft_strlen(entry->line));
-	if (!old_pos) {
-		printf("entry->line = ~%s~", entry->line) ;
+	
+	// If no old_string/new_string provided, just re-execute the command as-is
+	if (!opts->old_string || !opts->new_string) {
 		new_command = ft_strdup(entry->line);
-	} else {
-		ERROR("fc: %s: substitution failed", opts->old_string);
-		return;
-		
-		// Create new command with substitution
-		int old_len = ft_strlen(opts->old_string);
-		int new_len = ft_strlen(opts->new_string);
-		int line_len = ft_strlen(entry->line);
-		
-		new_command = malloc(line_len - old_len + new_len + 1);
 		if (!new_command) {
 			ERROR("fc: malloc failed");
 			return;
 		}
+	} else {
+		// Perform substitution
+		char *old_pos = ft_strnstr(entry->line, opts->old_string, ft_strlen(entry->line));
+		if (!old_pos) {
+			// Pattern not found, just re-execute the command as-is (bash behavior)
+			new_command = ft_strdup(entry->line);
+			if (!new_command) {
+				ERROR("fc: malloc failed");
+				return;
+			}
+		} else {
+			// Create new command with substitution
+			int old_len = ft_strlen(opts->old_string);
+			int new_len = ft_strlen(opts->new_string);
+			int line_len = ft_strlen(entry->line);
+			
+			new_command = malloc(line_len - old_len + new_len + 1);
+			if (!new_command) {
+				ERROR("fc: malloc failed");
+				return;
+			}
 
-		// Copy parts before, replacement, and after
-		int prefix_len = old_pos - entry->line;
-		ft_strlcpy(new_command, entry->line, prefix_len + 1);
-		ft_strlcat(new_command, opts->new_string, line_len - old_len + new_len + 1);
-		ft_strlcat(new_command, old_pos + old_len, line_len - old_len + new_len + 1);
+			// Copy parts before, replacement, and after
+			int prefix_len = old_pos - entry->line;
+			ft_strlcpy(new_command, entry->line, prefix_len + 1);
+			ft_strlcat(new_command, opts->new_string, line_len - old_len + new_len + 1);
+			ft_strlcat(new_command, old_pos + old_len, line_len - old_len + new_len + 1);
+		}
 	}
 
 	printf("%s\n", new_command);
@@ -406,18 +420,18 @@ void fc(Command *cmd, Context *ctx) {
 		} else if (!ft_strcmp(arg, "-s")) {
 			opts.substitute = true;
 			arg_index++;
-			// Parse old=new format
+			// Check if next argument looks like old=new format
 			if (arg_index < cmd->ac) {
-				char *subst_arg = cmd->av[arg_index++];
+				char *subst_arg = cmd->av[arg_index];
 				char *eq_pos = ft_strchr(subst_arg, '=');
 				if (eq_pos) {
+					// This is old=new format, consume it
+					arg_index++;
 					*eq_pos = '\0';
 					opts.old_string = subst_arg;
 					opts.new_string = eq_pos + 1;
-				} else {
-					ERROR("fc: usage: fc -s old=new [command]");
-					return;
 				}
+				// If no '=' found, leave the argument for later parsing as command pattern
 			}
 		} else if (parse_fc_flags(arg, &opts)) {
 			arg_index++;
@@ -425,6 +439,12 @@ void fc(Command *cmd, Context *ctx) {
 			ERROR("fc: %s: invalid option", arg);
 			return;
 		}
+	}
+
+	// If substitute is set, ignore other conflicting flags
+	if (opts.substitute) {
+		opts.edit = false;
+		opts.list = false;
 	}
 
 	// Set default behavior
@@ -443,6 +463,31 @@ void fc(Command *cmd, Context *ctx) {
 
 	// Parse range - do this AFTER setting the default behavior
 	parse_fc_range(cmd, &opts, &arg_index);
+
+	// Check if we're trying to list/edit a pattern that doesn't exist
+	if ((opts.list || opts.edit || (!opts.list && !opts.edit && !opts.substitute)) && arg_index > 1) {
+		// We have arguments, check if the pattern was found
+		bool pattern_found = false;
+		if (cmd->av[1] && ft_isalpha(cmd->av[1][0])) {
+			// Check if this pattern exists in history
+			for (int i = history_base + history_length - 1; i >= history_base; i--) {
+				HIST_ENTRY *entry = history_get(i);
+				if (entry && !ft_strncmp(entry->line, cmd->av[1], ft_strlen(cmd->av[1]))) {
+					pattern_found = true;
+					break;
+				}
+			}
+			if (!pattern_found) {
+				ERROR("fc: no command found");
+				if (fc_entry) {
+					add_history(fc_entry->line);
+					free(fc_entry->line);
+					free(fc_entry);
+				}
+				return;
+			}
+		}
+	}
 
 	// Execute appropriate action
 	if (opts.substitute) {
