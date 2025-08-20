@@ -62,6 +62,7 @@ char *get_random_file_name() {
 		}
 	}
 
+	close(fd) ;
 	return ft_strjoin("/tmp/", buff);
 }
 
